@@ -10,11 +10,17 @@
   - Next.js
   - Material-UI
 
+## Installation
+  ```
+  npx create-next-app "product-name"
+  npm install firebase @material-ui/core @material-ui/icons @material-ui/styles
+  ```
 ## 機能
 - エントリの作成
   - 名前
   - 住所
   - 誕生日
+  - 電話番号
 - エントリの削除
 - エントリの更新
 - エントリ検索機能
@@ -24,6 +30,9 @@
 - ユーザー認証
  - メールアドレス
 
+
+
 ## References
 - [Next.js Pages](https://nextjs.org/docs)
 - [Firebase Pages](https://firebase.google.com/docs)
+- [Qiita](https://qiita.com/KamataRyo/items/466255fc33da12274c72)
