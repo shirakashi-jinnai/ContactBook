@@ -3,16 +3,12 @@
 このアプリでは相手の住所、電話番号、名前、生年月日を登録することができる連絡帳アプリである。
 
 ## Dependency
-- 使用言語
-  - javascript
-- 使用環境
   - Firebase
   - Next.js
   - Material-UI
-
 ## Installation
   ```
-  npx create-next-app "product-name"
+  npx create-next-app
   npm install firebase @material-ui/core @material-ui/icons @material-ui/styles
   ```
 ## 機能
@@ -29,9 +25,6 @@
   - 年齢（範囲検索 例20歳~29歳）
 - ユーザー認証
  - メールアドレス
-
-
-
 ## References
 - [Next.js Pages](https://nextjs.org/docs)
 - [Firebase Pages](https://firebase.google.com/docs)
