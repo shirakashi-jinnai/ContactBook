@@ -24,7 +24,7 @@
   - 住所
   - 年齢（範囲検索 例20歳~29歳）
 - ユーザー認証
- - メールアドレス
+  - メールアドレス
 ## References
 - [Next.js Pages](https://nextjs.org/docs)
 - [Firebase Pages](https://firebase.google.com/docs)
