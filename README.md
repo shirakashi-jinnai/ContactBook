@@ -9,7 +9,7 @@
 ## Installation
   ```
   npx create-next-app
-  npm install firebase @material-ui/core @material-ui/icons @material-ui/styles
+  yarn add firebase 
   ```
 ## 機能
 - エントリの作成
