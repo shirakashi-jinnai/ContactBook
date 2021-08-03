@@ -11,7 +11,7 @@ const SignupPage = () => {
 
   return (
     <Layout title={'signup'}>
-      <div className='form-container'>
+      <form className='form-container' onSubmit={() => sendEmail(email)}>
         <h1>メールリンク認証</h1>
         <TextInput
           fullWidth={true}
@@ -28,7 +28,7 @@ const SignupPage = () => {
         />
         <div className='module-spacer--medium' />
         <PrimaryButton label='SIGNUP' onClick={() => sendEmail(email)} />
-      </div>
+      </form>
     </Layout>
   );
 };
