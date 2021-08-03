@@ -15,6 +15,7 @@ const Home = () => {
     emailSignin();
     listenAuthstate();
   });
+
   return (
     <Layout title={'連絡帳'}>
       <h1>hello nextjs</h1>

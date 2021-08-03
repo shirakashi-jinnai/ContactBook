@@ -7,14 +7,13 @@ export const sendEmail = async (email: string) => {
     alert('メールアドレスを入力してください');
     return;
   }
-  const callback = 'https://pineapple-8d06c.firebaseapp.com/';
+  const callback = 'https://pineapple-8d06c.web.app';
 
   const actionCodeSettings = {
     url: callback,
     handleCodeInApp: true,
   };
-  window.localStorage.setItem('emailForSignIn', email),'setitem'
-
+  window.localStorage.setItem('emailForSignIn', email), 'setitem';
 
   return new Promise(() => {
     auth
@@ -32,7 +31,7 @@ export const sendEmail = async (email: string) => {
 
 export const emailSignin = async () => {
   //メールリンクによるloginなのかを判断する
-  console.log(window.localStorage.getItem('emailForSignIn'),'getitem')
+  console.log(window.localStorage.getItem('emailForSignIn'), 'getitem');
   let email = window.localStorage.getItem('emailForSignIn');
 
   return new Promise(() => {

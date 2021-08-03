@@ -28,6 +28,7 @@ const SignupPage = () => {
         />
         <div className='module-spacer--medium' />
         <PrimaryButton label='SIGNUP' onClick={() => sendEmail(email)} />
+        <div className='module-spacer--medium' />
       </form>
     </Layout>
   );
