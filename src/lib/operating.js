@@ -2,9 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { userSignin } from './actions';
 import { db, auth } from './firebase';
-import userReducer from './userReducer';
 
-const dispatch = userReducer.reducer;
 
 export const sendEmail = async (email) => {
   const callback = 'http://localhost:3000/';
