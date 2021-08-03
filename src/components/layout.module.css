@@ -1,4 +1,11 @@
 .layoutWrapin {
-    width: 1000px;
-    margin: 0 auto;
+  max-width: 540px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 481px) {
+  .layoutWrapin {
+    max-width: 1000px;
+  }
 }

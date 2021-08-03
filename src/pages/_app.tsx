@@ -1,18 +1,17 @@
-import { AppProps } from "next/dist/next-server/lib/router/router";
-import React, { useReducer, useEffect } from "react";
-import userReducer from "../lib/userReducer";
-import "../styles/globals.css";
-import { UserContext, UserUpdateContext } from "../lib/context";
-import { ThemeProvider } from "@material-ui/styles";
-import { CssBaseline } from "@material-ui/core";
-import Head from "next/head";
+import { AppProps } from 'next/dist/next-server/lib/router/router';
+import React, { useReducer, useEffect } from 'react';
+import userReducer from '../lib/userReducer';
+import '../styles/globals.css';
+import { UserContext, UserUpdateContext } from '../lib/context';
+import { ThemeProvider } from '@material-ui/styles';
+import { CssBaseline } from '@material-ui/core';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useReducer(
     userReducer.reducer,
     userReducer.initialState
   );
-
 
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -26,8 +25,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <React.Fragment>
       <Head>
         <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
+          name='viewport'
+          content='minimum-scale=1, initial-scale=1, width=device-width'
         />
       </Head>
       <UserContext.Provider value={state}>
@@ -39,7 +38,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </React.Fragment>
   );
 }
-
-
 
 export default MyApp;

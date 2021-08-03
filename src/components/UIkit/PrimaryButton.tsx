@@ -1,13 +1,13 @@
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
   button: {
-    background: "#3da9db",
-    color:"#fff",
+    background: '#3da9db',
+    color: '#fff',
     width: 250,
     height: 50,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 
@@ -15,10 +15,9 @@ const PrimaryButton = (props) => {
   const classes = useStyles();
   return (
     <Button
-      variant="contained"
+      variant='contained'
       className={classes.button}
-      onClick={() => props.onClick()}
-    >
+      onClick={() => props.onClick()}>
       {props.label}
     </Button>
   );

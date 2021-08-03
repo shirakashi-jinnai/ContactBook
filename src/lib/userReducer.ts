@@ -1,9 +1,9 @@
-import *as actions from './actions'
+import * as actions from './actions';
 
 const initialState = {
   user: {
     isSignedin: false,
-    username:'',
+    username: '',
     contactList: [],
   },
 };
