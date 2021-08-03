@@ -5,7 +5,8 @@ export const sendEmail = async (email) => {
     alert('メールアドレスを入力してください');
     return;
   }
-  const callback = 'http://localhost:3000/';
+  const callback = 'https://pineapple-8d06c.web.app/';
+
   const actionCodeSettings = {
     url: callback,
     handleCodeInApp: true,
@@ -26,10 +27,11 @@ export const sendEmail = async (email) => {
 
 export const emailSignin = async () => {
   //メールリンクによるloginなのかを判断する
+  let email = window.localStorage.getItem('emailForSignIn');
+  console.log(email);
   if (auth.isSignInWithEmailLink(window.location.href)) {
-    const email = window.localStorage.getItem('emailForSignIn');
     if (!email) {
-      email = window.prompt('Please provide your email for confirmation');
+      email = window.prompt('確認のためにメールアドレスを入力してください');
     }
     auth
       .signInWithEmailLink(email, window.location.href)
@@ -53,10 +55,16 @@ export const emailSignin = async () => {
 };
 
 export const listenAuthstate = async () => {
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      console.log('signin user',user.uid,) ;
-      //dispatch
-    }
+  return new Promise((resolve) => {
+    auth.onAuthStateChanged((user: any) => {
+      if (user != null) {
+        // ユーザー情報取得成功
+        console.log(user, 'signin');
+        resolve(user);
+      } else {
+        console.log('null');
+        resolve(null);
+      }
+    });
   });
 };
