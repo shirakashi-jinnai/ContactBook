@@ -2,28 +2,40 @@
   "name": "contactbook-app",
   "version": "0.1.0",
   "private": true,
+  "main": "firebaseFunctions.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "yarn run build && next export",
+    "serve": "npm run build && firebase emulators:start --only functions,hosting",
+    "shell": "npm run build && firebase functions:shell",
+    "deploy": "firebase deploy --only functions,hosting",
+    "logs": "firebase functions:log"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.11.4",
     "firebase": "^8.8.1",
+    "lodash": "^4.17.21",
     "next": "11.0.1",
     "react": "^17.0.2",
     "react-dom": "17.0.2",
-    "react-router": "^5.2.0"
+    "react-router": "^5.2.0",
+    "firebase-admin": "^9.4.2",
+    "firebase-functions": "^3.13.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.172",
     "@types/node": "^16.4.9",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "firebase-functions-test": "^0.2.3",
+    "firebase-tools": "^9.3.0"
   }
 }

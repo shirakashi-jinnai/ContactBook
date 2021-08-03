@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { userSignin } from './actions';
 import { db, auth } from './firebase';
 
-
 export const sendEmail = async (email) => {
+  if (!email) {
+    alert('メールアドレスを入力してください');
+    return;
+  }
   const callback = 'http://localhost:3000/';
   const actionCodeSettings = {
     url: callback,
@@ -20,13 +20,13 @@ export const sendEmail = async (email) => {
     .catch((error) => {
       console.log(error.code);
       console.log(error.message);
+      alert(error.message);
     });
 };
 
-export const emailLogin = async () => {
+export const emailSignin = async () => {
   //メールリンクによるloginなのかを判断する
   if (auth.isSignInWithEmailLink(window.location.href)) {
-
     const email = window.localStorage.getItem('emailForSignIn');
     if (!email) {
       email = window.prompt('Please provide your email for confirmation');
@@ -43,21 +43,20 @@ export const emailLogin = async () => {
             contactlist: [],
           });
         });
-        // dispatch(() => userSignin());
       })
       .catch((error) => {
-        console.log('エラーコード', error);
+        console.log('エラー', error);
       });
+  } else {
+    console.log('not emailLink');
   }
 };
 
 export const listenAuthstate = async () => {
   auth.onAuthStateChanged((user) => {
     if (user) {
-      console.log(user.uid, 'success');
-    } else {
-      console.log('emailLogin');
-      emailLogin();
+      console.log('signin user',user.uid,) ;
+      //dispatch
     }
   });
 };

@@ -8,31 +8,26 @@ import { sendEmail } from '../lib/operating';
 
 const SignupPage = () => {
   const [email, setEmail] = useState<string>('');
-  
-  
+
   return (
     <Layout title={'signup'}>
-      <h1>signup</h1>
-      <div>
-        <div>
-          <TextInput
-            fullWidth={true}
-            label={'メールアドレス'}
-            margin='dense'
-            multiline={false}
-            required={true}
-            rows={1}
-            value={email}
-            type={'email'}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <PrimaryButton
-            label='メールリンク認証'
-            onClick={() => sendEmail(email)}
-          />
-        </div>
+      <div className='form-container'>
+        <h1>メールリンク認証</h1>
+        <TextInput
+          fullWidth={true}
+          label={'メールアドレス'}
+          margin='dense'
+          multiline={false}
+          required={true}
+          rows={1}
+          value={email}
+          type={'email'}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+        <div className='module-spacer--medium' />
+        <PrimaryButton label='SIGNUP' onClick={() => sendEmail(email)} />
       </div>
     </Layout>
   );

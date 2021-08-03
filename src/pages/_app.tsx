@@ -1,16 +1,18 @@
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import React, { useReducer, useEffect } from 'react';
-import userReducer from '../lib/userReducer';
 import '../styles/globals.css';
+import '../styles/style.css';
 import { UserContext, UserUpdateContext } from '../lib/context';
 import { ThemeProvider } from '@material-ui/styles';
 import { CssBaseline } from '@material-ui/core';
 import Head from 'next/head';
+import _ from 'lodash';
+import { initialState } from '../lib/initialstate';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useReducer(
-    userReducer.reducer,
-    userReducer.initialState
+    (state: object, dispatch: object) => _.assign({}, state, dispatch),
+    initialState.user
   );
 
   useEffect(() => {

@@ -1,11 +1,8 @@
 export const USER_SIGNIN = 'USER_SIGNIN';
 export const userSignin = () => {
   return {
-    type: USER_SIGNIN,
-    payload: {
-      isSignedin: true,
-      contactlist: [],
-    },
+    isSigndin: true,
+    contactList: [],
   };
 };
 
