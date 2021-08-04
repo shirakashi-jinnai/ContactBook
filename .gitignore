@@ -33,5 +33,8 @@ yarn-error.log*
 # vercel
 .vercel
 
-# hosting
+# cache
+/.firebase/
 hosting.Lm5leHQ.cache
+hosting.b3V0.cache
+hosting.YnVpbGQ.cache
