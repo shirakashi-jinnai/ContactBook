@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import styles from './layout.module.css';
+import Head from 'next/head'
+import styles from './layout.module.css'
 
 const Layout = (props) => {
   return (
@@ -10,7 +10,7 @@ const Layout = (props) => {
       <meta />
       <div>{props.children}</div>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

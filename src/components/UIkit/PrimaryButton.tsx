@@ -1,5 +1,5 @@
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles({
   button: {
@@ -8,12 +8,12 @@ const useStyles = makeStyles({
     width: 250,
     height: 50,
     fontWeight: 'bold',
-    margin:"30px 0"
+    margin: '30px 0',
   },
-});
+})
 
 const PrimaryButton = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <Button
       variant='contained'
@@ -21,7 +21,7 @@ const PrimaryButton = (props) => {
       onClick={() => props.onClick()}>
       {props.label}
     </Button>
-  );
-};
+  )
+}
 
-export default PrimaryButton;
+export default PrimaryButton

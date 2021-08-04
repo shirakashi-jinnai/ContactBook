@@ -18,7 +18,6 @@ const useStyles = makeStyles({
     background: 'rgb(237, 228, 245)',
     borderRadius: 5,
   },
-
 })
 
 const SignupPage = () => {

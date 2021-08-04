@@ -32,7 +32,7 @@ export const emailSignin = async () => {
   //メールリンクによるloginなのかを判断する
   // console.log(window.localStorage.getItem('emailForSignIn'), 'getitem')
   // let email = localStorage.getItem('emailForSignIn')
-  let email=''
+  let email = ''
 
   return new Promise(() => {
     if (auth.isSignInWithEmailLink(window.location.href)) {
