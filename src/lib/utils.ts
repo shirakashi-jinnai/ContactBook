@@ -57,6 +57,7 @@ export const emailSignin = async () => {
   }
 }
 
+//現在サインインしているユーザーを取得
 export const listenAuthstate = () => {
   auth.onAuthStateChanged((user: any) => {
     if (user != null) {

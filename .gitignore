@@ -35,6 +35,4 @@ yarn-error.log*
 
 # cache
 /.firebase/
-hosting.Lm5leHQ.cache
-hosting.b3V0.cache
-hosting.YnVpbGQ.cache
+*.cache
