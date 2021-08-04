@@ -4,6 +4,4 @@ export const initialState = {
     username: '',
     contactList: [],
   },
-};
-
-
+}

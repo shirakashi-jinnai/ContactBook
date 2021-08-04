@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     width: 250,
     height: 50,
     fontWeight: 'bold',
+    margin:"30px 0"
   },
 });
 
