@@ -27,7 +27,6 @@ export const sendEmail = async (email: string) => {
 
 export const emailSignin = async () => {
   //メールリンクによるloginなのかを判断する
-  console.log(window.localStorage.getItem('emailForSignIn'), 'getitem')
   let email = localStorage.getItem('emailForSignIn')
 
   if (auth.isSignInWithEmailLink(window.location.href)) {
@@ -38,8 +37,7 @@ export const emailSignin = async () => {
     try {
       await auth.signInWithEmailLink(email, window.location.href)
       window.localStorage.removeItem('emailForSignIn')
-      auth.onAuthStateChanged((user) => {
-        const uid = user.uid
+      auth.onAuthStateChanged(({uid}) => {
         console.log('signup success', uid)
         db.collection('users').doc(uid).set({
           uid: uid,
