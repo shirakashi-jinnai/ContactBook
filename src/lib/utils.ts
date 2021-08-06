@@ -7,11 +7,10 @@ export const sendEmail = async (email: string) => {
     alert('メールアドレスを入力してください')
     return
   }
-  // const callback = 'http://localhost:3000'
-  const callback = 'https://pineapple-8d06c.web.app/'
+  const callbackUrl = location.href.replace('signup', '')
 
   const actionCodeSettings = {
-    url: callback,
+    url: callbackUrl,
     handleCodeInApp: true,
   }
 
