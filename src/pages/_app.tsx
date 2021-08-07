@@ -1,18 +1,14 @@
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import React, { useReducer, useEffect } from 'react'
-import { UserContext, UserUpdateContext } from '../lib/context'
+import { firebaseContext} from '../lib/context'
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import Head from 'next/head'
 import _ from 'lodash'
 import { initialState } from '../lib/initialstate'
 import { theme } from '../assets/theme.js'
+import { useFirebase } from '../lib/hooks'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [state, dispatch] = useReducer(
-    (state: object, dispatch: object) => _.assign({}, state, dispatch),
-    initialState.user
-  )
-
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side')
@@ -30,12 +26,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <UserContext.Provider value={state}>
-          <UserUpdateContext.Provider value={dispatch}>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </UserUpdateContext.Provider>
-        </UserContext.Provider>
+        <firebaseContext.Provider value={useFirebase()}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </firebaseContext.Provider>
       </ThemeProvider>
     </React.Fragment>
   )

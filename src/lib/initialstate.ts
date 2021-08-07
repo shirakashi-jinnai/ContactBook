@@ -1,7 +1,7 @@
 export const initialState = {
   user: {
-    isSigndin: false,
-    username: '',
+    isSignedin: false,
+    uid: '',
     contactList: [],
   },
 }

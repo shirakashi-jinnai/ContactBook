@@ -7,7 +7,8 @@ export const sendEmail = async (email: string) => {
     alert('メールアドレスを入力してください')
     return
   }
-  const callbackUrl = location.href.replace('signup', '')
+  const callbackUrl = location.origin
+  console.log(callbackUrl)
 
   const actionCodeSettings = {
     url: callbackUrl,
@@ -54,14 +55,3 @@ export const emailSignin = async () => {
   }
 }
 
-//現在サインインしているユーザーを取得
-export const listenAuthstate = () => {
-  auth.onAuthStateChanged((user: any) => {
-    if (user != null) {
-      // ユーザー情報取得成功
-      console.log(user, 'signin')
-    } else {
-      console.log('null')
-    }
-  })
-}

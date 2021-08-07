@@ -2,18 +2,16 @@ import { Button } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useState } from 'react'
 import Layout from '../components/Layout'
-import { userSignin } from '../lib/actions'
-import { UserContext, UserUpdateContext } from '../lib/context'
-import { emailSignin, listenAuthstate } from '../lib/utils'
+import { firebaseContext } from '../lib/context'
+import { emailSignin } from '../lib/utils'
 import Link from 'next/link'
 
 const Home = () => {
-  const userState = useContext(UserContext)
-  console.log(userState)
+  const { listenAuthState,state } = useContext(firebaseContext)
+  console.log(listenAuthState,state)
 
   useEffect(() => {
     emailSignin()
-    listenAuthstate()
   })
 
   return (

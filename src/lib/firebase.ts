@@ -2,6 +2,7 @@
 import firebase from 'firebase'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
@@ -22,3 +23,4 @@ if (!firebase.apps.length) {
 
 export const auth = firebase.auth()
 export const db = firebase.firestore()
+export const storage = firebase.storage()

@@ -2,8 +2,6 @@ import { makeStyles, TextField } from '@material-ui/core'
 import { useCallback, useContext, useState } from 'react'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
-import TextInput from '../components/UIkit/TextInput'
-import { UserContext } from '../lib/context'
 import { sendEmail } from '../lib/utils'
 
 const useStyles = makeStyles({
@@ -33,7 +31,9 @@ const SignupPage = () => {
           label={'メールアドレス'}
           value={email}
           type={'email'}
-          onChange={(e)=>{setEmail(e.target.value)}}
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
         />
         <PrimaryButton label='SIGNUP' onClick={() => sendEmail(email)} />
       </form>
