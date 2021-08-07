@@ -32,6 +32,7 @@ const authomation = () => {
           console.log('signup success', uid)
           db.collection('users').doc(uid).set({
             uid: uid,
+            email:email,
             contactlist: [],
           })
         })
