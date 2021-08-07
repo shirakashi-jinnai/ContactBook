@@ -1,2 +1,2 @@
 import React, { createContext } from 'react'
-export const firebaseContext = createContext(null)
+export const firebaseContext = createContext<any>(null)

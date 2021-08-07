@@ -22,6 +22,7 @@ export const useFirebase = () => {
 
   useEffect(() => {
     const listenAuthState = auth.onAuthStateChanged(({ uid }) => {
+      console.log(uid)
       if (uid) {
         const data = { isSignedin: true, uid: uid, contactList: [] }
         dispatch(data)
@@ -29,7 +30,6 @@ export const useFirebase = () => {
         router.push('/signup')
       }
     })
-    return listenAuthState
   }, [auth])
 
   return _.defaults(

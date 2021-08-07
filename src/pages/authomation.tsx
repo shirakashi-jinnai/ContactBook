@@ -32,7 +32,7 @@ const authomation = () => {
           console.log('signup success', uid)
           db.collection('users').doc(uid).set({
             uid: uid,
-            email:email,
+            email: email,
             contactlist: [],
           })
         })
@@ -50,7 +50,7 @@ const authomation = () => {
 
   useEffect(() => {
     emailSignin()
-  },[])
+  }, [])
 
   return (
     <div className={classes.authomation}>
