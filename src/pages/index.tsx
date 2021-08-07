@@ -3,16 +3,11 @@ import { useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import { firebaseContext } from '../lib/context'
-import { emailSignin } from '../lib/utils'
 import Link from 'next/link'
 
 const Home = () => {
   const { listenAuthState,state } = useContext(firebaseContext)
   console.log(listenAuthState,state)
-
-  useEffect(() => {
-    emailSignin()
-  })
 
   return (
     <Layout title={'連絡帳'}>
