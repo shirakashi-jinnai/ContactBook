@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { auth, db } from '../lib/firebase'
 
 const useStyles = makeStyles({
-  authomation: {
+  authentication: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -16,34 +16,31 @@ const Authentication = () => {
   const router = useRouter()
 
   const emailSignin = async () => {
-    //メールリンクによるloginなのかを判断する
-    let email = localStorage.getItem('emailForSignIn')
-    console.log(email)
+    //メールリンクによるsigninなのかを判断する
+    const email =
+      localStorage.getItem('emailForSignIn') ||
+      window.prompt('確認のためにメールアドレスを入力してください')
 
-    if (auth.isSignInWithEmailLink(window.location.href)) {
-      if (!email) {
-        email = window.prompt('確認のためにメールアドレスを入力してください')
-      }
-
-      try {
-        await auth.signInWithEmailLink(email, window.location.href)
-        window.localStorage.removeItem('emailForSignIn')
-        auth.onAuthStateChanged(({ uid }) => {
-          console.log('signup success', uid)
-          db.collection('users').doc(uid).set({
-            uid: uid,
-            email: email,
-          })
-        })
-        router.push('/')
-      } catch (error) {
-        console.log('エラー', error)
-        window.localStorage.removeItem('emailForSignIn')
-        router.push('/signup')
-      }
-    } else {
+    if (!auth.isSignInWithEmailLink(window.location.href)) {
       console.log('not emailLink')
       window.localStorage.removeItem('emailForSignIn')
+      return
+    }
+
+    try {
+      await auth.signInWithEmailLink(email, window.location.href)
+      window.localStorage.removeItem('emailForSignIn')
+      const { uid } = auth.currentUser
+      console.log(uid, email)
+      db.collection('users').doc(uid).set({
+        uid: uid,
+        email: email,
+      })
+      router.push('/')
+    } catch (error) {
+      console.log('エラー', error)
+      window.localStorage.removeItem('emailForSignIn')
+      router.push('/signup')
     }
   }
 
@@ -52,7 +49,7 @@ const Authentication = () => {
   }, [])
 
   return (
-    <div className={classes.authomation}>
+    <div className={classes.authentication}>
       <h1>認証中...</h1>
     </div>
   )
