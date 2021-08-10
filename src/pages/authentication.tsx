@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 })
 
-const authomation = () => {
+const Authentication = () => {
   const classes = useStyles()
   const router = useRouter()
 
@@ -58,4 +58,4 @@ const authomation = () => {
   )
 }
 
-export default authomation
+export default Authentication

@@ -1,4 +1,3 @@
-
 import { db, auth } from './firebase'
 
 export const sendEmail = async (email: string) => {
@@ -6,7 +5,7 @@ export const sendEmail = async (email: string) => {
     alert('メールアドレスを入力してください')
     return
   }
-  const callbackUrl = location.origin+'/authomation'
+  const callbackUrl = `${location.origin}/authentication`
   console.log(callbackUrl)
 
   const actionCodeSettings = {
@@ -24,5 +23,3 @@ export const sendEmail = async (email: string) => {
     alert(error.message)
   }
 }
-
-
