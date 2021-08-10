@@ -27,7 +27,7 @@ export const useFirebase = () => {
         router.push('/signup')
         return
       }
-      const data = { isSignedin: true, uid: uid, contactList: [] }
+      const data = { uid: uid, contactList: [] }
       setInitStatus(data)
     })
   }, [auth])
