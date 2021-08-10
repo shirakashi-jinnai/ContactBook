@@ -32,7 +32,7 @@ const Authentication = () => {
       window.localStorage.removeItem('emailForSignIn')
       const { uid } = auth.currentUser
       console.log(uid, email)
-      db.collection('users').doc(uid).set({
+      db.doc(`users/${uid}`).set({
         uid: uid,
         email: email,
       })

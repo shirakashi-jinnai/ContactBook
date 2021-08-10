@@ -13,7 +13,7 @@ const FIREBASE_DEFAULTS = {
 
 export const useFirebase = () => {
   const router = useRouter()
-  const [state, dispatch] = useReducer(
+  const [initStatus, setInitStatus] = useReducer(
     (state: object, dispatch: object) => _.assign({}, state, dispatch),
     initialState.user
   )
@@ -23,19 +23,19 @@ export const useFirebase = () => {
   useEffect(() => {
     auth.onAuthStateChanged(({ uid }) => {
       console.log(uid)
-      if (uid) {
-        const data = { isSignedin: true, uid: uid, contactList: [] }
-        dispatch(data)
-      } else {
+      if (!uid) {
         router.push('/signup')
+        return
       }
+      const data = { isSignedin: true, uid: uid, contactList: [] }
+      setInitStatus(data)
     })
   }, [auth])
 
   return _.defaults(
     {
-      state,
-      dispatch,
+      initStatus,
+      setInitStatus,
     },
     FIREBASE_DEFAULTS
   )
