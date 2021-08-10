@@ -3,22 +3,15 @@ import _ from 'lodash'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer } from 'react'
 import { auth, db, storage } from './firebase'
-import { initialState } from './initialstate'
-
-const FIREBASE_DEFAULTS = {
-  auth,
-  db,
-  storage,
-}
+import { initialState } from './initialState'
 
 export const useFirebase = () => {
   const router = useRouter()
-  const [initStatus, setInitStatus] = useReducer(
-    (state: object, dispatch: object) => _.assign({}, state, dispatch),
+  const [userState, setUserState] = useReducer(
+    (state: object, data: object) => _.assign({}, state, data),
     initialState.user
   )
 
-  const auth = firebase.auth()
 
   useEffect(() => {
     auth.onAuthStateChanged(({ uid }) => {
@@ -28,15 +21,12 @@ export const useFirebase = () => {
         return
       }
       const data = { uid: uid, contactList: [] }
-      setInitStatus(data)
+      setUserState(data)
     })
   }, [auth])
 
-  return _.defaults(
-    {
-      initStatus,
-      setInitStatus,
-    },
-    FIREBASE_DEFAULTS
-  )
+  return _.defaults({
+    userState,
+    setUserState,
+  })
 }

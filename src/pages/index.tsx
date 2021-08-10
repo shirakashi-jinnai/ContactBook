@@ -6,8 +6,8 @@ import { FirebaseContext } from '../lib/context'
 import Link from 'next/link'
 
 const Home = () => {
-  const { initStatus } = useContext(FirebaseContext)
-  console.log(initStatus)
+  const { userState } = useContext(FirebaseContext)
+  console.log(userState)
 
   return (
     <Layout title={'連絡帳'}>
