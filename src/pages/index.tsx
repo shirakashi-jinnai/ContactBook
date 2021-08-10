@@ -2,11 +2,11 @@ import { Button } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useState } from 'react'
 import Layout from '../components/Layout'
-import { FirebaseContext } from '../lib/context'
+import { UserContext } from '../lib/context'
 import Link from 'next/link'
 
 const Home = () => {
-  const { userState } = useContext(FirebaseContext)
+  const { userState } = useContext(UserContext)
   console.log(userState)
 
   return (

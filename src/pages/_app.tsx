@@ -1,10 +1,10 @@
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import React, { useEffect } from 'react'
-import { FirebaseContext } from '../lib/context'
+import { UserContext } from '../lib/context'
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import _ from 'lodash'
 import { theme } from '../assets/theme.js'
-import { useFirebase } from '../lib/hooks'
+import { useUserState } from '../lib/hooks'
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -18,10 +18,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>
-        <FirebaseContext.Provider value={useFirebase()}>
+        <UserContext.Provider value={useUserState()}>
           <CssBaseline />
           <Component {...pageProps} />
-        </FirebaseContext.Provider>
+        </UserContext.Provider>
       </ThemeProvider>
     </React.Fragment>
   )
