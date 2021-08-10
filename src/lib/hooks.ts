@@ -21,7 +21,7 @@ export const useFirebase = () => {
   const auth = firebase.auth()
 
   useEffect(() => {
-    const listenAuthState = auth.onAuthStateChanged(({ uid }) => {
+    auth.onAuthStateChanged(({ uid }) => {
       console.log(uid)
       if (uid) {
         const data = { isSignedin: true, uid: uid, contactList: [] }

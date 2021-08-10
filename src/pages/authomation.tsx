@@ -33,7 +33,6 @@ const authomation = () => {
           db.collection('users').doc(uid).set({
             uid: uid,
             email: email,
-            contactlist: [],
           })
         })
         router.push('/')
