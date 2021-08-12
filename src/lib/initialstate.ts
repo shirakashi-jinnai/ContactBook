@@ -1,7 +1,6 @@
 export const initialState = {
   user: {
-    isSigndin: false,
-    username: '',
+    uid: '',
     contactList: [],
   },
 }

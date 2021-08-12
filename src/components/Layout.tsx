@@ -1,11 +1,18 @@
+import { Container } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import Head from 'next/head'
-import styles from './layout.module.css'
+import { FC } from 'react'
 
-const Layout = (props) => {
+type props = {
+  title: string
+}
+
+const Layout: FC<props> = (props) => {
   return (
-    <div className={styles.layoutWrapin}>
+    <div>
       <Head>
         <title>{props.title}</title>
+        <meta name='viewport' content='width=device-width,initial-scale=1.0' />
       </Head>
       <meta />
       <div>{props.children}</div>

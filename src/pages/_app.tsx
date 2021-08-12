@@ -1,18 +1,12 @@
 import { AppProps } from 'next/dist/next-server/lib/router/router'
-import React, { useReducer, useEffect } from 'react'
-import { UserContext, UserUpdateContext } from '../lib/context'
-import { ThemeProvider } from '@material-ui/styles'
-import { CssBaseline } from '@material-ui/core'
-import Head from 'next/head'
+import React, { useEffect } from 'react'
+import { UserContext } from '../lib/context'
+import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import _ from 'lodash'
-import { initialState } from '../lib/initialstate'
+import { theme } from '../assets/theme.js'
+import { useUserState } from '../lib/hooks'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [state, dispatch] = useReducer(
-    (state: object, dispatch: object) => _.assign({}, state, dispatch),
-    initialState.user
-  )
-
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side')
@@ -23,18 +17,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <React.Fragment>
-      <Head>
-        <meta
-          name='viewport'
-          content='minimum-scale=1, initial-scale=1, width=device-width'
-        />
-      </Head>
-      <UserContext.Provider value={state}>
-        <UserUpdateContext.Provider value={dispatch}>
+      <ThemeProvider theme={theme}>
+        <UserContext.Provider value={useUserState()}>
           <CssBaseline />
           <Component {...pageProps} />
-        </UserUpdateContext.Provider>
-      </UserContext.Provider>
+        </UserContext.Provider>
+      </ThemeProvider>
     </React.Fragment>
   )
 }
