@@ -15,6 +15,9 @@ const Home = () => {
       <Link href='/signup'>
         <a>サインアップ</a>
       </Link>
+      <Link href='/entryAddress'>
+        <a>登録ページ</a>
+      </Link>
       <div></div>
     </Layout>
   )
