@@ -55,11 +55,15 @@ const EntryAddress = () => {
     },
   })
 
-  const onChangeValue = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const onChangeValue = (
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setContactAddress({ ...contactAddress, [e.target.name]: e.target.value })
   }
 
-  const onChangeAddress = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const onChangeAddress = (
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setContactAddress({
       ...contactAddress,
       address: { ...contactAddress.address, [e.target.name]: e.target.value },
