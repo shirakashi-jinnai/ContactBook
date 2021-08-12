@@ -6,8 +6,8 @@ import { UserContext } from '../lib/context'
 import Link from 'next/link'
 
 const Home = () => {
-  const { userState } = useContext(UserContext)
-  console.log(userState)
+  const { user } = useContext(UserContext)
+  console.log(user)
 
   return (
     <Layout title={'連絡帳'}>

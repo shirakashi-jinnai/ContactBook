@@ -7,7 +7,7 @@ import { initialState } from './initialState'
 
 export const useUserState = () => {
   const router = useRouter()
-  const [userState, setUserState] = useReducer(
+  const [user, setUser] = useReducer(
     (state: object, data: object) => _.assign({}, state, data),
     initialState.user
   )
@@ -20,12 +20,12 @@ export const useUserState = () => {
         return
       }
       const data = { uid: uid, contactList: [] }
-      setUserState(data)
+      setUser(data)
     })
   }, [auth])
 
   return _.defaults({
-    userState,
-    setUserState,
+    user,
+    setUser,
   })
 }
