@@ -25,11 +25,12 @@ const useStyles = makeStyles({
 
 type address = {
   postalCode: number | string
-  Prefectures: string
-  municipalities: string | number
+  prefectures: string
+  municipalities: string
+  houseNumber: number | string
 }
 
-type contactForm = {
+type entryForm = {
   firstName: string
   lastName: string
   phoneNumber: number | string
@@ -42,7 +43,7 @@ const EntryAddress = () => {
   const classes = useStyles()
   const router = useRouter()
   const { user, setUser } = useContext(UserContext)
-  const [contactAddress, setContactAddress] = useState<contactForm>({
+  const [contactAddress, setContactAddress] = useState<entryForm>({
     firstName: '',
     lastName: '',
     phoneNumber: '',
@@ -50,8 +51,9 @@ const EntryAddress = () => {
     birthday: '',
     address: {
       postalCode: '',
-      Prefectures: '',
+      prefectures: '',
       municipalities: '',
+      houseNumber: '',
     },
   })
 
@@ -71,7 +73,7 @@ const EntryAddress = () => {
   }
 
   //firestoreに保存
-  const saveContactAddress = async (data: contactForm) => {
+  const saveContactAddress = async (data: entryForm) => {
     if (!contactAddress.firstName || !contactAddress.lastName) {
       alert('必須項目を入力してください')
       return
@@ -80,8 +82,6 @@ const EntryAddress = () => {
       .doc(`users/${user.uid}`)
       .collection('contactList')
       .doc()
-    const id = contactListRef.id
-    data['contactId'] = id
     await contactListRef.set(data)
     setUser({ ...user, contactList: [...user.contactList, data] })
     console.log('success!', user)
@@ -96,58 +96,58 @@ const EntryAddress = () => {
           label='姓(必須)'
           value={contactAddress.lastName}
           name='lastName'
-          onChange={(e) => onChangeValue(e)}
+          onChange={onChangeValue}
         />
         <TextField
           label='名(必須)'
           value={contactAddress.firstName}
           name='firstName'
-          onChange={(e) => onChangeValue(e)}
+          onChange={onChangeValue}
         />
         <TextField
           label='メール'
           type='email'
           name='email'
           value={contactAddress.email}
-          onChange={(e) => onChangeValue(e)}
+          onChange={onChangeValue}
         />
         <TextField
           label='電話番号'
           name='phoneNumber'
           value={contactAddress.phoneNumber}
-          onChange={(e) => onChangeValue(e)}
+          onChange={onChangeValue}
         />
         <p>住所</p>
         <TextField
           label='郵便番号'
           name='postalCode'
           value={contactAddress.address.postalCode}
-          onChange={(e) => {
-            onChangeAddress(e)
-          }}
+          onChange={onChangeAddress}
         />
         <TextField
           label='都道府県'
-          name='Prefectures'
-          value={contactAddress.address.Prefectures}
-          onChange={(e) => {
-            onChangeAddress(e)
-          }}
+          name='prefectures'
+          value={contactAddress.address.prefectures}
+          onChange={onChangeAddress}
         />
         <TextField
           label='市区町村'
           name='municipalities'
           value={contactAddress.address.municipalities}
-          onChange={(e) => {
-            onChangeAddress(e)
-          }}
+          onChange={onChangeAddress}
+        />
+        <TextField
+          label='番地'
+          name='houseNumber'
+          value={contactAddress.address.houseNumber}
+          onChange={onChangeAddress}
         />
         <p>生年月日</p>
         <TextField
           type='date'
           name='birthday'
           value={contactAddress.birthday}
-          onChange={(e) => onChangeValue(e)}
+          onChange={onChangeValue}
         />
       </div>
       <div className={classes.button}>
