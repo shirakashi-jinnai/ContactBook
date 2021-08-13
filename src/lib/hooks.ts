@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import _ from 'lodash'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer } from 'react'
-import { auth } from './firebase'
+import { auth, db } from './firebase'
 import { initialState } from './initialState'
 
 export const useUserState = () => {
@@ -13,15 +13,24 @@ export const useUserState = () => {
   )
 
   useEffect(() => {
-    auth.onAuthStateChanged(({ uid }) => {
-      console.log(uid)
+    const unsub = auth.onAuthStateChanged(({ uid }) => {
       if (!uid) {
         router.push('/signup')
         return
       }
-      const data = { uid: uid, contacts: [] }
-      setUser(data)
+
+      db.doc(`users/${uid}`)
+        .collection('contacts')
+        .onSnapshot((s) => {
+          const items = _.map(s.docs, (doc) => {
+            return { id: doc.id, ...doc.data() }
+          })
+          const data = { uid: uid, contacts: items }
+          setUser(data)
+        })
     })
+
+    return () => unsub()
   }, [auth])
 
   return _.defaults({

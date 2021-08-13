@@ -79,7 +79,6 @@ const EntryForm = () => {
     }
     const contactsRef = db.doc(`users/${user.uid}`).collection('contacts')
     await contactsRef.add(data)
-    setUser({ ...user, contacts: [...user.contacts, data] })
     console.log('success!', user)
     router.push('/')
   }
