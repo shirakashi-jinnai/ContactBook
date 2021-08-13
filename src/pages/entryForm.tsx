@@ -1,15 +1,12 @@
+import _ from 'lodash'
 import { useState, useContext, ChangeEvent } from 'react'
+import { useRouter } from 'next/router'
+import { db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
+import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
-import { TextField } from '@material-ui/core'
-import { db } from '../lib/firebase'
 import { UserContext } from '../lib/context'
-import { useRouter } from 'next/router'
-import _ from 'lodash'
 
 const useStyles = makeStyles({
   entryArea: {
@@ -24,27 +21,27 @@ const useStyles = makeStyles({
   },
 })
 
-type address = {
-  postalCode: number | string
+type Address = {
+  postalCode: number
   prefectures: string
   municipalities: string
-  houseNumber: number | string
+  houseNumber: number
 }
 
-type entryForm = {
+type EntryForm = {
   firstName: string
   lastName: string
-  phoneNumber: number | string
+  phoneNumber: number
   email: string
-  birthday: string
-  address: address
+  birthday: Date
+  address: Address
 }
 
-const EntryAddress = () => {
+const EntryForm = () => {
   const classes = useStyles()
   const router = useRouter()
   const { user, setUser } = useContext(UserContext)
-  const [entryAddress, setEntryAddress] = useState<entryForm>({
+  const [entryAddress, setEntryAddress] = useState<EntryForm>({
     firstName: '',
     lastName: '',
     phoneNumber: '',
@@ -79,8 +76,8 @@ const EntryAddress = () => {
       alert('必須項目を入力してください')
       return
     }
-    const contactsRef = db.doc(`users/${user.uid}`).collection('contacts').doc()
-    await contactsRef.set(data)
+    const contactsRef = db.doc(`users/${user.uid}`).collection('contacts')
+    await contactsRef.add(data)
     setUser({ ...user, contacts: [...user.contacts, data] })
     console.log('success!', user)
     router.push('/')
@@ -160,4 +157,4 @@ const EntryAddress = () => {
   )
 }
 
-export default EntryAddress
+export default EntryForm

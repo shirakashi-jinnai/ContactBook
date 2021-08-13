@@ -15,7 +15,7 @@ const Home = () => {
       <Link href='/signup'>
         <a>サインアップ</a>
       </Link>
-      <Link href='/entryAddress'>
+      <Link href='/entryForm'>
         <a>登録ページ</a>
       </Link>
       <div></div>
