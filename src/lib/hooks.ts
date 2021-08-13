@@ -19,7 +19,7 @@ export const useUserState = () => {
         router.push('/signup')
         return
       }
-      const data = { uid: uid, contactList: [] }
+      const data = { uid: uid, contacts: [] }
       setUser(data)
     })
   }, [auth])

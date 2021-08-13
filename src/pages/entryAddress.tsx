@@ -9,6 +9,7 @@ import { TextField } from '@material-ui/core'
 import { db } from '../lib/firebase'
 import { UserContext } from '../lib/context'
 import { useRouter } from 'next/router'
+import _ from 'lodash'
 
 const useStyles = makeStyles({
   entryArea: {
@@ -43,7 +44,7 @@ const EntryAddress = () => {
   const classes = useStyles()
   const router = useRouter()
   const { user, setUser } = useContext(UserContext)
-  const [contactAddress, setContactAddress] = useState<entryForm>({
+  const [entryAddress, setEntryAddress] = useState<entryForm>({
     firstName: '',
     lastName: '',
     phoneNumber: '',
@@ -60,30 +61,27 @@ const EntryAddress = () => {
   const onChangeValue = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setContactAddress({ ...contactAddress, [e.target.name]: e.target.value })
+    setEntryAddress({ ...entryAddress, [e.target.name]: e.target.value })
   }
 
   const onChangeAddress = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setContactAddress({
-      ...contactAddress,
-      address: { ...contactAddress.address, [e.target.name]: e.target.value },
+    setEntryAddress({
+      ...entryAddress,
+      address: { ...entryAddress.address, [e.target.name]: e.target.value },
     })
   }
 
   //firestoreに保存
-  const saveContactAddress = async (data: entryForm) => {
-    if (!contactAddress.firstName || !contactAddress.lastName) {
+  const saveEntryAddress = async (data: entryForm) => {
+    if (_.isEmpty(entryAddress.firstName) || _.isEmpty(entryAddress.lastName)) {
       alert('必須項目を入力してください')
       return
     }
-    const contactListRef = db
-      .doc(`users/${user.uid}`)
-      .collection('contactList')
-      .doc()
-    await contactListRef.set(data)
-    setUser({ ...user, contactList: [...user.contactList, data] })
+    const contactsRef = db.doc(`users/${user.uid}`).collection('contacts').doc()
+    await contactsRef.set(data)
+    setUser({ ...user, contacts: [...user.contacts, data] })
     console.log('success!', user)
     router.push('/')
   }
@@ -94,13 +92,15 @@ const EntryAddress = () => {
         <h1>連絡先の作成</h1>
         <TextField
           label='姓(必須)'
-          value={contactAddress.lastName}
+          required
+          value={entryAddress.lastName}
           name='lastName'
           onChange={onChangeValue}
         />
         <TextField
           label='名(必須)'
-          value={contactAddress.firstName}
+          required
+          value={entryAddress.firstName}
           name='firstName'
           onChange={onChangeValue}
         />
@@ -108,52 +108,52 @@ const EntryAddress = () => {
           label='メール'
           type='email'
           name='email'
-          value={contactAddress.email}
+          value={entryAddress.email}
           onChange={onChangeValue}
         />
         <TextField
           label='電話番号'
           name='phoneNumber'
-          value={contactAddress.phoneNumber}
+          value={entryAddress.phoneNumber}
           onChange={onChangeValue}
         />
         <p>住所</p>
         <TextField
           label='郵便番号'
           name='postalCode'
-          value={contactAddress.address.postalCode}
+          value={entryAddress.address.postalCode}
           onChange={onChangeAddress}
         />
         <TextField
           label='都道府県'
           name='prefectures'
-          value={contactAddress.address.prefectures}
+          value={entryAddress.address.prefectures}
           onChange={onChangeAddress}
         />
         <TextField
           label='市区町村'
           name='municipalities'
-          value={contactAddress.address.municipalities}
+          value={entryAddress.address.municipalities}
           onChange={onChangeAddress}
         />
         <TextField
           label='番地'
           name='houseNumber'
-          value={contactAddress.address.houseNumber}
+          value={entryAddress.address.houseNumber}
           onChange={onChangeAddress}
         />
         <p>生年月日</p>
         <TextField
           type='date'
           name='birthday'
-          value={contactAddress.birthday}
+          value={entryAddress.birthday}
           onChange={onChangeValue}
         />
       </div>
       <div className={classes.button}>
         <PrimaryButton
           label='保存'
-          onClick={() => saveContactAddress(contactAddress)}
+          onClick={() => saveEntryAddress(entryAddress)}
         />
       </div>
     </Layout>
