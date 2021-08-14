@@ -11,19 +11,19 @@ const Home = () => {
   const { user, setUser } = useContext(UserContext)
   console.log(user)
 
-  useEffect(() => {
-    const unsub = db
-      .doc(`users/${user.uid}`)
-      .collection('contacts')
-      .onSnapshot((s) => {
-        const items = _.map(s.docs, (doc) => {
-          return { id: doc.id, ...doc.data() }
-        })
-        const data = { ...user, contacts: items }
-        setUser(data)
-      })
-    return () => unsub()
-  }, [])
+  // useEffect(() => {
+  //   const unsub = db
+  //     .doc(`users/${user.uid}`)
+  //     .collection('contacts')
+  //     .onSnapshot((s) => {
+  //       const items = _.map(s.docs, (doc) => {
+  //         return { id: doc.id, ...doc.data() }
+  //       })
+  //       const data = { ...user, contacts: items }
+  //       setUser(data)
+  //     })
+  //   return () => unsub()
+  // }, [])
 
   return (
     <Layout title={'連絡帳'}>

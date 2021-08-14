@@ -7,7 +7,7 @@ import { initialState } from './initialState'
 
 export const useUserState = () => {
   const router = useRouter()
-  const [initStatus, setInitStatus] = useState(true)
+  const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useReducer(
     (state: object, data: object) => _.assign({}, state, data),
     initialState.user
@@ -19,14 +19,23 @@ export const useUserState = () => {
         router.push('/signup')
         return
       }
-      setUser({ ...user, uid: uid })
-      setInitStatus(false)
+      const unsub = db
+        .doc(`users/${uid}`)
+        .collection('contacts')
+        .onSnapshot((s) => {
+          const items = _.map(s.docs, (doc) => {
+            return { id: doc.id, ...doc.data() }
+          })
+          setUser({ uid: uid, contacts: items })
+        })
+      setInitializing(false)
+      return () => unsub()
     })
   }, [auth])
 
-  return _.defaults({
-    initializing: initStatus,
+  return {
+    initializing,
     user,
     setUser,
-  })
+  }
 }
