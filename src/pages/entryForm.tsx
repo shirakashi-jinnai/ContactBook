@@ -41,7 +41,7 @@ type EntryForm = {
 const EntryForm = () => {
   const classes = useStyles()
   const router = useRouter()
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const [entryAddress, setEntryAddress] = useState<EntryForm>({
     firstName: '',
     lastName: '',

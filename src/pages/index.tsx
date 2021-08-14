@@ -1,13 +1,29 @@
-import { Button } from '@material-ui/core'
+import _ from 'lodash'
+import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useState } from 'react'
+import Link from 'next/link'
+import { db } from '../lib/firebase'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import Link from 'next/link'
 
 const Home = () => {
-  const { user } = useContext(UserContext)
+  const router = useRouter()
+  const { user, setUser } = useContext(UserContext)
   console.log(user)
+
+  useEffect(() => {
+    const unsub = db
+      .doc(`users/${user.uid}`)
+      .collection('contacts')
+      .onSnapshot((s) => {
+        const items = _.map(s.docs, (doc) => {
+          return { id: doc.id, ...doc.data() }
+        })
+        const data = { ...user, contacts: items }
+        setUser(data)
+      })
+    return () => unsub()
+  }, [])
 
   return (
     <Layout title={'連絡帳'}>

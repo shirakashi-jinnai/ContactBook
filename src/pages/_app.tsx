@@ -1,10 +1,28 @@
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import React, { useEffect } from 'react'
 import { UserContext } from '../lib/context'
-import { CssBaseline, ThemeProvider } from '@material-ui/core'
+import {
+  Backdrop,
+  CircularProgress,
+  CssBaseline,
+  ThemeProvider,
+} from '@material-ui/core'
 import _ from 'lodash'
 import { theme } from '../assets/theme.js'
 import { useUserState } from '../lib/hooks'
+import { useContext } from 'react'
+
+const FirebaseInitWrapper = ({ children }) => {
+  const { initializing } = useContext(UserContext)
+  if (initializing) {
+    return (
+      <Backdrop open>
+        <CircularProgress color='inherit' />
+      </Backdrop>
+    )
+  }
+  return children
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -16,14 +34,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
-    <React.Fragment>
-      <ThemeProvider theme={theme}>
-        <UserContext.Provider value={useUserState()}>
+    <ThemeProvider theme={theme}>
+      <UserContext.Provider value={useUserState()}>
+        <FirebaseInitWrapper>
           <CssBaseline />
           <Component {...pageProps} />
-        </UserContext.Provider>
-      </ThemeProvider>
-    </React.Fragment>
+        </FirebaseInitWrapper>
+      </UserContext.Provider>
+    </ThemeProvider>
   )
 }
 
