@@ -31,7 +31,7 @@ export const useUserState = () => {
       setInitializing(false)
       return () => unsub()
     })
-  }, [auth])
+  }, [])
 
   return {
     initializing,

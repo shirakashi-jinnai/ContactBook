@@ -23,4 +23,3 @@ export const sendEmail = async (email: string) => {
     alert(error.message)
   }
 }
-
