@@ -77,7 +77,7 @@ const EntryForm = () => {
       alert('必須項目を入力してください')
       return
     }
-    const contactsRef = db.doc(`users/${user.uid}`).collection('contacts')
+    const contactsRef = db.collection(`users/${user.uid}/contacts`)
     await contactsRef.add(data)
     console.log('success!', user)
     router.push('/')

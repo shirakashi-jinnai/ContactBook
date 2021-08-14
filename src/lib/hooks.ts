@@ -19,15 +19,10 @@ export const useUserState = () => {
         router.push('/signup')
         return
       }
-      const unsub = db
-        .doc(`users/${uid}`)
-        .collection('contacts')
-        .onSnapshot((s) => {
-          const items = _.map(s.docs, (doc) => {
-            return { id: doc.id, ...doc.data() }
-          })
-          setUser({ uid: uid, contacts: items })
-        })
+      const unsub = db.collection(`users/${uid}/contacts`).onSnapshot((s) => {
+        const contacts = _.map(s.docs, (doc) => ({ id: doc.id, ...doc.data() }))
+        setUser({ uid, contacts })
+      })
       setInitializing(false)
       return () => unsub()
     })
