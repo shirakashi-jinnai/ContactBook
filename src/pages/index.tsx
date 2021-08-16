@@ -1,12 +1,14 @@
-import { Button } from '@material-ui/core'
+import _ from 'lodash'
+import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useState } from 'react'
+import Link from 'next/link'
+import { db } from '../lib/firebase'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import Link from 'next/link'
 
 const Home = () => {
-  const { user } = useContext(UserContext)
+  const router = useRouter()
+  const { user, setUser } = useContext(UserContext)
   console.log(user)
 
   return (
@@ -14,6 +16,9 @@ const Home = () => {
       <h1>hello nextjs</h1>
       <Link href='/signup'>
         <a>サインアップ</a>
+      </Link>
+      <Link href='/entryForm'>
+        <a>登録ページ</a>
       </Link>
       <div></div>
     </Layout>
