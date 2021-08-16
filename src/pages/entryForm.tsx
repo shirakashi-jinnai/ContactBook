@@ -23,10 +23,10 @@ const useStyles = makeStyles({
 })
 
 type Address = {
-  postalCode: number
+  postalCode: string
   prefectures: string
   municipalities: string
-  houseNumber: number
+  houseNumber: string
 }
 
 type EntryForm = {
@@ -49,10 +49,10 @@ const EntryForm = () => {
     email: '',
     birthday: null,
     address: {
-      postalCode: 0,
+      postalCode: '',
       prefectures: '',
       municipalities: '',
-      houseNumber: 0,
+      houseNumber: '',
     },
   })
 
