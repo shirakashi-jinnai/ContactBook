@@ -12,9 +12,8 @@ import {
   MenuItem,
   Modal,
 } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { makeStyles } from '@material-ui/styles'
-import { Delete, Edit, Favorite } from '@material-ui/icons'
+import { Delete, Edit, Favorite, MoreVert } from '@material-ui/icons'
 import { UserContext } from '../lib/context'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+//削除時のモーダル
 const RemoveModal = ({ modalOpen, close, id }) => {
   const { user } = useContext(UserContext)
   const classes = useStyles()
@@ -68,6 +68,9 @@ const RemoveModal = ({ modalOpen, close, id }) => {
     </Modal>
   )
 }
+
+
+
 
 type Props = {
   entry: {
@@ -111,7 +114,7 @@ const EntriesView = (props: Props) => {
           <Favorite />
         </IconButton>
         <IconButton onClick={handleClickMenu}>
-          <MoreVertIcon />
+          <MoreVert />
         </IconButton>
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
           <MenuItem
