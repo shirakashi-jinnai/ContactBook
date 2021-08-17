@@ -13,7 +13,10 @@ import {
   Modal,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { Delete, Edit, Favorite, MoreVert } from '@material-ui/icons'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { UserContext } from '../lib/context'
 
 const useStyles = makeStyles((theme) => ({
@@ -69,9 +72,6 @@ const RemoveModal = ({ modalOpen, close, id }) => {
   )
 }
 
-
-
-
 type Props = {
   entry: {
     firstName: string
@@ -111,10 +111,10 @@ const EntriesView = (props: Props) => {
       <ListItem button className={classes.item}>
         <ListItemText primary={`${lastName} ${firstName}`} />
         <IconButton>
-          <Favorite />
+          <FavoriteIcon />
         </IconButton>
         <IconButton onClick={handleClickMenu}>
-          <MoreVert />
+          <MoreVertIcon />
         </IconButton>
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
           <MenuItem
@@ -122,7 +122,7 @@ const EntriesView = (props: Props) => {
               //TODO:foo
               handleCloseMenu()
             }}>
-            <Edit />
+            <EditIcon />
             編集
           </MenuItem>
           <MenuItem
@@ -130,7 +130,7 @@ const EntriesView = (props: Props) => {
               handleCloseMenu()
               handleOpenModal()
             }}>
-            <Delete />
+            <DeleteIcon />
             削除
           </MenuItem>
         </Menu>

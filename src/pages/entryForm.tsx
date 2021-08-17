@@ -7,7 +7,7 @@ import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { UserContext } from '../lib/context'
-import { EntryForm } from '../../additional'
+import { EntryField } from '../../additional'
 
 const useStyles = makeStyles({
   entryArea: {
@@ -22,13 +22,11 @@ const useStyles = makeStyles({
   },
 })
 
-
-
 const EntryForm = () => {
   const classes = useStyles()
   const router = useRouter()
   const { user } = useContext(UserContext)
-  const [entryAddress, setEntryAddress] = useState<EntryForm>({
+  const [entryAddress, setEntryAddress] = useState<EntryField>({
     firstName: '',
     lastName: '',
     phoneNumber: 0,
@@ -58,7 +56,7 @@ const EntryForm = () => {
   }
 
   //firestoreに保存
-  const saveEntryAddress = async (data: EntryForm) => {
+  const saveEntryAddress = async (data: EntryField) => {
     if (_.isEmpty(entryAddress.firstName) || _.isEmpty(entryAddress.lastName)) {
       alert('必須項目を入力してください')
       return

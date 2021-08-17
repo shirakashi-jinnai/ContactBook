@@ -5,7 +5,7 @@ type Address = {
   houseNumber: string
 }
 
-export type EntryForm = {
+export type EntryField = {
   firstName: string
   lastName: string
   phoneNumber: number
