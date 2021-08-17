@@ -21,27 +21,28 @@ const useStyles = makeStyles({
   },
 })
 
-type AddressType = {
+type Address = {
   postalCode: string
   prefectures: string
   municipalities: string
   houseNumber: string
 }
 
-export type EntryFormType = {
+export type EntryForm = {
   firstName: string
   lastName: string
   phoneNumber: number
   email: string
   birthday: Date | null
-  address: AddressType
+  address: Address
+  id?: string
 }
 
 const EntryForm = () => {
   const classes = useStyles()
   const router = useRouter()
   const { user } = useContext(UserContext)
-  const [entryAddress, setEntryAddress] = useState<EntryFormType>({
+  const [entryAddress, setEntryAddress] = useState<EntryForm>({
     firstName: '',
     lastName: '',
     phoneNumber: 0,
@@ -71,7 +72,7 @@ const EntryForm = () => {
   }
 
   //firestoreに保存
-  const saveEntryAddress = async (data: EntryFormType) => {
+  const saveEntryAddress = async (data: EntryForm) => {
     if (_.isEmpty(entryAddress.firstName) || _.isEmpty(entryAddress.lastName)) {
       alert('必須項目を入力してください')
       return

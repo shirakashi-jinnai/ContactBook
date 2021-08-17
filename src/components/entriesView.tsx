@@ -69,9 +69,15 @@ const RemoveModal = ({ modalOpen, close, id }) => {
   )
 }
 
-const EntrysView = (props: {
-  entry: { firstName: string; lastName: string; id: string }
-}) => {
+type Props = {
+  entry: {
+    firstName: string
+    lastName: string
+    id: string
+  }
+}
+
+const EntriesView = (props: Props) => {
   const router = useRouter()
   const classes = useStyles()
   const { firstName, lastName, id } = props.entry
@@ -101,7 +107,7 @@ const EntrysView = (props: {
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
       <ListItem button className={classes.item}>
         <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton onClick={() => console.log('お気に入り登録ボタン')}>
+        <IconButton>
           <Favorite />
         </IconButton>
         <IconButton onClick={handleClickMenu}>
@@ -110,7 +116,7 @@ const EntrysView = (props: {
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
           <MenuItem
             onClick={() => {
-              //routerで編集ページに遷移させる
+              //TODO:foo
               handleCloseMenu()
             }}>
             <Edit />
@@ -131,4 +137,4 @@ const EntrysView = (props: {
   )
 }
 
-export default EntrysView
+export default EntriesView
