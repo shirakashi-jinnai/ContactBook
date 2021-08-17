@@ -7,6 +7,7 @@ import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { UserContext } from '../lib/context'
+import { EntryForm } from '../../additional'
 
 const useStyles = makeStyles({
   entryArea: {
@@ -21,22 +22,7 @@ const useStyles = makeStyles({
   },
 })
 
-type Address = {
-  postalCode: string
-  prefectures: string
-  municipalities: string
-  houseNumber: string
-}
 
-export type EntryForm = {
-  firstName: string
-  lastName: string
-  phoneNumber: number
-  email: string
-  birthday: Date | null
-  address: Address
-  id?: string
-}
 
 const EntryForm = () => {
   const classes = useStyles()

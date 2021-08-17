@@ -6,8 +6,8 @@ import { db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import { EntryFormType as EntryType } from './entryForm'
 import EntriesView from '../components/entriesView'
+import { Entry } from '../../additional'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -32,7 +32,7 @@ const Home = () => {
       </Link>
       <div className={classes.viewArea}>
         {user.contacts &&
-          user.contacts.map((entry: EntryType, i: number) => (
+          user.contacts.map((entry: Entry, i: number) => (
             <EntriesView key={i} entry={entry} />
           ))}
       </div>
