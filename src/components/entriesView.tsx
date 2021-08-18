@@ -117,7 +117,7 @@ const EntriesView: FC<Props> = (props) => {
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
           <MenuItem
             onClick={() => {
-              //TODO:foo
+              router.push(`/${id}`)
               handleCloseMenu()
             }}>
             <EditIcon />
