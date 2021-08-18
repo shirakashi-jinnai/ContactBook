@@ -30,10 +30,9 @@ type EntryField = {
   address: Address
 }
 
-const EntryForm = ({ id, title }) => {
+const EntryForm = ({ id, title='連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
-  const formTitle = title || '連絡先の登録'
   const { user } = useContext(UserContext)
   const [entryAddress, setEntryAddress] = useState<EntryField>({
     firstName: '',
@@ -91,9 +90,9 @@ const EntryForm = ({ id, title }) => {
   }, [id])
 
   return (
-    <Layout title={formTitle}>
+    <Layout title={title}>
       <div className={classes.entryArea}>
-        <h1>{formTitle}</h1>
+        <h1>{title}</h1>
         <TextField
           label='姓(必須)'
           required
