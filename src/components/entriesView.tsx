@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useContext, useCallback, FC } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { db } from '../lib/firebase'
 import {
   Button,
@@ -36,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: 20,
+  },
+  link: {
+    color: 'inherit',
+    textDecoration: 'none',
   },
 }))
 
@@ -114,15 +119,14 @@ const EntriesView: FC<Props> = (props) => {
         <IconButton onClick={handleClickMenu}>
           <MoreVertIcon />
         </IconButton>
+
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-          <MenuItem
-            onClick={() => {
-              router.push(`/${id}`)
-              handleCloseMenu()
-            }}>
-            <EditIcon />
-            編集
-          </MenuItem>
+          <Link href={`/${id}`}>
+            <MenuItem>
+              <EditIcon />
+              <a className={classes.link}>編集</a>
+            </MenuItem>
+          </Link>
           <MenuItem
             onClick={() => {
               handleCloseMenu()

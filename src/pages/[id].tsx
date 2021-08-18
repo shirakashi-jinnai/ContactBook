@@ -1,8 +1,9 @@
 import EntryForm from './entryForm'
+import { useRouter } from 'next/dist/client/router'
 
 const EntryEdit = () => {
-  const path = window.location.pathname
-  const id = path.split('/')[1]
+  const router = useRouter()
+  const { id } = router.query
   return <EntryForm id={id} title='連絡先の編集' />
 }
 
