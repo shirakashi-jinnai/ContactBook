@@ -15,10 +15,6 @@ const useStyles = makeStyles({
   },
 })
 
-interface Entry extends EntryField {
-  id: string
-}
-
 const Home = () => {
   const router = useRouter()
   const classes = useStyles()

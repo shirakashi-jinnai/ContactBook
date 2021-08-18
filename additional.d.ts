@@ -5,11 +5,12 @@ type Address = {
   houseNumber: string
 }
 
-interface EntryField {
+type Entry = {
   firstName: string
   lastName: string
   phoneNumber: number
   email: string
   birthday: Date | null
   address: Address
+  id: string
 }

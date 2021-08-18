@@ -21,6 +21,15 @@ const useStyles = makeStyles({
   },
 })
 
+type EntryField = {
+  firstName: string
+  lastName: string
+  phoneNumber: number
+  email: string
+  birthday: Date | null
+  address: Address
+}
+
 const EntryForm = () => {
   const classes = useStyles()
   const router = useRouter()
