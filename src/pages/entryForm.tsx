@@ -70,19 +70,13 @@ const EntryForm = ({ id, title }) => {
       alert('必須項目を入力してください')
       return
     }
-    
+
     const contactsRef = db.collection(`users/${user.uid}/contacts`)
     await contactsRef.add(data)
     console.log('success!', user)
     router.push('/')
   }
 
-  useEffect(() => {
-    if (!id) return
-    db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).onSnapshot((s) => {
-      setEntryAddress(s.data())
-    })
-  }, [id])
 
   return (
     <Layout title={formTitle}>
