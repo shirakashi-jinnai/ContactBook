@@ -121,7 +121,7 @@ const EntriesView: FC<Props> = (props) => {
         </IconButton>
 
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-          <Link href={`/${id}`}>
+          <Link href='/[id]' as={`/${id}`}>
             <MenuItem>
               <EditIcon />
               <a className={classes.link}>編集</a>

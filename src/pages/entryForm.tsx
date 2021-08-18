@@ -30,7 +30,7 @@ type EntryField = {
   address: Address
 }
 
-const EntryForm = ({ id, title='連絡先の登録' }) => {
+const EntryForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
   const { user } = useContext(UserContext)
@@ -84,9 +84,12 @@ const EntryForm = ({ id, title='連絡先の登録' }) => {
 
   useEffect(() => {
     if (!id) return
-    db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).onSnapshot((s) => {
-      setEntryAddress(s.data())
-    })
+    const unsub = db
+      .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+      .onSnapshot((s) => {
+        setEntryAddress(s.data())
+      })
+    return () => unsub()
   }, [id])
 
   return (
