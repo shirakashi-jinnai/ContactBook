@@ -8,7 +8,6 @@ import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { UserContext } from '../lib/context'
 
-console.log(new Date(1990, 11, 11))
 const useStyles = makeStyles({
   entryArea: {
     display: 'flex',
@@ -22,14 +21,7 @@ const useStyles = makeStyles({
   },
 })
 
-type Address = {
-  postalCode: string
-  prefectures: string
-  municipalities: string
-  houseNumber: string
-}
-
-type EntryForm = {
+type EntryField = {
   firstName: string
   lastName: string
   phoneNumber: number
@@ -42,7 +34,7 @@ const EntryForm = () => {
   const classes = useStyles()
   const router = useRouter()
   const { user } = useContext(UserContext)
-  const [entryAddress, setEntryAddress] = useState<EntryForm>({
+  const [entryAddress, setEntryAddress] = useState<EntryField>({
     firstName: '',
     lastName: '',
     phoneNumber: 0,
@@ -72,7 +64,7 @@ const EntryForm = () => {
   }
 
   //firestoreに保存
-  const saveEntryAddress = async (data: EntryForm) => {
+  const saveEntryAddress = async (data: EntryField) => {
     if (_.isEmpty(entryAddress.firstName) || _.isEmpty(entryAddress.lastName)) {
       alert('必須項目を入力してください')
       return
