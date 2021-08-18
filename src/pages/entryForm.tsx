@@ -70,6 +70,12 @@ const EntryForm = ({ id, title }) => {
       alert('必須項目を入力してください')
       return
     }
+    if (id) {
+      const contactRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+      await contactRef.set(data)
+      router.push('/')
+      return
+    }
 
     const contactsRef = db.collection(`users/${user.uid}/contacts`)
     await contactsRef.add(data)
@@ -83,7 +89,7 @@ const EntryForm = ({ id, title }) => {
       setEntryAddress(s.data())
     })
   }, [id])
-  
+
   return (
     <Layout title={formTitle}>
       <div className={classes.entryArea}>
