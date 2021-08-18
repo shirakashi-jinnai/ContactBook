@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import EntriesView from '../components/entriesView'
-import { Entry } from '../../additional'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -15,6 +14,10 @@ const useStyles = makeStyles({
     margin: '0 auto',
   },
 })
+
+interface Entry extends EntryField {
+  id: string
+}
 
 const Home = () => {
   const router = useRouter()
@@ -33,7 +36,12 @@ const Home = () => {
       <div className={classes.viewArea}>
         {user.contacts &&
           user.contacts.map((entry: Entry, i: number) => (
-            <EntriesView key={i} entry={entry} />
+            <EntriesView
+              key={i}
+              firstName={entry.firstName}
+              lastName={entry.lastName}
+              id={entry.id}
+            />
           ))}
       </div>
     </Layout>

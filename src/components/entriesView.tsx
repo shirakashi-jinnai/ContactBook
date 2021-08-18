@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useContext, useCallback } from 'react'
+import { useState, useContext, useCallback, FC } from 'react'
 import { useRouter } from 'next/router'
 import { db } from '../lib/firebase'
 import {
@@ -73,17 +73,15 @@ const RemoveModal = ({ modalOpen, close, id }) => {
 }
 
 type Props = {
-  entry: {
-    firstName: string
-    lastName: string
-    id: string
-  }
+  firstName: string
+  lastName: string
+  id: string
 }
 
-const EntriesView = (props: Props) => {
+const EntriesView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id } = props.entry
+  const { firstName, lastName, id } = props
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)

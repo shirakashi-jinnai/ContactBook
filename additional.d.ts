@@ -5,21 +5,11 @@ type Address = {
   houseNumber: string
 }
 
-export type EntryField = {
+interface EntryField {
   firstName: string
   lastName: string
   phoneNumber: number
   email: string
   birthday: Date | null
   address: Address
-}
-
-export type Entry = {
-  firstName: string
-  lastName: string
-  phoneNumber: number
-  email: string
-  birthday: Date | null
-  address: Address
-  id: string
 }

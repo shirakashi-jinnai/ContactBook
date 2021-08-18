@@ -7,7 +7,6 @@ import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { UserContext } from '../lib/context'
-import { EntryField } from '../../additional'
 
 const useStyles = makeStyles({
   entryArea: {
