@@ -77,7 +77,13 @@ const EntryForm = ({ id, title }) => {
     router.push('/')
   }
 
-
+  useEffect(() => {
+    if (!id) return
+    db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).onSnapshot((s) => {
+      setEntryAddress(s.data())
+    })
+  }, [id])
+  
   return (
     <Layout title={formTitle}>
       <div className={classes.entryArea}>
