@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useContext, useCallback, FC } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { db } from '../lib/firebase'
+import { auth, db } from '../lib/firebase'
 import {
   Button,
   Divider,
@@ -50,7 +50,7 @@ const RemoveModal = ({ modalOpen, close, id }) => {
   const classes = useStyles()
 
   const removeEntry = async (id: string) => {
-    await db.doc(`users/${user.uid}/contacts/${id}`).delete()
+    await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).delete()
     console.log('deleted!')
   }
 
