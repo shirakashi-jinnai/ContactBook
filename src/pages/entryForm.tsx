@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import { useState, useContext, ChangeEvent } from 'react'
+import { useState, useContext, ChangeEvent, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { db } from '../lib/firebase'
+import { auth, db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
@@ -30,7 +30,7 @@ type EntryField = {
   address: Address
 }
 
-const EntryForm = () => {
+const EntryForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
   const { user } = useContext(UserContext)
@@ -69,16 +69,26 @@ const EntryForm = () => {
       alert('必須項目を入力してください')
       return
     }
-    const contactsRef = db.collection(`users/${user.uid}/contacts`)
-    await contactsRef.add(data)
-    console.log('success!', user)
+
+    const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
+    id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')
   }
 
+  useEffect(() => {
+    if (!id) return
+    const unsub = db
+      .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+      .onSnapshot((s) => {
+        setEntryAddress(s.data())
+      })
+    return () => unsub()
+  }, [id])
+
   return (
-    <Layout title='連絡先の作成'>
+    <Layout title={title}>
       <div className={classes.entryArea}>
-        <h1>連絡先の作成</h1>
+        <h1>{title}</h1>
         <TextField
           label='姓(必須)'
           required

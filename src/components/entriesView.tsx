@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState, useContext, useCallback, FC } from 'react'
 import { useRouter } from 'next/router'
-import { db } from '../lib/firebase'
+import Link from 'next/link'
+import { auth, db } from '../lib/firebase'
 import {
   Button,
   Divider,
@@ -37,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: 20,
   },
+  link: {
+    color: 'inherit',
+    textDecoration: 'none',
+  },
 }))
 
 //削除時のモーダル
@@ -45,7 +50,7 @@ const RemoveModal = ({ modalOpen, close, id }) => {
   const classes = useStyles()
 
   const removeEntry = async (id: string) => {
-    await db.doc(`users/${user.uid}/contacts/${id}`).delete()
+    await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).delete()
     console.log('deleted!')
   }
 
@@ -114,15 +119,14 @@ const EntriesView: FC<Props> = (props) => {
         <IconButton onClick={handleClickMenu}>
           <MoreVertIcon />
         </IconButton>
+
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-          <MenuItem
-            onClick={() => {
-              //TODO:foo
-              handleCloseMenu()
-            }}>
-            <EditIcon />
-            編集
-          </MenuItem>
+          <Link href='/[id]' as={`/${id}`}>
+            <MenuItem>
+              <EditIcon />
+              <a className={classes.link}>編集</a>
+            </MenuItem>
+          </Link>
           <MenuItem
             onClick={() => {
               handleCloseMenu()
