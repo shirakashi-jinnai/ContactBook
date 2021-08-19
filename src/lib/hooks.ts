@@ -20,7 +20,10 @@ export const useUserState = () => {
         return
       }
       const unsub = db.collection(`users/${uid}/contacts`).onSnapshot((s) => {
-        const contacts = _.map(s.docs, (doc) => ({ id: doc.id, ...doc.data() }))
+        const contacts = _.map(s.docs, (doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
         setUser({ uid, contacts })
       })
       setInitializing(false)

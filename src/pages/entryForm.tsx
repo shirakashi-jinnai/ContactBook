@@ -70,9 +70,8 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
       return
     }
 
-    id
-      ? await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).set(data)
-      : await db.collection(`users/${user.uid}/contacts`).add(data)
+    const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
+    id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')
   }
 
