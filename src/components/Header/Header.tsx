@@ -11,6 +11,7 @@ import {
 import { Menu, Search } from '@material-ui/icons'
 import HeaderDrawer from './HeaderDrawer'
 import { useState } from 'react'
+import { auth } from '../../lib/firebase'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -27,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   searchicon: {
-    // padding: theme.spacing(0, 2),
     position: 'absolute',
     pointerEvents: 'none',
     height: '100%',
@@ -79,26 +78,28 @@ const Header = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position='fixed'>
-        <Toolbar>
-          <HeaderDrawer toggleDrawer={toggleDrawer} toggleOpen={toggleOpen} />
-          <Typography className={classes.title} variant='h6'>
-            連絡帳
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchicon}>
-              <Search />
+      {auth.currentUser && (
+        <AppBar position='fixed'>
+          <Toolbar>
+            <HeaderDrawer toggleDrawer={toggleDrawer} toggleOpen={toggleOpen} />
+            <Typography className={classes.title} variant='h6'>
+              連絡帳
+            </Typography>
+            <div className={classes.search}>
+              <div className={classes.searchicon}>
+                <Search />
+              </div>
+              <InputBase
+                placeholder='連絡先を検索'
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+              />
             </div>
-            <InputBase
-              placeholder='連絡先を検索'
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
+      )}
     </div>
   )
 }

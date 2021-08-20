@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import {
+  Divider,
   Drawer,
   IconButton,
   List,
@@ -7,12 +8,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core'
-import { useState } from 'react'
 import { Menu } from '@material-ui/icons'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+import { auth } from '../../lib/firebase'
 
 const HeaderDrawer = (props) => {
   const menus = [
@@ -23,8 +24,18 @@ const HeaderDrawer = (props) => {
       icon: <AddCircleOutlineIcon />,
     },
     { label: 'お気に入りリスト', path: '/entryForm', icon: <FavoriteIcon /> },
-    { label: 'サインアウト', path: '/entryForm', icon: <ExitToAppIcon /> },
+    // { label: 'サインアウト', path: '/entryForm', icon: <ExitToAppIcon /> },
   ]
+
+  const signout = async () => {
+    try {
+      await auth.signOut()
+      console.log('signout')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <IconButton onClick={(e) => props.toggleDrawer(true, e)}>
@@ -34,18 +45,25 @@ const HeaderDrawer = (props) => {
         anchor={'left'}
         open={props.toggleOpen}
         onClose={(e) => props.toggleDrawer(false, e)}>
-        {/* <div> */}
         <List>
           {menus.map((menu) => (
-            <Link href={menu.path}>
-              <ListItem button onClick={(e) => props.toggleDrawer(false, e)}>
-                <ListItemIcon>{menu.icon}</ListItemIcon>
-                <ListItemText primary={menu.label} />
-              </ListItem>
-            </Link>
+            <>
+              <Link href={menu.path}>
+                <ListItem button>
+                  <ListItemIcon>{menu.icon}</ListItemIcon>
+                  <ListItemText primary={menu.label} />
+                </ListItem>
+              </Link>
+              <Divider />
+            </>
           ))}
+          <ListItem button onClick={signout}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary='サインアウト' />
+          </ListItem>
         </List>
-        {/* </div> */}
       </Drawer>
     </>
   )

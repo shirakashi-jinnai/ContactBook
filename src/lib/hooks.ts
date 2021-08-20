@@ -14,11 +14,13 @@ export const useUserState = () => {
   )
 
   useEffect(() => {
-    auth.onAuthStateChanged(({ uid }) => {
-      if (!uid) {
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        setInitializing(false)
         router.push('/signup')
         return
       }
+      const uid = user.uid
       const unsub = db.collection(`users/${uid}/contacts`).onSnapshot((s) => {
         const contacts = _.map(s.docs, (doc) => ({
           id: doc.id,
