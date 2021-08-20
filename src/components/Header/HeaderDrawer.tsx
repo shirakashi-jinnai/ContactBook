@@ -20,11 +20,10 @@ const HeaderDrawer = (props) => {
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
       label: '連絡先を登録',
-      path: '/entryAddress',
+      path: '/entryForm',
       icon: <AddCircleOutlineIcon />,
     },
     { label: 'お気に入りリスト', path: '/entryForm', icon: <FavoriteIcon /> },
-    // { label: 'サインアウト', path: '/entryForm', icon: <ExitToAppIcon /> },
   ]
 
   const signout = async () => {
