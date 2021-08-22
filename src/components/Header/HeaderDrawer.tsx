@@ -15,7 +15,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import { auth } from '../../lib/firebase'
 
-const HeaderDrawer = (props) => {
+const HeaderDrawer = ({ toggleDrawer, toggleOpen }) => {
   const menus = [
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
@@ -26,9 +26,9 @@ const HeaderDrawer = (props) => {
     { label: 'お気に入りリスト', path: '/entryForm', icon: <FavoriteIcon /> },
   ]
 
-  const signout = async () => {
+  const signout = () => {
     try {
-      await auth.signOut()
+      auth.signOut()
       console.log('signout')
     } catch (error) {
       console.log(error)
@@ -37,13 +37,13 @@ const HeaderDrawer = (props) => {
 
   return (
     <>
-      <IconButton onClick={(e) => props.toggleDrawer(true, e)}>
+      <IconButton onClick={(e) => toggleDrawer(true, e)}>
         <Menu />
       </IconButton>
       <Drawer
         anchor={'left'}
-        open={props.toggleOpen}
-        onClose={(e) => props.toggleDrawer(false, e)}>
+        open={toggleOpen}
+        onClose={(e) => toggleDrawer(false, e)}>
         <List>
           {menus.map((menu) => (
             <>

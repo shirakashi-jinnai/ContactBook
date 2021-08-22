@@ -19,6 +19,7 @@ const Home = () => {
   const router = useRouter()
   const classes = useStyles()
   const { user } = useContext(UserContext)
+  console.log(user)
 
   return (
     <Layout title={'連絡帳'}>

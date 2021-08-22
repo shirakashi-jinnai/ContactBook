@@ -28,6 +28,7 @@ type EntryField = {
   email: string
   birthday: Date | null
   address: Address
+  liked: boolean
 }
 
 const EntryForm = ({ id, title = '連絡先の登録' }) => {
@@ -46,6 +47,7 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
       municipalities: '',
       houseNumber: '',
     },
+    liked: false,
   })
 
   const onChangeValue = (

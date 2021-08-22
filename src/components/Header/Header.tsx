@@ -73,7 +73,6 @@ const Header = () => {
       return
     }
     setToggleOpen(open)
-    console.log(open)
   }
 
   return (
