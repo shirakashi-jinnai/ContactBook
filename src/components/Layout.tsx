@@ -10,11 +10,11 @@ const useStyles = makeStyles({
   },
 })
 
-type props = {
+type Props = {
   title: string
 }
 
-const Layout: FC<props> = (props) => {
+const Layout: FC<Props> = (props) => {
   const classes = useStyles()
   return (
     <div>

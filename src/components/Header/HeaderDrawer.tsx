@@ -14,8 +14,14 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import { auth } from '../../lib/firebase'
+import { FC } from 'react'
 
-const HeaderDrawer = ({ toggleDrawer, toggleOpen }) => {
+type Drawer = {
+  toggleDrawer: (open: boolean, event: any) => void
+  toggleOpen: boolean
+}
+
+const HeaderDrawer: FC<Drawer> = ({ toggleDrawer, toggleOpen }) => {
   const menus = [
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
