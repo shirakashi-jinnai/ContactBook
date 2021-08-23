@@ -28,6 +28,7 @@ type EntryField = {
   email: string
   birthday: Date | null
   address: Address
+  liked: boolean
 }
 
 const EntryForm = ({ id, title = '連絡先の登録' }) => {
@@ -46,6 +47,7 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
       municipalities: '',
       houseNumber: '',
     },
+    liked: false,
   })
 
   const onChangeValue = (
@@ -80,7 +82,7 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .onSnapshot((s) => {
-        setEntryAddress(s.data())
+        setEntryAddress(s.data() as EntryField)
       })
     return () => unsub()
   }, [id])

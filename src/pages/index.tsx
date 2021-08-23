@@ -19,16 +19,10 @@ const Home = () => {
   const router = useRouter()
   const classes = useStyles()
   const { user } = useContext(UserContext)
+  console.log(user)
 
   return (
     <Layout title={'連絡帳'}>
-      <h1>hello nextjs</h1>
-      <Link href='/signup'>
-        <a>サインアップ</a>
-      </Link>
-      <Link href='/entryForm'>
-        <a>登録ページ</a>
-      </Link>
       <div className={classes.viewArea}>
         {user.contacts &&
           user.contacts.map((entry: Entry, i: number) => (

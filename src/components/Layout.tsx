@@ -2,12 +2,20 @@ import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Head from 'next/head'
 import { FC } from 'react'
+import Header from './Header/Header'
 
-type props = {
+const useStyles = makeStyles({
+  moduleSpacer: {
+    margin: 100,
+  },
+})
+
+type Props = {
   title: string
 }
 
-const Layout: FC<props> = (props) => {
+const Layout: FC<Props> = (props) => {
+  const classes = useStyles()
   return (
     <div>
       <Head>
@@ -15,6 +23,8 @@ const Layout: FC<props> = (props) => {
         <meta name='viewport' content='width=device-width,initial-scale=1.0' />
       </Head>
       <meta />
+      <Header />
+      <div className={classes.moduleSpacer} />
       <div>{props.children}</div>
     </div>
   )

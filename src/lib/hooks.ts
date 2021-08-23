@@ -14,18 +14,22 @@ export const useUserState = () => {
   )
 
   useEffect(() => {
-    auth.onAuthStateChanged(({ uid }) => {
-      if (!uid) {
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        setInitializing(false)
         router.push('/signup')
         return
       }
-      const unsub = db.collection(`users/${uid}/contacts`).onSnapshot((s) => {
-        const contacts = _.map(s.docs, (doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-        setUser({ uid, contacts })
-      })
+
+      const unsub = db
+        .collection(`users/${user.uid}/contacts`)
+        .onSnapshot((s) => {
+          const contacts = _.map(s.docs, (doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          setUser({ uid: user.uid, contacts })
+        })
       setInitializing(false)
       return () => unsub()
     })
