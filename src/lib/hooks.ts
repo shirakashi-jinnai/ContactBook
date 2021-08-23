@@ -20,16 +20,20 @@ export const useUserState = () => {
         router.push('/signup')
         return
       }
-
-      const unsub = db
-        .collection(`users/${user.uid}/contacts`)
-        .onSnapshot((s) => {
-          const contacts = _.map(s.docs, (doc) => ({
+      const colRef = db.collection(`users/${user.uid}/contacts`)
+      const unsub = colRef.onSnapshot((s) => {
+        const contacts = _.map(s.docs, (doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        colRef.where('liked', '==', true).onSnapshot((s) => {
+          const favorites = _.map(s.docs, (doc) => ({
             id: doc.id,
             ...doc.data(),
           }))
-          setUser({ uid: user.uid, contacts })
+          setUser({ uid: user.uid, contacts, favorites })
         })
+      })
       setInitializing(false)
       return () => unsub()
     })

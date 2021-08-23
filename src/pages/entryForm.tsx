@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/styles'
 import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
-import { UserContext } from '../lib/context'
 
 const useStyles = makeStyles({
   entryArea: {
@@ -34,7 +33,6 @@ type EntryField = {
 const EntryForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
-  const { user } = useContext(UserContext)
   const [entryAddress, setEntryAddress] = useState<EntryField>({
     firstName: '',
     lastName: '',
