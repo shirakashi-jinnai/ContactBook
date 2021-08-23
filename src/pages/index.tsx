@@ -6,7 +6,7 @@ import { db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import EntryView from '../components/entryView'
+import EntryView from '../components/EntryView'
 
 const useStyles = makeStyles({
   viewArea: {

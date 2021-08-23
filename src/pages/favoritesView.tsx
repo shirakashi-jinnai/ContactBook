@@ -3,7 +3,7 @@ import _ from 'lodash'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import { makeStyles } from '@material-ui/core'
-import EntryView from '../components/entryView'
+import EntryView from '../components/EntryView'
 
 const useStyles = makeStyles({
   viewArea: {
