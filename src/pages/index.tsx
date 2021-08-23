@@ -10,7 +10,7 @@ import EntriesView from '../components/entriesView'
 
 const useStyles = makeStyles({
   viewArea: {
-    maxWidth: 750,
+    maxWidth: 850,
     margin: '0 auto',
   },
 })
@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
-        {user.contacts &&
+        {user.contacts.length ? (
           user.contacts.map((entry: Entry, i: number) => (
             <EntriesView
               key={i}
@@ -33,7 +33,10 @@ const Home = () => {
               id={entry.id}
               liked={entry.liked}
             />
-          ))}
+          ))
+        ) : (
+          <p>連絡先が登録されていません。</p>
+        )}
       </div>
     </Layout>
   )
