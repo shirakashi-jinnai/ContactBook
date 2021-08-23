@@ -13,4 +13,5 @@ type Entry = {
   birthday: Date | null
   address: Address
   id: string
+  liked: boolen
 }

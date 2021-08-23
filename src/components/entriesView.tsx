@@ -17,8 +17,10 @@ import { makeStyles } from '@material-ui/styles'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { UserContext } from '../lib/context'
+import { likedFunc } from '../lib/utils'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -46,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
 //削除時のモーダル
 const RemoveModal = ({ modalOpen, close, id }) => {
-  const { user } = useContext(UserContext)
   const classes = useStyles()
 
   const removeEntry = async (id: string) => {
@@ -81,12 +82,13 @@ type Props = {
   firstName: string
   lastName: string
   id: string
+  liked: boolean
 }
 
 const EntriesView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id } = props
+  const { firstName, lastName, id, liked } = props
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -113,8 +115,8 @@ const EntriesView: FC<Props> = (props) => {
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
       <ListItem button className={classes.item}>
         <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton>
-          <FavoriteIcon />
+        <IconButton onClick={() => likedFunc(id, liked)}>
+          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <IconButton onClick={handleClickMenu}>
           <MoreVertIcon />

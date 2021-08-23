@@ -26,7 +26,7 @@ export const useUserState = () => {
           id: doc.id,
           ...doc.data(),
         }))
-        colRef.where('liked', '==', true).onSnapshot((s) => {
+        colRef.where('liked', '==', true).get().then((s) => {
           const favorites = _.map(s.docs, (doc) => ({
             id: doc.id,
             ...doc.data(),

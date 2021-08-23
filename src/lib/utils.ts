@@ -23,3 +23,8 @@ export const sendEmail = async (email: string) => {
     alert(error.message)
   }
 }
+
+export const likedFunc = async (id: string, liked: boolean) => {
+  const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+  await docRef.update({ liked: !liked })
+}

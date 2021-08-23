@@ -31,6 +31,7 @@ const Home = () => {
               firstName={entry.firstName}
               lastName={entry.lastName}
               id={entry.id}
+              liked={entry.liked}
             />
           ))}
       </div>
