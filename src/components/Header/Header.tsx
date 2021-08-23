@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core'
-import { Menu, Search } from '@material-ui/icons'
+import SearchIcon from '@material-ui/icons/Search'
 import HeaderDrawer from './HeaderDrawer'
 import { useState } from 'react'
 import { auth } from '../../lib/firebase'
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   },
-  searchicon: {
+  searchIcon: {
     position: 'absolute',
     pointerEvents: 'none',
     height: '100%',
@@ -59,34 +59,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
   const classes = useStyles()
-  const [toggleOpen, setToggleOpen] = useState(false)
-
-  const toggleDrawer = (
-    open: boolean,
-    e: React.KeyboardEvent | React.MouseEvent
-  ) => {
-    if (
-      e.type === 'keydown' &&
-      ((e as React.KeyboardEvent).key === 'Tab' ||
-        (e as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return
-    }
-    setToggleOpen(open)
-  }
 
   return (
     <div className={classes.grow}>
       {auth.currentUser && (
         <AppBar position='fixed'>
           <Toolbar>
-            <HeaderDrawer toggleDrawer={toggleDrawer} toggleOpen={toggleOpen} />
+            <HeaderDrawer />
             <Typography className={classes.title} variant='h6'>
               連絡帳
             </Typography>
             <div className={classes.search}>
-              <div className={classes.searchicon}>
-                <Search />
+              <div className={classes.searchIcon}>
+                <SearchIcon />
               </div>
               <InputBase
                 placeholder='連絡先を検索'

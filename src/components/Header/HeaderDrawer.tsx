@@ -14,14 +14,21 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import { auth } from '../../lib/firebase'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
-type Drawer = {
-  toggleDrawer: (open: boolean, event: any) => void
-  toggleOpen: boolean
-}
+const HeaderDrawer: FC = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-const HeaderDrawer: FC<Drawer> = ({ toggleDrawer, toggleOpen }) => {
+  const toggleDrawer = (setDrawerOpen: boolean, e: any) => {
+    if (
+      e.type === 'keydown' &&
+      ((e as React.KeyboardEvent).key === 'Tab' ||
+        (e as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return
+    }
+    setIsDrawerOpen(setDrawerOpen)
+  }
   const menus = [
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
@@ -47,8 +54,8 @@ const HeaderDrawer: FC<Drawer> = ({ toggleDrawer, toggleOpen }) => {
         <Menu />
       </IconButton>
       <Drawer
-        anchor={'left'}
-        open={toggleOpen}
+        anchor='left'
+        open={isDrawerOpen}
         onClose={(e) => toggleDrawer(false, e)}>
         <List>
           {menus.map((menu) => (
