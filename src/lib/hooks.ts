@@ -26,13 +26,7 @@ export const useUserState = () => {
           id: doc.id,
           ...doc.data(),
         }))
-        colRef.where('liked', '==', true).get().then((s) => {
-          const favorites = _.map(s.docs, (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-          setUser({ uid: user.uid, contacts, favorites })
-        })
+        setUser({ uid: user.uid, contacts })
       })
       setInitializing(false)
       return () => unsub()

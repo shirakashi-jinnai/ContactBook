@@ -64,7 +64,7 @@ const HeaderDrawer: FC = () => {
         <List>
           {menus.map((menu) => (
             <>
-              <Link href={menu.path}>
+              <Link href={menu.path} passHref>
                 <ListItem button>
                   <ListItemIcon>{menu.icon}</ListItemIcon>
                   <ListItemText primary={menu.label} />

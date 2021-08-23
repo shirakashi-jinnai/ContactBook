@@ -20,7 +20,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { UserContext } from '../lib/context'
-import { likedFunc } from '../lib/utils'
+import { likedSwitch } from '../lib/utils'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -79,16 +79,13 @@ const RemoveModal = ({ modalOpen, close, id }) => {
 }
 
 type Props = {
-  firstName: string
-  lastName: string
-  id: string
-  liked: boolean
+  entry: Entry
 }
 
-const EntriesView: FC<Props> = (props) => {
+const EntryView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id, liked } = props
+  const { firstName, lastName, id, liked } = props.entry
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -115,7 +112,7 @@ const EntriesView: FC<Props> = (props) => {
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
       <ListItem button className={classes.item}>
         <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton onClick={() => likedFunc(id, liked)}>
+        <IconButton onClick={() => likedSwitch(id, liked)}>
           {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <IconButton onClick={handleClickMenu}>
@@ -123,7 +120,7 @@ const EntriesView: FC<Props> = (props) => {
         </IconButton>
 
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-          <Link href='/[id]' as={`/${id}`}>
+          <Link href='/[id]' as={`/${id}`} passHref>
             <MenuItem>
               <EditIcon />
               <a className={classes.link}>編集</a>
@@ -144,4 +141,4 @@ const EntriesView: FC<Props> = (props) => {
   )
 }
 
-export default EntriesView
+export default EntryView

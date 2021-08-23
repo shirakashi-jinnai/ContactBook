@@ -1,8 +1,9 @@
-import Layout from '../components/Layout'
 import { useContext } from 'react'
+import _ from 'lodash'
+import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import EntriesView from '../components/entriesView'
 import { makeStyles } from '@material-ui/core'
+import EntryView from '../components/entryView'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -14,17 +15,15 @@ const useStyles = makeStyles({
 const FavoriteView = () => {
   const classes = useStyles()
   const { user } = useContext(UserContext)
+  const favorites = user.contacts.filter(
+    (contact: Entry) => contact.liked === true
+  )
   return (
     <Layout title='お気に入りリスト'>
       <div className={classes.viewArea}>
-        {user.favorites.length ? (
-          user.favorites.map((favorite: Entry) => (
-            <EntriesView
-              firstName={favorite.firstName}
-              lastName={favorite.lastName}
-              id={favorite.id}
-              liked={favorite.liked}
-            />
+        {!_.isEmpty(favorites) ? (
+          favorites.map((favorite: Entry, i: number) => (
+            <EntryView key={i} entry={favorite} />
           ))
         ) : (
           <p>お気に入りが登録されていません。</p>

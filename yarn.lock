@@ -734,6 +734,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cors@^2.8.5":
+  "integrity" "sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw=="
+  "resolved" "https://registry.npmjs.org/@types/cors/-/cors-2.8.12.tgz"
+  "version" "2.8.12"
+
 "@types/duplexify@^3.6.0":
   "integrity" "sha512-5zOA53RUlzN74bvrSGwjudssD9F3a797sDZQkiYpUOxW+WHaXTCPz4/d5Dgi6FKnOqZ2CpaTo0DhgIfsXAOE/A=="
   "resolved" "https://registry.npmjs.org/@types/duplexify/-/duplexify-3.6.0.tgz"
@@ -3242,11 +3247,12 @@
     "@types/lodash" "^4.14.104"
     "lodash" "^4.17.5"
 
-"firebase-functions@^3.13.1", "firebase-functions@>=2.0.0":
-  "integrity" "sha512-hL/qm+i5i1qKYmAFMlQ4mwRngDkP+3YT3F4E4Nd5Hj2QKeawBdZiMGgEt6zqTx08Zq04vHiSnSM0z75UJRSg6Q=="
-  "resolved" "https://registry.npmjs.org/firebase-functions/-/firebase-functions-3.14.1.tgz"
-  "version" "3.14.1"
+"firebase-functions@^3.15.4", "firebase-functions@>=2.0.0":
+  "integrity" "sha512-6Zq+QIqdslZLsSwWg25Hv39cgFBZr0oUAbCjfe/MXqSHMy8ZK/1Vdy/WKx5IRC6hE7+JrmfVylIyEonTyNcheA=="
+  "resolved" "https://registry.npmjs.org/firebase-functions/-/firebase-functions-3.15.4.tgz"
+  "version" "3.15.4"
   dependencies:
+    "@types/cors" "^2.8.5"
     "@types/express" "4.17.3"
     "cors" "^2.8.5"
     "express" "^4.17.1"
