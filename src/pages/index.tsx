@@ -6,11 +6,11 @@ import { db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import EntriesView from '../components/entriesView'
+import EntryView from '../components/EntryView'
 
 const useStyles = makeStyles({
   viewArea: {
-    maxWidth: 750,
+    maxWidth: 850,
     margin: '0 auto',
   },
 })
@@ -24,15 +24,13 @@ const Home = () => {
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
-        {user.contacts &&
+        {!_.isEmpty(user.contacts) ? (
           user.contacts.map((entry: Entry, i: number) => (
-            <EntriesView
-              key={i}
-              firstName={entry.firstName}
-              lastName={entry.lastName}
-              id={entry.id}
-            />
-          ))}
+            <EntryView key={i} entry={entry} />
+          ))
+        ) : (
+          <p>連絡先が登録されていません。</p>
+        )}
       </div>
     </Layout>
   )

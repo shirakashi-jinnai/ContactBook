@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/styles'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { UserContext } from '../lib/context'
 
@@ -46,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 
 //削除時のモーダル
 const RemoveModal = ({ modalOpen, close, id }) => {
-  const { user } = useContext(UserContext)
   const classes = useStyles()
 
   const removeEntry = async (id: string) => {
@@ -78,15 +78,13 @@ const RemoveModal = ({ modalOpen, close, id }) => {
 }
 
 type Props = {
-  firstName: string
-  lastName: string
-  id: string
+  entry: Entry
 }
 
-const EntriesView: FC<Props> = (props) => {
+const EntryView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id } = props
+  const { firstName, lastName, id, liked } = props.entry
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -108,20 +106,25 @@ const EntriesView: FC<Props> = (props) => {
     setModalOpen(false)
   }
 
+  const toggleLike = async () => {
+    const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+    await docRef.update({ liked: !liked })
+  }
+
   return (
     <>
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
       <ListItem button className={classes.item}>
         <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton>
-          <FavoriteIcon />
+        <IconButton onClick={toggleLike}>
+          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <IconButton onClick={handleClickMenu}>
           <MoreVertIcon />
         </IconButton>
 
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-          <Link href='/[id]' as={`/${id}`}>
+          <Link href='/[id]' as={`/${id}`} passHref>
             <MenuItem>
               <EditIcon />
               <a className={classes.link}>編集</a>
@@ -142,4 +145,4 @@ const EntriesView: FC<Props> = (props) => {
   )
 }
 
-export default EntriesView
+export default EntryView

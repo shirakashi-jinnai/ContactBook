@@ -36,7 +36,11 @@ const HeaderDrawer: FC = () => {
       path: '/entryForm',
       icon: <AddCircleOutlineIcon />,
     },
-    { label: 'お気に入りリスト', path: '/entryForm', icon: <FavoriteIcon /> },
+    {
+      label: 'お気に入りリスト',
+      path: '/favoritesView',
+      icon: <FavoriteIcon />,
+    },
   ]
 
   const signout = () => {
@@ -60,7 +64,7 @@ const HeaderDrawer: FC = () => {
         <List>
           {menus.map((menu) => (
             <>
-              <Link href={menu.path}>
+              <Link href={menu.path} passHref>
                 <ListItem button>
                   <ListItemIcon>{menu.icon}</ListItemIcon>
                   <ListItemText primary={menu.label} />

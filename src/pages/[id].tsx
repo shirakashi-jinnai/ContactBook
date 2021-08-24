@@ -1,4 +1,4 @@
-import EntryForm from './entryForm'
+import EntryForm from './EntryForm'
 import { useRouter } from 'next/dist/client/router'
 
 const EntryEdit = () => {
