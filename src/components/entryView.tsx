@@ -106,7 +106,7 @@ const EntryView: FC<Props> = (props) => {
     setModalOpen(false)
   }
 
-  const switchBookmark = async () => {
+  const toggleLike = async () => {
     const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
     await docRef.update({ liked: !liked })
   }
@@ -116,7 +116,7 @@ const EntryView: FC<Props> = (props) => {
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
       <ListItem button className={classes.item}>
         <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton onClick={switchBookmark}>
+        <IconButton onClick={toggleLike}>
           {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <IconButton onClick={handleClickMenu}>

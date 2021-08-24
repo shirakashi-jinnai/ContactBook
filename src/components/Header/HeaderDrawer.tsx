@@ -38,7 +38,7 @@ const HeaderDrawer: FC = () => {
     },
     {
       label: 'お気に入りリスト',
-      path: '/FavoritesView',
+      path: '/favoritesView',
       icon: <FavoriteIcon />,
     },
   ]
