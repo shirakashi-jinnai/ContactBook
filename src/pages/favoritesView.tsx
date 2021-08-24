@@ -15,9 +15,7 @@ const useStyles = makeStyles({
 const FavoriteView = () => {
   const classes = useStyles()
   const { user } = useContext(UserContext)
-  const favorites = user.contacts.filter(
-    (contact: Entry) => contact.liked === true
-  )
+  const favorites = _.filter(user.contacts, 'liked')
   return (
     <Layout title='お気に入りリスト'>
       <div className={classes.viewArea}>

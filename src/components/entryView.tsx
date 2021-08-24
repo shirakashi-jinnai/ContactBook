@@ -20,7 +20,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { UserContext } from '../lib/context'
-import { likedSwitch } from '../lib/utils'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -107,12 +106,17 @@ const EntryView: FC<Props> = (props) => {
     setModalOpen(false)
   }
 
+  const switchBookmark = async () => {
+    const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+    await docRef.update({ liked: !liked })
+  }
+
   return (
     <>
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
       <ListItem button className={classes.item}>
         <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton onClick={() => likedSwitch(id, liked)}>
+        <IconButton onClick={switchBookmark}>
           {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <IconButton onClick={handleClickMenu}>
