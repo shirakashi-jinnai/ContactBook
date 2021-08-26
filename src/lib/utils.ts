@@ -26,7 +26,7 @@ export const sendEmail = async (email: string) => {
 }
 
 //birthday から年齢を求める
-const ageCounter = (birthday: string): number => {
+const findAge = (birthday: string): number => {
   const now = new Date()
   const year = now.getFullYear()
   const month = now.getMonth() + 1
@@ -63,9 +63,9 @@ export const searchItems = (
     return searchKeywords
   }
 
-  const haveBirthdayUsers = _.filter(searchKeywords, 'birthday')
-  const searchAgeRange = haveBirthdayUsers.filter(({ birthday }) => {
-    const age = ageCounter(birthday)
+  const haveBirthdayContacts = _.filter(searchKeywords, 'birthday')
+  const searchAgeRange = haveBirthdayContacts.filter(({ birthday }) => {
+    const age = findAge(birthday)
     if (ranges.length !== 1) {
       return age >= Number(ranges[0]) && age <= Number(ranges[1])
     } else {
