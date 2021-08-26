@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import EntryView from '../components/EntryView'
+import { searchItems } from '../lib/utils'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -16,16 +17,32 @@ const useStyles = makeStyles({
 })
 
 const Home = () => {
-  const router = useRouter()
   const classes = useStyles()
   const { user } = useContext(UserContext)
-  console.log(user)
+  const { contacts, isSearchKeywords, isSearchAgeRange, keywords, ageRange } =
+    user
+
+  const isSearching = isSearchKeywords || isSearchAgeRange
+
+  const items = searchItems(
+    contacts,
+    keywords,
+    ageRange.ranges,
+    ageRange.isLessThan
+  )
 
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
+        {isSearching && (
+          <p>
+            {items.length}件/
+            {contacts.length}件のヒット
+          </p>
+        )}
+
         {!_.isEmpty(user.contacts) ? (
-          user.contacts.map((entry: Entry, i: number) => (
+          (isSearching ? items : contacts).map((entry: Entry, i: number) => (
             <EntryView key={i} entry={entry} />
           ))
         ) : (

@@ -63,7 +63,8 @@ export const searchItems = (
     return searchKeywords
   }
 
-  const searchAgeRange = searchKeywords.filter(({ birthday }) => {
+  const haveBirthdayUsers = _.filter(searchKeywords, 'birthday')
+  const searchAgeRange = haveBirthdayUsers.filter(({ birthday }) => {
     const age = ageCounter(birthday)
     if (ranges.length !== 1) {
       return age >= Number(ranges[0]) && age <= Number(ranges[1])
