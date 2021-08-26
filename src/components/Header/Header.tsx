@@ -74,6 +74,21 @@ const Header = () => {
   const classes = useStyles()
   const [age, setAge] = useState<string>('')
   const { user, setUser } = useContext(UserContext)
+  let isKeywords = false
+
+  const onChangeKeywords = (e) => {
+    const value = e.target.value
+    isKeywords = !_.isEmpty(value)
+
+    let keywords = value
+      .trim()
+      .toLowerCase()
+      .match(/[^\s]+/g)
+
+    keywords = keywords || []
+
+    setUser({ keywords, isSearchKeywords: isKeywords })
+  }
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAge(event.target.value as string)
@@ -124,6 +139,7 @@ const Header = () => {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                onChange={onChangeKeywords}
               />
             </div>
             <FormControl className={classes.form}>
