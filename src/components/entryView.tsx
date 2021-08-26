@@ -124,7 +124,7 @@ const EntryView: FC<Props> = (props) => {
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
         <TableCell>{address.prefectures}</TableCell>
         <TableCell>{birthday}</TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <IconButton onClick={toggleLike}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
