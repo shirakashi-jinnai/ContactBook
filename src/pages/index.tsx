@@ -19,10 +19,9 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { user } = useContext(UserContext)
-  const { contacts, isSearchKeywords, isSearchAgeRange, keywords, ageRange } =
-    user
+  const { contacts, keywords, ageRange } = user
 
-  const isSearching = isSearchKeywords || isSearchAgeRange
+  const isSearching = !_.isEmpty(keywords) || !_.isEmpty(ageRange.ranges)
 
   const items = searchItems(
     contacts,

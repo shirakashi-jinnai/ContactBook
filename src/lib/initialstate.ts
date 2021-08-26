@@ -4,7 +4,5 @@ export const initialState = {
     contacts: [],
     keywords: [],
     ageRange: { ranges: [], isLessThan: false },
-    isSearchAgeRange: false,
-    isSearchKeywords: false,
   },
 }
