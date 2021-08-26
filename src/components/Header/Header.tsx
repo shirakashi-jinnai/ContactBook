@@ -1,17 +1,22 @@
+import _ from 'lodash'
+import { useState, useContext } from 'react'
+import { auth } from '../../lib/firebase'
 import {
   alpha,
   AppBar,
+  FormControl,
   IconButton,
   InputBase,
+  InputLabel,
   makeStyles,
   MenuItem,
+  Select,
   Toolbar,
   Typography,
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import HeaderDrawer from './HeaderDrawer'
-import { useState } from 'react'
-import { auth } from '../../lib/firebase'
+import { UserContext } from '../../lib/context'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -55,10 +60,50 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  select: {
+    color: 'white',
+    marginTop: theme.spacing(2),
+  },
+  form: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }))
 
 const Header = () => {
   const classes = useStyles()
+  const [age, setAge] = useState<string>('')
+  const { user, setUser } = useContext(UserContext)
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setAge(event.target.value as string)
+  }
+
+  const onChangeRange = (range: string) => {
+    if (_.isEmpty(range)) {
+      setUser({
+        ...user,
+        isSearchAgeRange: false,
+        ageRange: { ranges: [], isLessThan: false },
+      })
+      return
+    }
+    const ranges: string[] = range.match(/\d./g)
+    const isLessThan: boolean = /[未満]/.test(range)
+    setUser({ ageRange: { ranges, isLessThan }, isSearchAgeRange: true })
+  }
+
+  const options = [
+    { label: '10歳未満' },
+    { label: '10歳~19歳' },
+    { label: '20歳~29歳' },
+    { label: '30歳~39歳' },
+    { label: '40歳~49歳' },
+    { label: '50歳~59歳' },
+    { label: '60歳~69歳' },
+    { label: '70歳~79歳' },
+    { label: '80歳以上' },
+  ]
 
   return (
     <div className={classes.grow}>
@@ -81,6 +126,24 @@ const Header = () => {
                 }}
               />
             </div>
+            <FormControl className={classes.form}>
+              <Select
+                className={classes.select}
+                value={age}
+                onChange={handleChange}>
+                <MenuItem value='None' onClick={() => onChangeRange('')}>
+                  <em>年齢検索</em>
+                </MenuItem>
+                {options.map((option, i) => (
+                  <MenuItem
+                    key={i}
+                    value={option.label}
+                    onClick={() => onChangeRange(option.label)}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Toolbar>
         </AppBar>
       )}
