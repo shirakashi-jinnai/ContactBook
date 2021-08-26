@@ -5,18 +5,11 @@ import Link from 'next/link'
 import { auth, db } from '../lib/firebase'
 import {
   Button,
-  Divider,
   IconButton,
-  ListItem,
-  ListItemText,
   Menu,
   MenuItem,
   Modal,
-  Table,
-  TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   TableRow,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
@@ -25,7 +18,6 @@ import EditIcon from '@material-ui/icons/Edit'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import { UserContext } from '../lib/context'
 
 const useStyles = makeStyles((theme) => ({
   item: {

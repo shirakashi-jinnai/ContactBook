@@ -53,10 +53,13 @@ export const searchItems = (
   isLessThan: boolean
 ) => {
   const searchKeywords = items.filter(
-    ({ firstName, lastName }) =>
+    ({ firstName, lastName, address }) =>
       keywords &&
       keywords.every(
-        (kw: string) => (firstName + lastName).toLowerCase().indexOf(kw) !== -1
+        (kw: string) =>
+          (firstName + lastName + address.prefectures)
+            .toLowerCase()
+            .indexOf(kw) !== -1
       )
   )
   if (!ranges.length) {
