@@ -47,7 +47,7 @@ const findAge = (birthday: string): number => {
 }
 
 export const searchItems = (
-  items,
+  items: Entry[],
   keywords: string[],
   ranges: string[],
   isLessThan: boolean

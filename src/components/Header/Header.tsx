@@ -78,20 +78,16 @@ const Header = () => {
   const classes = useStyles()
   const [age, setAge] = useState<string>('')
   const { user, setUser } = useContext(UserContext)
-  let isKeywords = false
 
   const onChangeKeywords = (e) => {
     const value = e.target.value
-    isKeywords = !_.isEmpty(value)
-
     let keywords = value
       .trim()
       .toLowerCase()
       .match(/[^\s]+/g)
 
     keywords = keywords || []
-
-    setUser({ keywords, isSearchKeywords: isKeywords })
+    setUser({ keywords })
   }
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -103,13 +99,13 @@ const Header = () => {
       setUser({
         ...user,
         isSearchAgeRange: false,
-        ageRange: { ranges: [], isLessThan: false },
+        ageRange: { ranges: [] },
       })
       return
     }
     const ranges: string[] = range.match(/\d./g)
     const isLessThan: boolean = /[未満]/.test(range)
-    setUser({ ageRange: { ranges, isLessThan }, isSearchAgeRange: true })
+    setUser({ ageRange: { ranges, isLessThan } })
   }
 
   const options = [
