@@ -8,6 +8,14 @@ import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import EntryView from '../components/EntryView'
 import { searchItems } from '../lib/utils'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -39,14 +47,29 @@ const Home = () => {
             {contacts.length}件のヒット
           </p>
         )}
-
-        {!_.isEmpty(user.contacts) ? (
-          (isSearching ? items : contacts).map((entry: Entry, i: number) => (
-            <EntryView key={i} entry={entry} />
-          ))
-        ) : (
-          <p>連絡先が登録されていません。</p>
-        )}
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>名前</TableCell>
+                <TableCell>住所</TableCell>
+                <TableCell>生年月日</TableCell>
+                <TableCell align='center'>その他</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!_.isEmpty(user.contacts) ? (
+                (isSearching ? items : contacts).map(
+                  (entry: Entry, i: number) => (
+                    <EntryView key={i} entry={entry} />
+                  )
+                )
+              ) : (
+                <p>連絡先が登録されていません。</p>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </Layout>
   )

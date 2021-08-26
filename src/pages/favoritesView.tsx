@@ -2,7 +2,15 @@ import { useContext } from 'react'
 import _ from 'lodash'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import { makeStyles } from '@material-ui/core'
+import {
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core'
 import EntryView from '../components/EntryView'
 import { searchItems } from '../lib/utils'
 
@@ -39,15 +47,29 @@ const FavoriteView = () => {
           </p>
         )}
 
-        {!_.isEmpty(favorites) ? (
-          (isSearching ? items : favorites).map(
-            (favorite: Entry, i: number) => (
-              <EntryView key={i} entry={favorite} />
-            )
-          )
-        ) : (
-          <p>連絡先が登録されていません。</p>
-        )}
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>名前</TableCell>
+                <TableCell>住所</TableCell>
+                <TableCell>生年月日</TableCell>
+                <TableCell align='center'>その他</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!_.isEmpty(favorites) ? (
+                (isSearching ? items : favorites).map(
+                  (favorite: Entry, i: number) => (
+                    <EntryView key={i} entry={favorite} />
+                  )
+                )
+              ) : (
+                <p>連絡先が登録されていません。</p>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </Layout>
   )

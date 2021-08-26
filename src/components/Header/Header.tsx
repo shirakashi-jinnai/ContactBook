@@ -5,6 +5,7 @@ import {
   alpha,
   AppBar,
   FormControl,
+  FormHelperText,
   IconButton,
   InputBase,
   InputLabel,
@@ -67,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
   form: {
     margin: theme.spacing(1),
     minWidth: 120,
+  },
+  helperText: {
+    color: '#fff',
   },
 }))
 
@@ -147,8 +151,8 @@ const Header = () => {
                 className={classes.select}
                 value={age}
                 onChange={handleChange}>
-                <MenuItem value='None' onClick={() => onChangeRange('')}>
-                  <em>年齢検索</em>
+                <MenuItem value='' onClick={() => onChangeRange('')}>
+                  <em>None</em>
                 </MenuItem>
                 {options.map((option, i) => (
                   <MenuItem
@@ -159,6 +163,9 @@ const Header = () => {
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText className={classes.helperText}>
+                年齢検索
+              </FormHelperText>
             </FormControl>
           </Toolbar>
         </AppBar>

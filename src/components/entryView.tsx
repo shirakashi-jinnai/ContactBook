@@ -12,6 +12,12 @@ import {
   Menu,
   MenuItem,
   Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -84,7 +90,7 @@ type Props = {
 const EntryView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id, liked } = props.entry
+  const { firstName, lastName, id, liked, address, birthday } = props.entry
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -114,33 +120,36 @@ const EntryView: FC<Props> = (props) => {
   return (
     <>
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
-      <ListItem button className={classes.item}>
-        <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton onClick={toggleLike}>
-          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </IconButton>
-        <IconButton onClick={handleClickMenu}>
-          <MoreVertIcon />
-        </IconButton>
+      <TableRow>
+        <TableCell>{`${lastName} ${firstName}`}</TableCell>
+        <TableCell>{address.prefectures}</TableCell>
+        <TableCell>{birthday}</TableCell>
+        <TableCell align="center">
+          <IconButton onClick={toggleLike}>
+            {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
+          <IconButton onClick={handleClickMenu}>
+            <MoreVertIcon />
+          </IconButton>
+        </TableCell>
+      </TableRow>
 
-        <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-          <Link href='/[id]' as={`/${id}`} passHref>
-            <MenuItem>
-              <EditIcon />
-              <a className={classes.link}>編集</a>
-            </MenuItem>
-          </Link>
-          <MenuItem
-            onClick={() => {
-              handleCloseMenu()
-              handleOpenModal()
-            }}>
-            <DeleteIcon />
-            削除
+      <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
+        <Link href='/[id]' as={`/${id}`} passHref>
+          <MenuItem>
+            <EditIcon />
+            <a className={classes.link}>編集</a>
           </MenuItem>
-        </Menu>
-      </ListItem>
-      <Divider />
+        </Link>
+        <MenuItem
+          onClick={() => {
+            handleCloseMenu()
+            handleOpenModal()
+          }}>
+          <DeleteIcon />
+          削除
+        </MenuItem>
+      </Menu>
     </>
   )
 }
