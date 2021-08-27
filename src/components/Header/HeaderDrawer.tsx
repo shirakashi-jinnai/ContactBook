@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import React from 'react'
 import {
   Divider,
   Drawer,
@@ -62,8 +63,8 @@ const HeaderDrawer: FC = () => {
         open={isDrawerOpen}
         onClose={(e) => toggleDrawer(false, e)}>
         <List>
-          {menus.map((menu) => (
-            <>
+          {menus.map((menu, i) => (
+            <React.Fragment key={i}>
               <Link href={menu.path} passHref>
                 <ListItem button>
                   <ListItemIcon>{menu.icon}</ListItemIcon>
@@ -71,7 +72,7 @@ const HeaderDrawer: FC = () => {
                 </ListItem>
               </Link>
               <Divider />
-            </>
+            </React.Fragment>
           ))}
           <ListItem button onClick={signout}>
             <ListItemIcon>

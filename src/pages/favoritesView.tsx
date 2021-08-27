@@ -62,7 +62,9 @@ const FavoriteView = () => {
                   <EntryView key={i} entry={favorite} />
                 ))
               ) : (
-                <p>連絡先が登録されていません。</p>
+                <TableRow>
+                  <TableCell>連絡先が登録されていません。</TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>

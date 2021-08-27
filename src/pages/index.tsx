@@ -59,7 +59,9 @@ const Home = () => {
                   <EntryView key={i} entry={entry} />
                 ))
               ) : (
-                <p>連絡先が登録されていません。</p>
+                <TableRow>
+                  <TableCell>連絡先が登録されていません。</TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>
