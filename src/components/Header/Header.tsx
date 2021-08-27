@@ -6,9 +6,7 @@ import {
   AppBar,
   FormControl,
   FormHelperText,
-  IconButton,
   InputBase,
-  InputLabel,
   makeStyles,
   MenuItem,
   Select,
@@ -79,7 +77,11 @@ const Header = () => {
   const [age, setAge] = useState<string>('')
   const { user, setUser } = useContext(UserContext)
 
-  const onChangeKeywords = (e) => {
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setAge(event.target.value as string)
+  }
+
+  const onKeywordsChange = (e) => {
     const value = e.target.value
     let keywords = value
       .trim()
@@ -90,11 +92,7 @@ const Header = () => {
     setUser({ keywords })
   }
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string)
-  }
-
-  const onChangeRange = (range: string) => {
+  const onRangeChange = (range: string) => {
     if (_.isEmpty(range)) {
       setUser({
         ...user,
@@ -108,7 +106,7 @@ const Header = () => {
     setUser({ ageRange: { ranges, isLessThan } })
   }
 
-  const options = [
+  const ageFilterOptions = [
     { label: '10歳未満' },
     { label: '10歳~19歳' },
     { label: '20歳~29歳' },
@@ -139,7 +137,7 @@ const Header = () => {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
-                onChange={onChangeKeywords}
+                onChange={onKeywordsChange}
               />
             </div>
             <FormControl className={classes.form}>
@@ -147,14 +145,14 @@ const Header = () => {
                 className={classes.select}
                 value={age}
                 onChange={handleChange}>
-                <MenuItem value='' onClick={() => onChangeRange('')}>
+                <MenuItem value='' onClick={() => onRangeChange('')}>
                   <em>None</em>
                 </MenuItem>
-                {options.map((option, i) => (
+                {ageFilterOptions.map((option, i) => (
                   <MenuItem
                     key={i}
                     value={option.label}
-                    onClick={() => onChangeRange(option.label)}>
+                    onClick={() => onRangeChange(option.label)}>
                     {option.label}
                   </MenuItem>
                 ))}

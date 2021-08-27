@@ -2,7 +2,7 @@ export const initialState = {
   user: {
     uid: '',
     contacts: [],
-    keywords: [],
-    ageRange: { ranges: [], isLessThan: false },
+    keywordsCondition: [],
+    ageRangeCondition: { ranges: [], isLessThan: false },
   },
 }
