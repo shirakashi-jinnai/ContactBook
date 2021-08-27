@@ -7,6 +7,7 @@ import {
   FormControl,
   FormHelperText,
   InputBase,
+  InputLabel,
   makeStyles,
   MenuItem,
   Select,
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
-  helperText: {
+  inputLabel: {
     color: '#fff',
   },
 }))
@@ -131,11 +132,17 @@ const Header = () => {
               />
             </div>
             <FormControl className={classes.form}>
+              <InputLabel className={classes.inputLabel} id='search-age-label'>
+                年齢検索
+              </InputLabel>
               <Select
+                labelId='search-age-label'
                 className={classes.select}
                 value={age}
                 onChange={handleChange}>
-                <MenuItem value='' onClick={() => onRangeChange(null, null)}>
+                <MenuItem
+                  value='None'
+                  onClick={() => onRangeChange(null, null)}>
                   <em>None</em>
                 </MenuItem>
                 {ageFilterOptions.map((option, i) => (
@@ -147,9 +154,6 @@ const Header = () => {
                   </MenuItem>
                 ))}
               </Select>
-              <FormHelperText className={classes.helperText}>
-                年齢検索
-              </FormHelperText>
             </FormControl>
           </Toolbar>
         </AppBar>
