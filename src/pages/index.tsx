@@ -1,13 +1,9 @@
 import _ from 'lodash'
 import { useContext, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import EntryView from '../components/EntryView'
-import { searchItems } from '../lib/utils'
 import {
   Table,
   TableBody,
@@ -31,14 +27,16 @@ const Home = () => {
 
   const isSearching =
     !_.isEmpty(keywordsCondition) ||
-    _.isEmpty(ageRangeCondition.min) ||
-    _.isEmpty(ageRangeCondition.max)
+    ageRangeCondition.min ||
+    ageRangeCondition.max
 
   const filteredContacts = filterContacts(
     contacts,
     keywordsCondition,
     ageRangeCondition
   )
+
+  const displayedContacts = isSearching ? filteredContacts : contacts
 
   return (
     <Layout title={'連絡帳'}>
@@ -61,11 +59,9 @@ const Home = () => {
             </TableHead>
             <TableBody>
               {!_.isEmpty(user.contacts) ? (
-                (isSearching ? filteredContacts : contacts).map(
-                  (entry: Entry, i: number) => (
-                    <EntryView key={i} entry={entry} />
-                  )
-                )
+                displayedContacts.map((entry: Entry, i: number) => (
+                  <EntryView key={i} entry={entry} />
+                ))
               ) : (
                 <p>連絡先が登録されていません。</p>
               )}

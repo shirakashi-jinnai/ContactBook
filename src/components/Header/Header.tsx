@@ -90,12 +90,10 @@ const Header = () => {
 
     keywords = keywords || []
     setUser({ keywordsCondition: keywords })
-    console.log(user)
   }
 
   const onRangeChange = (min: number, max: number) => {
     setUser({ ageRangeCondition: { min, max } })
-    console.log(user)
   }
 
   const ageFilterOptions = [

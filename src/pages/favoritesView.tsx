@@ -12,7 +12,6 @@ import {
   TableRow,
 } from '@material-ui/core'
 import EntryView from '../components/EntryView'
-import { searchItems } from '../lib/utils'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -23,26 +22,30 @@ const useStyles = makeStyles({
 
 const FavoriteView = () => {
   const classes = useStyles()
-  const { user } = useContext(UserContext)
-  const { contacts, keywords, ageRange } = user
+  const { user, filterContacts } = useContext(UserContext)
+  const { contacts, keywordsCondition, ageRangeCondition } = user
 
-  const isSearching = !_.isEmpty(keywords) || !_.isEmpty(ageRange.ranges)
+  const isSearching =
+    !_.isEmpty(keywordsCondition) ||
+    ageRangeCondition.min ||
+    ageRangeCondition.ma
 
   const favorites = _.filter(contacts, 'liked')
 
-  const items = searchItems(
+  const filteredFavorites = filterContacts(
     favorites,
-    keywords,
-    ageRange.ranges,
-    ageRange.isLessThan
+    keywordsCondition,
+    ageRangeCondition
   )
+
+  const displayedContacts = isSearching ? filteredFavorites : favorites
 
   return (
     <Layout title='お気に入りリスト'>
       <div className={classes.viewArea}>
         {isSearching && (
           <p>
-            {items.length}件/
+            {filteredFavorites.length}件/
             {favorites.length}件のヒット
           </p>
         )}
@@ -59,11 +62,9 @@ const FavoriteView = () => {
             </TableHead>
             <TableBody>
               {!_.isEmpty(favorites) ? (
-                (isSearching ? items : favorites).map(
-                  (favorite: Entry, i: number) => (
-                    <EntryView key={i} entry={favorite} />
-                  )
-                )
+                displayedContacts.map((favorite: Entry, i: number) => (
+                  <EntryView key={i} entry={favorite} />
+                ))
               ) : (
                 <p>連絡先が登録されていません。</p>
               )}
