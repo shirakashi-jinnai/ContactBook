@@ -14,6 +14,8 @@ export const useUserState = () => {
     initialState.user
   )
 
+  const { keywordsCondition, ageRangeCondition } = user
+
   const findAge = (birthday: string): number => {
     const dt = DateTime.now()
     const getBirthday = DateTime.fromFormat(birthday, 'yyyy-mm-dd')
@@ -27,26 +29,26 @@ export const useUserState = () => {
     return age
   }
 
-  const filterContacts = (items: Entry[], keywords: string[], ageRange) => {
-    const searchKeywords = items.filter(
+  const filterContactsBySearchConditions = (filteredContacts: Entry[]) => {
+    const searchKeywords = filteredContacts.filter(
       ({ firstName, lastName, address }) =>
-        keywords &&
-        keywords.every(
+        keywordsCondition &&
+        keywordsCondition.every(
           (kw: string) =>
             (firstName + lastName + address.prefectures)
               .toLowerCase()
               .indexOf(kw) !== -1
         )
     )
-    if (!ageRange.min && !ageRange.max) {
+    if (!ageRangeCondition.min && !ageRangeCondition.max) {
       return searchKeywords
     }
 
     const haveBirthdayContacts = _.filter(searchKeywords, 'birthday')
     const searchAgeRange = haveBirthdayContacts.filter(({ birthday }) => {
       const age = findAge(birthday)
-      const result = ageRange.max
-        ? _.inRange(age, ageRange.min, ageRange.max)
+      const result = ageRangeCondition.max
+        ? _.inRange(age, ageRangeCondition.min, ageRangeCondition.max)
         : age >= 80
       return result
     })
@@ -77,6 +79,6 @@ export const useUserState = () => {
     initializing,
     user,
     setUser,
-    filterContacts
+    filterContactsBySearchConditions,
   }
 }

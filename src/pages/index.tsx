@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles()
-  const { user, filterContacts } = useContext(UserContext)
+  const { user, filterContactsBySearchConditions } = useContext(UserContext)
   const { contacts, keywordsCondition, ageRangeCondition } = user
 
   const isSearching =
@@ -30,11 +30,7 @@ const Home = () => {
     ageRangeCondition.min ||
     ageRangeCondition.max
 
-  const filteredContacts = filterContacts(
-    contacts,
-    keywordsCondition,
-    ageRangeCondition
-  )
+  const filteredContacts = filterContactsBySearchConditions(contacts)
 
   const displayedContacts = isSearching ? filteredContacts : contacts
 

@@ -3,6 +3,6 @@ export const initialState = {
     uid: '',
     contacts: [],
     keywordsCondition: [],
-    ageRangeCondition: {},
+    ageRangeCondition: { min: null, max: null },
   },
 }
