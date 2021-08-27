@@ -27,16 +27,12 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { user } = useContext(UserContext)
-  const { contacts, keywords, ageRange } = user
+  const { contacts, keywordsCondition, ageRangeCondition } = user
 
-  const isSearching = !_.isEmpty(keywords) || !_.isEmpty(ageRange.ranges)
+  const isSearching =
+    !_.isEmpty(keywordsCondition) || !_.isEmpty(ageRangeCondition)
 
-  const items = searchItems(
-    contacts,
-    keywords,
-    ageRange.ranges,
-    ageRange.isLessThan
-  )
+  const items = searchItems(contacts, keywordsCondition, ageRangeCondition)
 
   return (
     <Layout title={'連絡帳'}>

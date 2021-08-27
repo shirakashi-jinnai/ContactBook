@@ -46,12 +46,7 @@ const findAge = (birthday: string): number => {
   return age
 }
 
-export const searchItems = (
-  items: Entry[],
-  keywords: string[],
-  ranges: string[],
-  isLessThan: boolean
-) => {
+export const searchItems = (items: Entry[], keywords: string[], ageRange) => {
   const searchKeywords = items.filter(
     ({ firstName, lastName, address }) =>
       keywords &&
@@ -62,18 +57,17 @@ export const searchItems = (
             .indexOf(kw) !== -1
       )
   )
-  if (!ranges.length) {
+  if (!ageRange.min && !ageRange.max) {
     return searchKeywords
   }
 
   const haveBirthdayContacts = _.filter(searchKeywords, 'birthday')
   const searchAgeRange = haveBirthdayContacts.filter(({ birthday }) => {
     const age = findAge(birthday)
-    if (ranges.length !== 1) {
-      return age >= Number(ranges[0]) && age <= Number(ranges[1])
-    } else {
-      return isLessThan ? age < 10 : age >= 80
-    }
+    const result = ageRange.max
+      ? _.inRange(age, ageRange.min, ageRange.max)
+      : age >= 80
+    return result
   })
   return searchAgeRange
 }

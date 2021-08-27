@@ -89,33 +89,25 @@ const Header = () => {
       .match(/[^\s]+/g)
 
     keywords = keywords || []
-    setUser({ keywords })
+    setUser({ keywordsCondition: keywords })
+    console.log(user)
   }
 
-  const onRangeChange = (range: string) => {
-    if (_.isEmpty(range)) {
-      setUser({
-        ...user,
-        isSearchAgeRange: false,
-        ageRange: { ranges: [] },
-      })
-      return
-    }
-    const ranges: string[] = range.match(/\d./g)
-    const isLessThan: boolean = /[未満]/.test(range)
-    setUser({ ageRange: { ranges, isLessThan } })
+  const onRangeChange = (min: number, max: number) => {
+    setUser({ ageRangeCondition: { min, max } })
+    console.log(user)
   }
 
   const ageFilterOptions = [
-    { label: '10歳未満' },
-    { label: '10歳~19歳' },
-    { label: '20歳~29歳' },
-    { label: '30歳~39歳' },
-    { label: '40歳~49歳' },
-    { label: '50歳~59歳' },
-    { label: '60歳~69歳' },
-    { label: '70歳~79歳' },
-    { label: '80歳以上' },
+    { label: '10歳未満', max: 10 },
+    { label: '10歳~19歳', min: 10, max: 19 },
+    { label: '20歳~29歳', min: 20, max: 29 },
+    { label: '30歳~39歳', min: 30, max: 39 },
+    { label: '40歳~49歳', min: 40, max: 49 },
+    { label: '50歳~59歳', min: 50, max: 59 },
+    { label: '60歳~69歳', min: 60, max: 69 },
+    { label: '70歳~79歳', min: 70, max: 79 },
+    { label: '80歳以上', min: 80 },
   ]
 
   return (
@@ -145,14 +137,14 @@ const Header = () => {
                 className={classes.select}
                 value={age}
                 onChange={handleChange}>
-                <MenuItem value='' onClick={() => onRangeChange('')}>
+                <MenuItem value='' onClick={() => onRangeChange(null, null)}>
                   <em>None</em>
                 </MenuItem>
                 {ageFilterOptions.map((option, i) => (
                   <MenuItem
                     key={i}
                     value={option.label}
-                    onClick={() => onRangeChange(option.label)}>
+                    onClick={() => onRangeChange(option.min, option.max)}>
                     {option.label}
                   </MenuItem>
                 ))}
