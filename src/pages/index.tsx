@@ -26,20 +26,26 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles()
-  const { user } = useContext(UserContext)
+  const { user, filterContacts } = useContext(UserContext)
   const { contacts, keywordsCondition, ageRangeCondition } = user
 
   const isSearching =
-    !_.isEmpty(keywordsCondition) || !_.isEmpty(ageRangeCondition)
+    !_.isEmpty(keywordsCondition) ||
+    _.isEmpty(ageRangeCondition.min) ||
+    _.isEmpty(ageRangeCondition.max)
 
-  const items = searchItems(contacts, keywordsCondition, ageRangeCondition)
+  const filteredContacts = filterContacts(
+    contacts,
+    keywordsCondition,
+    ageRangeCondition
+  )
 
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
         {isSearching && (
           <p>
-            {items.length}件/
+            {filteredContacts.length}件/
             {contacts.length}件のヒット
           </p>
         )}
@@ -55,7 +61,7 @@ const Home = () => {
             </TableHead>
             <TableBody>
               {!_.isEmpty(user.contacts) ? (
-                (isSearching ? items : contacts).map(
+                (isSearching ? filteredContacts : contacts).map(
                   (entry: Entry, i: number) => (
                     <EntryView key={i} entry={entry} />
                   )
