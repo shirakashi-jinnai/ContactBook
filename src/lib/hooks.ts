@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import _ from 'lodash'
+import _, { first } from 'lodash'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
@@ -17,15 +17,8 @@ export const useUserState = () => {
   const { keywordsCondition, ageRangeCondition, contacts } = <User>user
 
   const calcAge = (birthday: Date): number => {
-    const dt = DateTime.now()
-    const getBirthday = DateTime.fromFormat(birthday, 'yyyy-mm-dd')
-    let age = dt.year - getBirthday.year
-    if (
-      getBirthday.month > dt.month ||
-      (getBirthday.month == dt.month && getBirthday.day > dt.day)
-    ) {
-      age -= 1
-    }
+    const Birthday = DateTime.fromISO(birthday)
+    const age = Math.abs(Math.floor(Birthday.diffNow().as('years')))
     return age
   }
 
