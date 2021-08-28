@@ -16,7 +16,7 @@ export const useUserState = () => {
 
   const { keywordsCondition, ageRangeCondition, contacts } = <User>user
 
-  const findAge = (birthday: string): number => {
+  const calcAge = (birthday: Date): number => {
     const dt = DateTime.now()
     const getBirthday = DateTime.fromFormat(birthday, 'yyyy-mm-dd')
     let age = dt.year - getBirthday.year
@@ -29,8 +29,8 @@ export const useUserState = () => {
     return age
   }
 
-  const filterContactsBySearchConditions = () => {
-    const searchKeywords = contacts.filter(
+  const filterContactsBySearchConditions = (): Entry[] => {
+    const filterKeywords = contacts.filter(
       ({ firstName, lastName, address }) =>
         keywordsCondition &&
         keywordsCondition.every(
@@ -41,18 +41,18 @@ export const useUserState = () => {
         )
     )
     if (!ageRangeCondition.min && !ageRangeCondition.max) {
-      return searchKeywords
+      return filterKeywords
     }
 
-    const haveBirthdayContacts = _.filter(searchKeywords, 'birthday')
-    const searchAgeRange = haveBirthdayContacts.filter(({ birthday }) => {
-      const age = findAge(birthday)
+    const haveBirthdayContacts = _.filter(filterKeywords, 'birthday')
+    const filterAgeRange = haveBirthdayContacts.filter(({ birthday }) => {
+      const age = calcAge(birthday)
       const result = ageRangeCondition.max
         ? _.inRange(age, ageRangeCondition.min, ageRangeCondition.max)
-        : age >= 80
+        : age >= ageRangeCondition.min
       return result
     })
-    return searchAgeRange
+    return filterAgeRange
   }
 
   useEffect(() => {

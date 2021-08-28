@@ -36,7 +36,7 @@ const FavoriteView = () => {
     'liked'
   )
 
-  const displayedContacts = isSearching ? filteredFavorites : favorites
+  const filteredContacts = isSearching ? filteredFavorites : favorites
 
   return (
     <Layout title='お気に入りリスト'>
@@ -60,7 +60,7 @@ const FavoriteView = () => {
             </TableHead>
             <TableBody>
               {!_.isEmpty(favorites) ? (
-                displayedContacts.map((favorite: Entry, i: number) => (
+                filteredContacts.map((favorite: Entry, i: number) => (
                   <EntryView key={i} entry={favorite} />
                 ))
               ) : (

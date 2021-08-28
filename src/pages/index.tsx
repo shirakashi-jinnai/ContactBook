@@ -30,7 +30,7 @@ const Home = () => {
     ageRangeCondition.min ||
     ageRangeCondition.max
 
-  const displayedContacts = isSearching
+  const filteredContacts = isSearching
     ? filterContactsBySearchConditions()
     : contacts
 
@@ -39,7 +39,7 @@ const Home = () => {
       <div className={classes.viewArea}>
         {isSearching && (
           <p>
-            {filterContactsBySearchConditions().length}件/
+            {filteredContacts.length}件/
             {contacts.length}件のヒット
           </p>
         )}
@@ -54,8 +54,8 @@ const Home = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!_.isEmpty(user.contacts) ? (
-                displayedContacts.map((entry, i) => (
+              {!_.isEmpty(contacts) ? (
+                filteredContacts.map((entry:Entry, i:number) => (
                   <EntryView key={i} entry={entry} />
                 ))
               ) : (
