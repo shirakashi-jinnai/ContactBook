@@ -33,6 +33,16 @@ const Home = () => {
     ? filterContactsBySearchConditions()
     : contacts
 
+  const Tbody = !_.isEmpty(contacts) ? (
+    filteredContacts.map((entry: Entry, i: number) => (
+      <EntryView key={i} entry={entry} />
+    ))
+  ) : (
+    <TableRow>
+      <TableCell>連絡先が登録されていません。</TableCell>
+    </TableRow>
+  )
+
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
@@ -52,17 +62,7 @@ const Home = () => {
                 <TableCell align='center'>その他</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {!_.isEmpty(contacts) ? (
-                filteredContacts.map((entry: Entry, i: number) => (
-                  <EntryView key={i} entry={entry} />
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell>連絡先が登録されていません。</TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+            <TableBody>{Tbody}</TableBody>
           </Table>
         </TableContainer>
       </div>

@@ -37,6 +37,16 @@ const FavoriteView = () => {
 
   const filteredContacts = isSearching ? filteredFavorites : favorites
 
+  const Tbody = !_.isEmpty(favorites) ? (
+    filteredContacts.map((favorite: Entry, i: number) => (
+      <EntryView key={i} entry={favorite} />
+    ))
+  ) : (
+    <TableRow>
+      <TableCell>お気に入りが登録されていません。</TableCell>
+    </TableRow>
+  )
+
   return (
     <Layout title='お気に入りリスト'>
       <div className={classes.viewArea}>
@@ -57,17 +67,7 @@ const FavoriteView = () => {
                 <TableCell align='center'>その他</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {!_.isEmpty(favorites) ? (
-                filteredContacts.map((favorite: Entry, i: number) => (
-                  <EntryView key={i} entry={favorite} />
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell>連絡先が登録されていません。</TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+            <TableBody>{Tbody}</TableBody>
           </Table>
         </TableContainer>
       </div>
