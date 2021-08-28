@@ -14,7 +14,7 @@ export const useUserState = () => {
     initialState.user
   )
 
-  const { keywordsCondition, ageRangeCondition } = user
+  const { keywordsCondition, ageRangeCondition, contacts } = <User>user
 
   const findAge = (birthday: string): number => {
     const dt = DateTime.now()
@@ -29,8 +29,8 @@ export const useUserState = () => {
     return age
   }
 
-  const filterContactsBySearchConditions = (filteredContacts: Entry[]) => {
-    const searchKeywords = filteredContacts.filter(
+  const filterContactsBySearchConditions = () => {
+    const searchKeywords = contacts.filter(
       ({ firstName, lastName, address }) =>
         keywordsCondition &&
         keywordsCondition.every(

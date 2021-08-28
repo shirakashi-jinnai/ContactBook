@@ -15,3 +15,10 @@ type Entry = {
   id: string
   liked: boolean
 }
+
+type User = {
+  uid: string
+  contacts: Entry[]
+  keywordsCondition: string[]
+  ageRangeCondition: { [key: string]: number | null }
+}

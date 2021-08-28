@@ -31,8 +31,10 @@ const FavoriteView = () => {
     ageRangeCondition.max
 
   const favorites = _.filter(contacts, 'liked')
-
-  const filteredFavorites = filterContactsBySearchConditions(favorites)
+  const filteredFavorites = _.filter(
+    filterContactsBySearchConditions(),
+    'liked'
+  )
 
   const displayedContacts = isSearching ? filteredFavorites : favorites
 
