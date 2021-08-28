@@ -1,8 +1,10 @@
-export const initialState: { user: User } = {
+export const initialState = {
   user: {
     uid: '',
     contacts: [],
-    keywordsCondition: [],
+  },
+  filterCondition: {
+    queryCondition: [],
     ageRangeCondition: { min: null, max: null },
   },
 }

@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import _, { first } from 'lodash'
+import _ from 'lodash'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
@@ -11,11 +11,13 @@ export const useUserState = () => {
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useReducer(
     (state: object, data: object) => _.assign({}, state, data),
-    initialState.user
+    initialState
   )
 
-  const { keywordsCondition, ageRangeCondition, contacts } = <User>user
+  const { contacts } = user.user
+  const { queryCondition, ageRangeCondition } = user.filterCondition
 
+  console.log(ageRangeCondition)
   const calcAge = (birthday: Date): number => {
     const Birthday = DateTime.fromISO(birthday)
     const age = Math.abs(Math.floor(Birthday.diffNow().as('years')))
@@ -25,8 +27,8 @@ export const useUserState = () => {
   const filterContactsBySearchConditions = (): Entry[] => {
     const filterKeywords = contacts.filter(
       ({ firstName, lastName, address }) =>
-        keywordsCondition &&
-        keywordsCondition.every(
+        queryCondition &&
+        queryCondition.every(
           (kw: string) =>
             (firstName + lastName + address.prefectures)
               .toLowerCase()
@@ -61,7 +63,7 @@ export const useUserState = () => {
           id: doc.id,
           ...doc.data(),
         }))
-        setUser({ uid: user.uid, contacts })
+        setUser({ ...user.user, user: { uid: user.uid, contacts } })
       })
       setInitializing(false)
       return () => unsub()

@@ -85,11 +85,25 @@ const Header = () => {
   const onQueryChange = (e) => {
     const query = e.target.value
     const splitSearchQuery = query.split(/\s+/).filter((v) => !_.isEmpty(v))
-    setUser({ keywordsCondition: splitSearchQuery })
+    setUser({
+      ...user,
+      filterCondition: {
+        ...user.filterCondition,
+        queryCondition: [...splitSearchQuery],
+      },
+    })
+    console.log(user)
   }
 
   const onRangeChange = (min: number, max: number) => {
-    setUser({ ageRangeCondition: { min, max } })
+    setUser({
+      ...user,
+      filterCondition: {
+        ...user.filterCondition,
+        ageRangeCondition: { min, max },
+      },
+    })
+    console.log(user)
   }
 
   const ageFilterOptions = [

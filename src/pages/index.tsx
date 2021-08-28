@@ -23,12 +23,11 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { user, filterContactsBySearchConditions } = useContext(UserContext)
-  const { contacts, keywordsCondition, ageRangeCondition } = user
+  const { contacts } = user.user
+  const { queryCondition, ageRangeCondition } = user.filterCondition
 
   const isSearching =
-    !_.isEmpty(keywordsCondition) ||
-    ageRangeCondition.min ||
-    ageRangeCondition.max
+    !_.isEmpty(queryCondition) || ageRangeCondition.min || ageRangeCondition.max
 
   const filteredContacts = isSearching
     ? filterContactsBySearchConditions()
@@ -55,7 +54,7 @@ const Home = () => {
             </TableHead>
             <TableBody>
               {!_.isEmpty(contacts) ? (
-                filteredContacts.map((entry:Entry, i:number) => (
+                filteredContacts.map((entry: Entry, i: number) => (
                   <EntryView key={i} entry={entry} />
                 ))
               ) : (
