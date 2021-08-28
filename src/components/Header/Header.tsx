@@ -82,15 +82,10 @@ const Header = () => {
     setAge(event.target.value as string)
   }
 
-  const onKeywordsChange = (e) => {
-    const value = e.target.value
-    let keywords = value
-      .trim()
-      .toLowerCase()
-      .match(/[^\s]+/g)
-
-    keywords = keywords || []
-    setUser({ keywordsCondition: keywords })
+  const onQueryChange = (e) => {
+    const query = e.target.value
+    const splitSearchQuery = query.split(/\s+/).filter((v) => !_.isEmpty(v))
+    setUser({ keywordsCondition: splitSearchQuery })
   }
 
   const onRangeChange = (min: number, max: number) => {
@@ -128,7 +123,7 @@ const Header = () => {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
-                onChange={onKeywordsChange}
+                onChange={onQueryChange}
               />
             </div>
             <FormControl className={classes.form}>
