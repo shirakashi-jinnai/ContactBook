@@ -92,7 +92,6 @@ const Header = () => {
         queryCondition: [...splitSearchQuery],
       },
     })
-    console.log(user)
   }
 
   const onRangeChange = (min: number, max: number) => {
@@ -103,7 +102,6 @@ const Header = () => {
         ageRangeCondition: { min, max },
       },
     })
-    console.log(user)
   }
 
   const ageFilterOptions = [

@@ -17,29 +17,23 @@ export const useUserState = () => {
   const { contacts } = user.user
   const { queryCondition, ageRangeCondition } = user.filterCondition
 
-  console.log(ageRangeCondition)
   const calcAge = (birthday: Date): number => {
     const Birthday = DateTime.fromISO(birthday)
-    const age = Math.abs(Math.floor(Birthday.diffNow().as('years')))
-    return age
+    return Math.abs(Math.floor(Birthday.diffNow().as('years')))
   }
 
   const filterContactsBySearchConditions = (): Entry[] => {
-    const filterKeywords = contacts.filter(
-      ({ firstName, lastName, address }) =>
-        queryCondition &&
-        queryCondition.every(
-          (kw: string) =>
-            (firstName + lastName + address.prefectures)
-              .toLowerCase()
-              .indexOf(kw) !== -1
-        )
+    const filterQuery = contacts.filter(({ firstName, lastName, address }) =>
+      queryCondition.every((query: string) =>
+        new RegExp(query, 'i').test(firstName + lastName + address.prefectures)
+      )
     )
+
     if (!ageRangeCondition.min && !ageRangeCondition.max) {
-      return filterKeywords
+      return filterQuery
     }
 
-    const haveBirthdayContacts = _.filter(filterKeywords, 'birthday')
+    const haveBirthdayContacts = _.filter(filterQuery, 'birthday')
     const filterAgeRange = haveBirthdayContacts.filter(({ birthday }) => {
       const age = calcAge(birthday)
       const result = ageRangeCondition.max
