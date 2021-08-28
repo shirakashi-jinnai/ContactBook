@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { user, filterContactsBySearchConditions } = useContext(UserContext)
-  const { contacts } = user.user
+  const { contacts } = user.userState
   const { queryCondition, ageRangeCondition } = user.filterCondition
 
   const isSearching =

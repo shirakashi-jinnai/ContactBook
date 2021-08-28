@@ -16,9 +16,17 @@ type Entry = {
   liked: boolean
 }
 
-type User = {
+type UserState = {
   uid: string
   contacts: Entry[]
-  keywordsCondition: string[]
+}
+
+type FilterCondition = {
+  queryCondition: string[]
   ageRangeCondition: { [key: string]: number | null }
+}
+
+type InitialState = {
+  userState: UserState
+  filterCondition: FilterCondition
 }

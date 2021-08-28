@@ -14,8 +14,9 @@ export const useUserState = () => {
     initialState
   )
 
-  const { contacts } = user.user
-  const { queryCondition, ageRangeCondition } = user.filterCondition
+  const { userState, filterCondition } = <InitialState>user
+  const { contacts } = userState
+  const { queryCondition, ageRangeCondition } = filterCondition
 
   const calcAge = (birthday: Date): number => {
     const Birthday = DateTime.fromISO(birthday)
@@ -57,7 +58,7 @@ export const useUserState = () => {
           id: doc.id,
           ...doc.data(),
         }))
-        setUser({ ...user.user, user: { uid: user.uid, contacts } })
+        setUser({ ...user.userState, userState: { uid: user.uid, contacts } })
       })
       setInitializing(false)
       return () => unsub()

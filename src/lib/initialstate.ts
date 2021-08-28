@@ -1,5 +1,5 @@
-export const initialState = {
-  user: {
+export const initialState: InitialState = {
+  userState: {
     uid: '',
     contacts: [],
   },
