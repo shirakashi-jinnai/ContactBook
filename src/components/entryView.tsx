@@ -114,7 +114,7 @@ const EntryView: FC<Props> = (props) => {
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
       <TableRow>
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
-        <TableCell>{address.prefectures}</TableCell>
+        <TableCell>{address.prefecture}</TableCell>
         <TableCell>{birthday}</TableCell>
         <TableCell align='center'>
           <IconButton onClick={toggleLike}>

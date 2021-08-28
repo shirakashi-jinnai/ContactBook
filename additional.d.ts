@@ -1,6 +1,6 @@
 type Address = {
   postalCode: string
-  prefectures: string
+  prefecture: string
   municipalities: string
   houseNumber: string
 }

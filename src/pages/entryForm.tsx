@@ -41,7 +41,7 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
     birthday: null,
     address: {
       postalCode: '',
-      prefectures: '',
+      prefecture: '',
       municipalities: '',
       houseNumber: '',
     },
@@ -125,8 +125,8 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
         />
         <TextField
           label='都道府県'
-          name='prefectures'
-          value={entryAddress.address.prefectures}
+          name='prefecture'
+          value={entryAddress.address.prefecture}
           onChange={onChangeAddress}
         />
         <TextField

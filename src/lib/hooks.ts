@@ -25,7 +25,7 @@ export const useUserState = () => {
   const filterContactsBySearchConditions = (): Entry[] => {
     const filterQuery = contacts.filter(({ firstName, lastName, address }) =>
       queryCondition.every((query: string) =>
-        new RegExp(query, 'i').test(firstName + lastName + address.prefectures)
+        new RegExp(query, 'i').test(firstName + lastName + address.prefecture)
       )
     )
 
