@@ -26,15 +26,20 @@ const FavoriteView = () => {
   const { contacts } = user.userState
   const { queryCondition, ageRangeCondition } = user.filterCondition
 
+  //検索中かどうか
   const isSearching =
     !_.isEmpty(queryCondition) || ageRangeCondition.min || ageRangeCondition.max
 
+  //検索元の値
   const favorites = _.filter(contacts, 'liked')
+
+  //検索された値
   const filteredFavorites = _.filter(
     filterContactsBySearchConditions(),
     'liked'
   )
 
+  //検索中の場合検索された値を表示
   const filteredContacts = isSearching ? filteredFavorites : favorites
 
   const Tbody = !_.isEmpty(favorites) ? (

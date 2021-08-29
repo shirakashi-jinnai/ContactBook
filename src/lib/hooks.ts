@@ -25,6 +25,7 @@ export const useUserState = () => {
 
   const filterContactsBySearchConditions = (): Entry[] => {
     const filterQuery = contacts.filter(({ firstName, lastName, address }) =>
+      //入力された検索(query)と名前、県名がヒットするかの処理
       queryCondition.every((query: string) =>
         new RegExp(query, 'i').test(firstName + lastName + address.prefecture)
       )

@@ -26,9 +26,11 @@ const Home = () => {
   const { contacts } = user.userState
   const { queryCondition, ageRangeCondition } = user.filterCondition
 
+  //検索中かどうか
   const isSearching =
     !_.isEmpty(queryCondition) || ageRangeCondition.min || ageRangeCondition.max
 
+  //検索中の場合検索された値を表示
   const filteredContacts = isSearching
     ? filterContactsBySearchConditions()
     : contacts
