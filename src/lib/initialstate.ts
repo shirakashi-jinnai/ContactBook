@@ -1,7 +1,7 @@
 export const initialState: State = {
   contacts: [],
   filterCondition: {
-    queryCondition: [],
+    querys: [],
     ageRangeCondition: { min: null, max: null },
   },
 }
