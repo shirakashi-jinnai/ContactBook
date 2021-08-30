@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
 import { auth, db } from './firebase'
-import { initialState } from './initialstate';
+import { initialState } from './initialstate'
 
 export const useUserState = () => {
   const router = useRouter()
@@ -17,9 +17,9 @@ export const useUserState = () => {
   const { contacts, filterCondition } = <State>user
   const { queryCondition, ageRangeCondition } = filterCondition
 
-  const calcAge = (birthday: Date): number => {
-    const Birthday = DateTime.fromISO(birthday)
-    return Math.abs(Math.floor(Birthday.diffNow().as('years')))
+  const calcAge = (date: Date): number => {
+    const birthday = DateTime.fromJSDate(new Date(date))
+    return Math.abs(Math.floor(birthday.diffNow().as('years')))
   }
 
   const filterContactsBySearchConditions = (): Entry[] => {
