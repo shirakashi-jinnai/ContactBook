@@ -23,8 +23,8 @@ const useStyles = makeStyles({
 const FavoriteView = () => {
   const classes = useStyles()
   const { user, filterContactsBySearchConditions } = useContext(UserContext)
-  const { contacts } = user.userState
-  const { queryCondition, ageRangeCondition } = user.filterCondition
+  const { contacts, filterCondition } = user
+  const { queryCondition, ageRangeCondition } = filterCondition
 
   //検索中かどうか
   const isSearching =

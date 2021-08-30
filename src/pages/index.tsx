@@ -23,8 +23,9 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { user, filterContactsBySearchConditions } = useContext(UserContext)
-  const { contacts } = user.userState
-  const { queryCondition, ageRangeCondition } = user.filterCondition
+  const { contacts, filterCondition } = user
+  const { queryCondition, ageRangeCondition } = filterCondition
+  console.log(user)
 
   //検索中かどうか
   const isSearching =
