@@ -84,11 +84,11 @@ const Header = () => {
 
   const onQueryChange = (e) => {
     const query = e.target.value
-    const querys = query.split(/\s+/).filter((v) => !_.isEmpty(v))
+    const queries = query.split(/\s+/).filter((v) => !_.isEmpty(v))
     setUser({
       filterCondition: {
         ...user.filterCondition,
-        querys,
+        queries,
       },
     })
   }

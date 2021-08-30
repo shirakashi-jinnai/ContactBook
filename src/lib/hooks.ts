@@ -15,11 +15,11 @@ export const useUserState = () => {
   )
 
   const { contacts, filterCondition } = <State>user
-  const { querys, ageRangeCondition } = filterCondition
+  const { queries, ageRangeCondition } = filterCondition
 
   //検索中かどうか
   const isSearching =
-    !_.isEmpty(querys) || ageRangeCondition.min || ageRangeCondition.max
+    !_.isEmpty(queries) || ageRangeCondition.min || ageRangeCondition.max
 
   const calcAge = (date: Date): number => {
     const birthday = DateTime.fromJSDate(new Date(date))
@@ -27,12 +27,18 @@ export const useUserState = () => {
   }
 
   const filterContactsBySearchConditions = (): Entry[] => {
-    const filterQuery = contacts.filter(({ firstName, lastName, address }) =>
-      //入力された検索(query)と名前、県名がヒットするかの処理
-      querys.every((query: string) =>
-        new RegExp(query, 'i').test(firstName + lastName + address.prefecture)
-      )
-    )
+    const filterQuery = contacts.filter((c) => {
+      if (_.isEmpty(queries)) {
+        return contacts
+      }
+
+      for (let query of queries) {
+        //query（検索ワード）が名前、県名にマッチするものを返す
+        return new RegExp(query, 'i').test(
+          c.firstName + c.lastName + c.address.prefecture
+        )
+      }
+    })
 
     if (!ageRangeCondition.min && !ageRangeCondition.max) {
       return filterQuery

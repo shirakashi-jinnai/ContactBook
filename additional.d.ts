@@ -17,7 +17,7 @@ type Entry = {
 }
 
 type FilterCondition = {
-  querys: string[]
+  queries: string[]
   ageRangeCondition: { [key: string]: number | null }
 }
 
