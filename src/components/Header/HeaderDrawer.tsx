@@ -30,7 +30,7 @@ const HeaderDrawer: FC = () => {
     }
     setIsDrawerOpen(setDrawerOpen)
   }
-  const menus = [
+  const menuItems = [
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
       label: '連絡先を登録',
@@ -63,12 +63,12 @@ const HeaderDrawer: FC = () => {
         open={isDrawerOpen}
         onClose={(e) => toggleDrawer(false, e)}>
         <List>
-          {menus.map((menu, i) => (
+          {menuItems.map((item, i) => (
             <React.Fragment key={i}>
-              <Link href={menu.path} passHref>
+              <Link href={item.path} passHref>
                 <ListItem button>
-                  <ListItemIcon>{menu.icon}</ListItemIcon>
-                  <ListItemText primary={menu.label} />
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.label} />
                 </ListItem>
               </Link>
               <Divider />
