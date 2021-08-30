@@ -5,7 +5,7 @@ type Address = {
   houseNumber: string
 }
 
-type Entry = {
+type Contact = {
   firstName: string
   lastName: string
   phoneNumber: number
@@ -22,6 +22,6 @@ type FilterCondition = {
 }
 
 type State = {
-  contacts: Entry[]
+  contacts: Contact[]
   filterCondition: FilterCondition
 }

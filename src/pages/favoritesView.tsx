@@ -11,7 +11,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core'
-import EntryView from '../components/entryView'
+import EntryView from '../components/EntryView'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -38,15 +38,16 @@ const FavoriteView = () => {
   //検索中の場合検索された値を表示
   const filteredContacts = isSearching ? filteredFavorites : favorites
 
-  const Tbody = !_.isEmpty(favorites) ? (
-    filteredContacts.map((favorite: Entry, i: number) => (
-      <EntryView key={i} entry={favorite} />
-    ))
-  ) : (
-    <TableRow>
-      <TableCell>お気に入りが登録されていません。</TableCell>
-    </TableRow>
-  )
+  const ResultFavorites = () =>
+    !_.isEmpty(favorites) ? (
+      filteredContacts.map((favorite: Contact, i: number) => (
+        <EntryView key={i} entry={favorite} />
+      ))
+    ) : (
+      <TableRow>
+        <TableCell>お気に入りが登録されていません。</TableCell>
+      </TableRow>
+    )
 
   return (
     <Layout title='お気に入りリスト'>
@@ -68,7 +69,9 @@ const FavoriteView = () => {
                 <TableCell align='center'>その他</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>{Tbody}</TableBody>
+            <TableBody>
+              <ResultFavorites />
+            </TableBody>
           </Table>
         </TableContainer>
       </div>

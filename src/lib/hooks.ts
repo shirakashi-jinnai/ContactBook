@@ -21,19 +21,18 @@ export const useUserState = () => {
   const isSearching =
     !_.isEmpty(queries) || ageRangeCondition.min || ageRangeCondition.max
 
-  const calcAge = (date: Date): number => {
-    const birthday = DateTime.fromJSDate(new Date(date))
-    return Math.abs(Math.floor(birthday.diffNow().as('years')))
+  const calcAge = (birthday: Date): number => {
+    const dt = DateTime.fromJSDate(new Date(birthday.toDate()))
+    return Math.abs(Math.floor(dt.diffNow().as('years')))
   }
 
-  const filterContactsBySearchConditions = (): Entry[] => {
+  const filterContactsBySearchConditions = (): Contact[] => {
     const filterQuery = contacts.filter((c) => {
       if (_.isEmpty(queries)) {
         return contacts
       }
 
       for (let query of queries) {
-        //query（検索ワード）が名前、県名にマッチするものを返す
         return new RegExp(query, 'i').test(
           c.firstName + c.lastName + c.address.prefecture
         )
@@ -53,6 +52,7 @@ export const useUserState = () => {
         return result
       }
     )
+
     return filterAgeRange
   }
 

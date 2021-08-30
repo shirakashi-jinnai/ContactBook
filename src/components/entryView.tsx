@@ -18,6 +18,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import { DateTime } from 'luxon'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -76,13 +77,15 @@ const RemoveModal = ({ modalOpen, close, id }) => {
 }
 
 type Props = {
-  entry: Entry
+  entry: Contact
 }
 
 const EntryView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
   const { firstName, lastName, id, liked, address, birthday } = props.entry
+  const dt = DateTime.fromJSDate(birthday.toDate())
+  const displayBirthday = `${dt.year}-${dt.month}-${dt.day}`
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -115,7 +118,7 @@ const EntryView: FC<Props> = (props) => {
       <TableRow>
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
         <TableCell>{address.prefecture}</TableCell>
-        <TableCell>{birthday}</TableCell>
+        <TableCell>{displayBirthday}</TableCell>
         <TableCell align='center'>
           <IconButton onClick={toggleLike}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}

@@ -1,11 +1,13 @@
 import _ from 'lodash'
 import { useState, useContext, ChangeEvent, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { DateTime } from 'luxon'
 import { auth, db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
+import firebase from 'firebase'
 
 const useStyles = makeStyles({
   entryArea: {
@@ -70,6 +72,7 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
       return
     }
 
+    entryAddress.birthday = new Date(entryAddress.birthday)
     const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
     id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')

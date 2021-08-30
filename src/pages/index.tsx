@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import EntryView from '../components/entryView'
+import EntryView from '../components/EntryView'
 import {
   Table,
   TableBody,
@@ -31,15 +31,16 @@ const Home = () => {
     ? filterContactsBySearchConditions()
     : contacts
 
-  const Tbody = !_.isEmpty(contacts) ? (
-    filteredContacts.map((entry: Entry, i: number) => (
-      <EntryView key={i} entry={entry} />
-    ))
-  ) : (
-    <TableRow>
-      <TableCell>連絡先が登録されていません。</TableCell>
-    </TableRow>
-  )
+  const ResultContacts = () =>
+    !_.isEmpty(contacts) ? (
+      filteredContacts.map((entry: Contact, i: number) => (
+        <EntryView key={i} entry={entry} />
+      ))
+    ) : (
+      <TableRow>
+        <TableCell>連絡先が登録されていません。</TableCell>
+      </TableRow>
+    )
 
   return (
     <Layout title={'連絡帳'}>
@@ -60,7 +61,9 @@ const Home = () => {
                 <TableCell align='center'>その他</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>{Tbody}</TableBody>
+            <TableBody>
+              <ResultContacts />
+            </TableBody>
           </Table>
         </TableContainer>
       </div>
