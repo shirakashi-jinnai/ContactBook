@@ -34,14 +34,15 @@ export const useUserState = () => {
       return filterQuery
     }
 
-    const haveBirthdayContacts = _.filter(filterQuery, 'birthday')
-    const filterAgeRange = haveBirthdayContacts.filter(({ birthday }) => {
-      const age = calcAge(birthday)
-      const result = ageRangeCondition.max
-        ? _.inRange(age, ageRangeCondition.min, ageRangeCondition.max)
-        : age >= ageRangeCondition.min
-      return result
-    })
+    const filterAgeRange = _.filter(filterQuery, 'birthday').filter(
+      ({ birthday }) => {
+        const age = calcAge(birthday)
+        const result = ageRangeCondition.max
+          ? _.inRange(age, ageRangeCondition.min, ageRangeCondition.max)
+          : age >= ageRangeCondition.min
+        return result
+      }
+    )
     return filterAgeRange
   }
 
