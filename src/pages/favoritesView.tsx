@@ -22,13 +22,9 @@ const useStyles = makeStyles({
 
 const FavoriteView = () => {
   const classes = useStyles()
-  const { user, filterContactsBySearchConditions } = useContext(UserContext)
-  const { contacts, filterCondition } = user
-  const { queryCondition, ageRangeCondition } = filterCondition
-
-  //検索中かどうか
-  const isSearching =
-    !_.isEmpty(queryCondition) || ageRangeCondition.min || ageRangeCondition.max
+  const { user, filterContactsBySearchConditions, isSearching } =
+    useContext(UserContext)
+  const { contacts } = user
 
   //検索元の値
   const favorites = _.filter(contacts, 'liked')

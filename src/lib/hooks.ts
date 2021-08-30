@@ -17,6 +17,10 @@ export const useUserState = () => {
   const { contacts, filterCondition } = <State>user
   const { queryCondition, ageRangeCondition } = filterCondition
 
+  //検索中かどうか
+  const isSearching =
+    !_.isEmpty(queryCondition) || ageRangeCondition.min || ageRangeCondition.max
+
   const calcAge = (date: Date): number => {
     const birthday = DateTime.fromJSDate(new Date(date))
     return Math.abs(Math.floor(birthday.diffNow().as('years')))
@@ -71,5 +75,6 @@ export const useUserState = () => {
     user,
     setUser,
     filterContactsBySearchConditions,
+    isSearching,
   }
 }

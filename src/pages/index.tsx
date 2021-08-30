@@ -22,14 +22,10 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles()
-  const { user, filterContactsBySearchConditions } = useContext(UserContext)
-  const { contacts, filterCondition } = user
-  const { queryCondition, ageRangeCondition } = filterCondition
+  const { user, filterContactsBySearchConditions, isSearching } =
+    useContext(UserContext)
+  const { contacts } = user
   console.log(user)
-
-  //検索中かどうか
-  const isSearching =
-    !_.isEmpty(queryCondition) || ageRangeCondition.min || ageRangeCondition.max
 
   //検索中の場合検索された値を表示
   const filteredContacts = isSearching
