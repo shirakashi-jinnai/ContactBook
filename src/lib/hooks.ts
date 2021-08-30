@@ -14,7 +14,7 @@ export const useUserState = () => {
     initialState
   )
 
-  const { userState, filterCondition } = <InitialState>user
+  const { userState, filterCondition } = <State>user
   const { contacts } = userState
   const { queryCondition, ageRangeCondition } = filterCondition
 
