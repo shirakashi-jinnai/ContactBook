@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import EntryView from '../components/EntryView'
+import EntryView from '../components/entryView'
 import {
   Table,
   TableBody,

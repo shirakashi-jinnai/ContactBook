@@ -11,7 +11,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core'
-import EntryView from '../components/EntryView'
+import EntryView from '../components/entryView'
 
 const useStyles = makeStyles({
   viewArea: {
