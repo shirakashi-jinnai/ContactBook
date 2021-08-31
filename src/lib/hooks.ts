@@ -22,7 +22,7 @@ export const useUserState = () => {
     !_.isEmpty(queries) || ageRangeCondition.min || ageRangeCondition.max
 
   const calcAge = (birthday: Date): number => {
-    const dt = DateTime.fromJSDate(new Date(birthday.toDate()))
+    const dt = DateTime.fromJSDate(birthday.toDate())
     return Math.abs(Math.floor(dt.diffNow().as('years')))
   }
 
