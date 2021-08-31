@@ -22,9 +22,8 @@ const useStyles = makeStyles({
 
 const FavoriteView = () => {
   const classes = useStyles()
-  const { user, filterContactsBySearchConditions, isSearching } =
+  const { contacts, filterContactsBySearchConditions, isSearching } =
     useContext(UserContext)
-  const { contacts } = user
 
   //検索元の値
   const favorites = _.filter(contacts, 'liked')
@@ -38,7 +37,7 @@ const FavoriteView = () => {
   //検索中の場合検索された値を表示
   const filteredContacts = isSearching ? filteredFavorites : favorites
 
-  const ResultFavorites = () =>
+  const ResultFavorites = (): any =>
     !_.isEmpty(favorites) ? (
       filteredContacts.map((favorite: Contact, i: number) => (
         <ContactView key={i} contact={favorite} />

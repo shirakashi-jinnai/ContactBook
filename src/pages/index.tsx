@@ -22,9 +22,8 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles()
-  const { user, filterContactsBySearchConditions, isSearching } =
+  const { contacts, filterContactsBySearchConditions, isSearching } =
     useContext(UserContext)
-  const { contacts } = user
 
   //検索中の場合検索された値を表示
   const filteredContacts = isSearching

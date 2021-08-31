@@ -9,17 +9,20 @@ import { initialState } from './initialstate'
 export const useUserState = () => {
   const router = useRouter()
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useReducer(
+  const [contacts, setContacts] = useReducer(
+    (state: Contact[], data: Contact[]) => _.concat(state, data),
+    initialState.contacts
+  )
+  const [filterCondition, setFilterCondition] = useReducer(
     (state: object, data: object) => _.assign({}, state, data),
-    initialState
+    initialState.filterCondition
   )
 
-  const { contacts, filterCondition } = <State>user
-  const { queries, ageRangeCondition } = filterCondition
+  const { ageRangeCondition, queries } = <FilterCondition>filterCondition
+  const { min, max } = ageRangeCondition
 
   //検索中かどうか
-  const isSearching =
-    !_.isEmpty(queries) || ageRangeCondition.min || ageRangeCondition.max
+  const isSearching = !_.isEmpty(queries) || min || max
 
   const calcAge = (birthday: Date): number => {
     const dt = DateTime.fromJSDate(birthday.toDate())
@@ -39,20 +42,17 @@ export const useUserState = () => {
       }
     })
 
-    if (!ageRangeCondition.min && !ageRangeCondition.max) {
+    if (!min && !max) {
       return filterQuery
     }
 
     const filterAgeRange = _.filter(filterQuery, 'birthday').filter(
       ({ birthday }) => {
         const age = calcAge(birthday)
-        const result = ageRangeCondition.max
-          ? _.inRange(age, ageRangeCondition.min, ageRangeCondition.max)
-          : age >= ageRangeCondition.min
+        const result = max ? _.inRange(age, min, max) : age >= min
         return result
       }
     )
-
     return filterAgeRange
   }
 
@@ -69,7 +69,7 @@ export const useUserState = () => {
           id: doc.id,
           ...doc.data(),
         }))
-        setUser({ contacts })
+        setContacts(contacts)
       })
       setInitializing(false)
       return () => unsub()
@@ -78,8 +78,9 @@ export const useUserState = () => {
 
   return {
     initializing,
-    user,
-    setUser,
+    contacts,
+    setContacts,
+    setFilterCondition,
     filterContactsBySearchConditions,
     isSearching,
   }

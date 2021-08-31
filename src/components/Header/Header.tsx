@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles()
   const [age, setAge] = useState<string>('')
-  const { user, setUser } = useContext(UserContext)
+  const { setFilterCondition } = useContext(UserContext)
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAge(event.target.value as string)
@@ -85,21 +85,11 @@ const Header = () => {
   const onQueryChange = (e) => {
     const query = e.target.value
     const queries = query.split(/\s+/).filter((v) => !_.isEmpty(v))
-    setUser({
-      filterCondition: {
-        ...user.filterCondition,
-        queries,
-      },
-    })
+    setFilterCondition({ queries })
   }
 
   const onRangeChange = (min: number, max: number) => {
-    setUser({
-      filterCondition: {
-        ...user.filterCondition,
-        ageRangeCondition: { min, max },
-      },
-    })
+    setFilterCondition({ ageRangeCondition: { min, max } })
   }
 
   const ageFilterOptions = [
