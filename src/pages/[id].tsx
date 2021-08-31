@@ -1,10 +1,10 @@
-import EntryForm from './EntryForm'
+import ContactForm from './contactForm'
 import { useRouter } from 'next/dist/client/router'
 
-const EntryEdit = () => {
+const ContactEdit = () => {
   const router = useRouter()
   const { id } = router.query
-  return <EntryForm id={id} title='連絡先の編集' />
+  return <ContactForm id={id} title='連絡先の編集' />
 }
 
-export default EntryEdit
+export default ContactEdit

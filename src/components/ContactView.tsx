@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const RemoveModal = ({ modalOpen, close, id }) => {
   const classes = useStyles()
 
-  const removeEntry = async (id: string) => {
+  const removeContact = async (id: string) => {
     await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).delete()
     console.log('deleted!')
   }
@@ -62,7 +62,7 @@ const RemoveModal = ({ modalOpen, close, id }) => {
             color='primary'
             variant='contained'
             onClick={() => {
-              removeEntry(id)
+              removeContact(id)
               close()
             }}>
             削除する
@@ -77,13 +77,13 @@ const RemoveModal = ({ modalOpen, close, id }) => {
 }
 
 type Props = {
-  entry: Contact
+  contact: Contact
 }
 
-const EntryView: FC<Props> = (props) => {
+const ContactView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id, liked, address, birthday } = props.entry
+  const { firstName, lastName, id, liked, address, birthday } = props.contact
   const dt = DateTime.fromJSDate(birthday.toDate())
   const displayBirthday = `${dt.year}-${dt.month}-${dt.day}`
 
@@ -149,4 +149,4 @@ const EntryView: FC<Props> = (props) => {
   )
 }
 
-export default EntryView
+export default ContactView

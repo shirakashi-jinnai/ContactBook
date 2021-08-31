@@ -10,7 +10,7 @@ import PrimaryButton from '../components/UIkit/PrimaryButton'
 import firebase from 'firebase'
 
 const useStyles = makeStyles({
-  entryArea: {
+  contactArea: {
     display: 'flex',
     flexDirection: 'column',
     margin: '0 auto',
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 })
 
-type EntryField = {
+type ContactField = {
   firstName: string
   lastName: string
   phoneNumber: number
@@ -32,10 +32,10 @@ type EntryField = {
   liked: boolean
 }
 
-const EntryForm = ({ id, title = '連絡先の登録' }) => {
+const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
-  const [entryAddress, setEntryAddress] = useState<EntryField>({
+  const [contactAddress, setContactAddress] = useState<ContactField>({
     firstName: '',
     lastName: '',
     phoneNumber: 0,
@@ -53,26 +53,26 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
   const onChangeValue = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setEntryAddress({ ...entryAddress, [e.target.name]: e.target.value })
+    setContactAddress({ ...contactAddress, [e.target.name]: e.target.value })
   }
 
   const onChangeAddress = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setEntryAddress({
-      ...entryAddress,
-      address: { ...entryAddress.address, [e.target.name]: e.target.value },
+    setContactAddress({
+      ...contactAddress,
+      address: { ...contactAddress.address, [e.target.name]: e.target.value },
     })
   }
 
   //firestoreに保存
-  const saveEntryAddress = async (data: EntryField) => {
-    if (_.isEmpty(entryAddress.firstName) || _.isEmpty(entryAddress.lastName)) {
+  const saveContactAddress = async (data: ContactField) => {
+    if (_.isEmpty(contactAddress.firstName) || _.isEmpty(contactAddress.lastName)) {
       alert('必須項目を入力してください')
       return
     }
 
-    entryAddress.birthday = new Date(entryAddress.birthday)
+    contactAddress.birthday = new Date(contactAddress.birthday)
     const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
     id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')
@@ -83,26 +83,26 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .onSnapshot((s) => {
-        setEntryAddress(s.data() as EntryField)
+        setContactAddress(s.data() as ContactField)
       })
     return () => unsub()
   }, [id])
 
   return (
     <Layout title={title}>
-      <div className={classes.entryArea}>
+      <div className={classes.contactArea}>
         <h1>{title}</h1>
         <TextField
           label='姓(必須)'
           required
-          value={entryAddress.lastName}
+          value={contactAddress.lastName}
           name='lastName'
           onChange={onChangeValue}
         />
         <TextField
           label='名(必須)'
           required
-          value={entryAddress.firstName}
+          value={contactAddress.firstName}
           name='firstName'
           onChange={onChangeValue}
         />
@@ -110,56 +110,56 @@ const EntryForm = ({ id, title = '連絡先の登録' }) => {
           label='メール'
           type='email'
           name='email'
-          value={entryAddress.email}
+          value={contactAddress.email}
           onChange={onChangeValue}
         />
         <TextField
           label='電話番号'
           name='phoneNumber'
-          value={entryAddress.phoneNumber}
+          value={contactAddress.phoneNumber}
           onChange={onChangeValue}
         />
         <p>住所</p>
         <TextField
           label='郵便番号'
           name='postalCode'
-          value={entryAddress.address.postalCode}
+          value={contactAddress.address.postalCode}
           onChange={onChangeAddress}
         />
         <TextField
           label='都道府県'
           name='prefecture'
-          value={entryAddress.address.prefecture}
+          value={contactAddress.address.prefecture}
           onChange={onChangeAddress}
         />
         <TextField
           label='市区町村'
           name='municipalities'
-          value={entryAddress.address.municipalities}
+          value={contactAddress.address.municipalities}
           onChange={onChangeAddress}
         />
         <TextField
           label='番地'
           name='houseNumber'
-          value={entryAddress.address.houseNumber}
+          value={contactAddress.address.houseNumber}
           onChange={onChangeAddress}
         />
         <p>生年月日</p>
         <TextField
           type='date'
           name='birthday'
-          value={entryAddress.birthday}
+          value={contactAddress.birthday}
           onChange={onChangeValue}
         />
       </div>
       <div className={classes.button}>
         <PrimaryButton
           label='保存'
-          onClick={() => saveEntryAddress(entryAddress)}
+          onClick={() => saveContactAddress(contactAddress)}
         />
       </div>
     </Layout>
   )
 }
 
-export default EntryForm
+export default ContactForm

@@ -34,7 +34,7 @@ const HeaderDrawer: FC = () => {
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
       label: '連絡先を登録',
-      path: '/entryForm',
+      path: '/contactForm',
       icon: <AddCircleOutlineIcon />,
     },
     {

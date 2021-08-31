@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import EntryView from '../components/EntryView'
+import ContactView from '../components/ContactView'
 import {
   Table,
   TableBody,
@@ -33,8 +33,8 @@ const Home = () => {
 
   const ResultContacts = () =>
     !_.isEmpty(contacts) ? (
-      filteredContacts.map((entry: Contact, i: number) => (
-        <EntryView key={i} entry={entry} />
+      filteredContacts.map((contact: Contact, i: number) => (
+        <ContactView key={i} contact={contact} />
       ))
     ) : (
       <TableRow>

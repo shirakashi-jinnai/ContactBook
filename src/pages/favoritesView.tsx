@@ -11,7 +11,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core'
-import EntryView from '../components/EntryView'
+import ContactView from '../components/ContactView'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -41,7 +41,7 @@ const FavoriteView = () => {
   const ResultFavorites = () =>
     !_.isEmpty(favorites) ? (
       filteredContacts.map((favorite: Contact, i: number) => (
-        <EntryView key={i} entry={favorite} />
+        <ContactView key={i} contact={favorite} />
       ))
     ) : (
       <TableRow>
