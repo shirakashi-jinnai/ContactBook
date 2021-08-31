@@ -46,13 +46,13 @@ export const useUserState = () => {
       return filterQuery
     }
 
-    const filterAgeRange = _.filter(filterQuery, 'birthday').filter(
-      ({ birthday }) => {
+    const filterAgeRange = filterQuery
+      .filter(({ birthday }) => !_.isEmpty(birthday))
+      .filter(({ birthday }) => {
         const age = calcAge(birthday)
         const result = max ? _.inRange(age, min, max) : age >= min
         return result
-      }
-    )
+      })
     return filterAgeRange
   }
 
