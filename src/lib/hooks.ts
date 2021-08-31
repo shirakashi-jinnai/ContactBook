@@ -56,6 +56,11 @@ export const useUserState = () => {
     return filterAgeRange
   }
 
+  const filteredContacts = (contacts) => {
+    if (!isSearching) return contacts
+    return filterContactsBySearchConditions()
+  }
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
@@ -82,6 +87,7 @@ export const useUserState = () => {
     setContacts,
     setFilterCondition,
     filterContactsBySearchConditions,
+    filteredContacts,
     isSearching,
   }
 }

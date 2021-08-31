@@ -22,17 +22,12 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles()
-  const { contacts, filterContactsBySearchConditions, isSearching } =
-    useContext(UserContext)
+  const { contacts, filteredContacts, isSearching } = useContext(UserContext)
+  const resultContacts = filteredContacts(contacts)
 
-  //検索中の場合検索された値を表示
-  const filteredContacts = isSearching
-    ? filterContactsBySearchConditions()
-    : contacts
-
-  const ResultContacts = () =>
+  const ViewResults = () =>
     !_.isEmpty(contacts) ? (
-      filteredContacts.map((contact: Contact, i: number) => (
+      resultContacts.map((contact: Contact, i: number) => (
         <ContactView key={i} contact={contact} />
       ))
     ) : (
@@ -46,7 +41,7 @@ const Home = () => {
       <div className={classes.viewArea}>
         {isSearching && (
           <p>
-            {filteredContacts.length}件/
+            {resultContacts.length}件/
             {contacts.length}件のヒット
           </p>
         )}
@@ -61,7 +56,7 @@ const Home = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <ResultContacts />
+              <ViewResults />
             </TableBody>
           </Table>
         </TableContainer>

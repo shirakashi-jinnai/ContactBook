@@ -22,24 +22,16 @@ const useStyles = makeStyles({
 
 const FavoriteView = () => {
   const classes = useStyles()
-  const { contacts, filterContactsBySearchConditions, isSearching } =
-    useContext(UserContext)
+  const { contacts, isSearching, filteredContacts } = useContext(UserContext)
 
   //検索元の値
   const favorites = _.filter(contacts, 'liked')
 
-  //検索された値
-  const filteredFavorites = _.filter(
-    filterContactsBySearchConditions(),
-    'liked'
-  )
+  const resultFavorites = filteredContacts(favorites)
 
-  //検索中の場合検索された値を表示
-  const filteredContacts = isSearching ? filteredFavorites : favorites
-
-  const ResultFavorites = (): any =>
+  const ViewResults = (): any =>
     !_.isEmpty(favorites) ? (
-      filteredContacts.map((favorite: Contact, i: number) => (
+      resultFavorites.map((favorite: Contact, i: number) => (
         <ContactView key={i} contact={favorite} />
       ))
     ) : (
@@ -53,7 +45,7 @@ const FavoriteView = () => {
       <div className={classes.viewArea}>
         {isSearching && (
           <p>
-            {filteredFavorites.length}件/
+            {resultFavorites.length}件/
             {favorites.length}件のヒット
           </p>
         )}
@@ -69,7 +61,7 @@ const FavoriteView = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <ResultFavorites />
+              <ViewResults />
             </TableBody>
           </Table>
         </TableContainer>
