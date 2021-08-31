@@ -56,7 +56,7 @@ export const useUserState = () => {
     return filterAgeRange
   }
 
-  const filteredContacts = (contacts) => {
+  const filteredContacts = (contacts: Contact[]) => {
     if (!isSearching) return contacts
     return filterContactsBySearchConditions()
   }

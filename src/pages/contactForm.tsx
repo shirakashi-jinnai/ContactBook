@@ -67,12 +67,19 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
 
   //firestoreに保存
   const saveContactAddress = async (data: ContactField) => {
-    if (_.isEmpty(contactAddress.firstName) || _.isEmpty(contactAddress.lastName)) {
+    if (
+      _.isEmpty(contactAddress.firstName) ||
+      _.isEmpty(contactAddress.lastName)
+    ) {
       alert('必須項目を入力してください')
       return
     }
 
-    contactAddress.birthday = new Date(contactAddress.birthday)
+    //Date型へ変換させる
+    if (contactAddress.birthday) {
+      contactAddress.birthday = new Date(contactAddress.birthday)
+    }
+    console.log('birthday', contactAddress.birthday)
     const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
     id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')

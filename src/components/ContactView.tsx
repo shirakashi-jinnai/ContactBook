@@ -84,8 +84,14 @@ const ContactView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
   const { firstName, lastName, id, liked, address, birthday } = props.contact
-  const dt = DateTime.fromJSDate(birthday.toDate())
-  const displayBirthday = `${dt.year}-${dt.month}-${dt.day}`
+
+  const displayBirthday = (): string => {
+    if (birthday) {
+      const dt = DateTime.fromJSDate(birthday.toDate())
+      return `${dt.year}-${dt.month}-${dt.day}`
+    }
+    return
+  }
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -118,7 +124,7 @@ const ContactView: FC<Props> = (props) => {
       <TableRow>
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
         <TableCell>{address.prefecture}</TableCell>
-        <TableCell>{displayBirthday}</TableCell>
+        <TableCell>{displayBirthday()}</TableCell>
         <TableCell align='center'>
           <IconButton onClick={toggleLike}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
