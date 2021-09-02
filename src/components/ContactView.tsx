@@ -121,7 +121,7 @@ const ContactView: FC<Props> = (props) => {
   return (
     <>
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
-      <TableRow>
+      <TableRow onClick={() => console.log(props.contact)}>
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
         <TableCell>{address.prefecture}</TableCell>
         <TableCell>{displayBirthday()}</TableCell>

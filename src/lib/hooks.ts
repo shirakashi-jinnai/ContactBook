@@ -74,7 +74,8 @@ export const useUserState = () => {
       let obj = {}
       const unsub = colRef.onSnapshot((s) => {
         s.forEach((contact) => {
-          obj[contact.id] = contact.data()
+          const id = contact.id
+          obj[id] = { ...contact.data(), id }
         })
         setContacts(obj)
       })
