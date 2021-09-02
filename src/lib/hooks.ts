@@ -10,9 +10,10 @@ export const useUserState = () => {
   const router = useRouter()
   const [initializing, setInitializing] = useState(true)
   const [contacts, setContacts] = useReducer(
-    (state: Contact[], data: Contact[]) => _.concat(state, data),
+    (state: object, data: object) => _.assign({}, state, data),
     initialState.contacts
   )
+
   const [filterCondition, setFilterCondition] = useReducer(
     (state: object, data: object) => _.assign({}, state, data),
     initialState.filterCondition
@@ -30,33 +31,34 @@ export const useUserState = () => {
   }
 
   const filterContactsBySearchConditions = (): Contact[] => {
-    const filterQuery = contacts.filter((c) => {
-      if (_.isEmpty(queries)) {
-        return contacts
-      }
+    // const filterQuery = contacts.filter((c) => {
+    //   if (_.isEmpty(queries)) {
+    //     return contacts
+    //   }
 
-      for (let query of queries) {
-        return new RegExp(query, 'i').test(
-          c.firstName + c.lastName + c.address.prefecture
-        )
-      }
-    })
+    //   for (let query of queries) {
+    //     return new RegExp(query, 'i').test(
+    //       c.firstName + c.lastName + c.address.prefecture
+    //     )
+    //   }
+    // })
 
-    if (!min && !max) {
-      return filterQuery
-    }
+    // if (!min && !max) {
+    //   return filterQuery
+    // }
 
-    const filterAgeRange = filterQuery
-      .filter(({ birthday }) => !_.isEmpty(birthday))
-      .filter(({ birthday }) => {
-        const age = calcAge(birthday)
-        const result = max ? _.inRange(age, min, max) : age >= min
-        return result
-      })
-    return filterAgeRange
+    // const filterAgeRange = filterQuery
+    //   .filter(({ birthday }) => !_.isEmpty(birthday))
+    //   .filter(({ birthday }) => {
+    //     const age = calcAge(birthday)
+    //     const result = max ? _.inRange(age, min, max) : age >= min
+    //     return result
+    //   })
+    // return filterAgeRange
+    return contacts
   }
 
-  const filteredContacts = (contacts: Contact[]) => {
+  const filteredContacts = (contacts) => {
     if (!isSearching) return contacts
     return filterContactsBySearchConditions()
   }
@@ -69,12 +71,12 @@ export const useUserState = () => {
         return
       }
       const colRef = db.collection(`users/${user.uid}/contacts`)
+      let obj = {}
       const unsub = colRef.onSnapshot((s) => {
-        const contacts = _.map(s.docs, (doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-        setContacts(contacts)
+        s.forEach((contact) => {
+          obj[contact.id] = contact.data()
+        })
+        setContacts(obj)
       })
       setInitializing(false)
       return () => unsub()

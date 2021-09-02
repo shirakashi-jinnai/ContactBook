@@ -27,8 +27,8 @@ const Home = () => {
 
   const ViewResults = () =>
     !_.isEmpty(contacts) ? (
-      resultContacts.map((contact: Contact, i: number) => (
-        <ContactView key={i} contact={contact} />
+      Object.keys(contacts).map((contact, i) => (
+        <ContactView key={i} contact={contacts[contact]} />
       ))
     ) : (
       <TableRow>

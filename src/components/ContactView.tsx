@@ -88,7 +88,7 @@ const ContactView: FC<Props> = (props) => {
   const displayBirthday = (): string => {
     if (birthday) {
       const dt = DateTime.fromJSDate(birthday.toDate())
-      return `${dt.year}-${dt.month}-${dt.day}`
+      return dt.toFormat('yyyy-MM-dd')
     }
     return
   }
