@@ -9,10 +9,7 @@ import { initialState } from './initialstate'
 export const useUserState = () => {
   const router = useRouter()
   const [initializing, setInitializing] = useState(true)
-  const [contacts, setContacts] = useReducer(
-    (state: object, data: object) => _.assign({}, state, data),
-    initialState.contacts
-  )
+  const [contacts, setContacts] = useState(initialState.contacts)
 
   const [filterCondition, setFilterCondition] = useReducer(
     (state: object, data: object) => _.assign({}, state, data),
@@ -71,12 +68,15 @@ export const useUserState = () => {
         return
       }
       const colRef = db.collection(`users/${user.uid}/contacts`)
-      let obj = {}
       const unsub = colRef.onSnapshot((s) => {
-        s.forEach((contact) => {
-          const id = contact.id
-          obj[id] = { ...contact.data(), id }
-        })
+        const contacts = _.map(s.docs, (doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        const obj = contacts.reduce((obj, data) => {
+          obj[data.id] = data
+          return obj
+        }, {})
         setContacts(obj)
       })
       setInitializing(false)

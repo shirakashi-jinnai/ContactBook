@@ -19,6 +19,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { DateTime } from 'luxon'
+import { UserContext } from '../lib/context'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -47,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 //削除時のモーダル
 const RemoveModal = ({ modalOpen, close, id }) => {
   const classes = useStyles()
-
   const removeContact = async (id: string) => {
     await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).delete()
     console.log('deleted!')
@@ -121,7 +121,7 @@ const ContactView: FC<Props> = (props) => {
   return (
     <>
       <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
-      <TableRow onClick={() => console.log(props.contact)}>
+      <TableRow>
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
         <TableCell>{address.prefecture}</TableCell>
         <TableCell>{displayBirthday()}</TableCell>

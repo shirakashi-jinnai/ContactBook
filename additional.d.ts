@@ -22,6 +22,6 @@ type FilterCondition = {
 }
 
 type State = {
-  contacts: Contact[]
+  contacts: { [key: string]: Contact }
   filterCondition: FilterCondition
 }
