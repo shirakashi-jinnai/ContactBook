@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import _ from 'lodash'
+import _, { filter } from 'lodash'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import {
@@ -25,17 +25,15 @@ const FavoriteView = () => {
   const { contacts, isSearching, filteredContacts } = useContext(UserContext)
 
   //検索元の値
-  const favorites = Object.keys(contacts).filter(
-    (contact) => contacts[contact].liked == true
+  const favorites = Object.values(contacts).filter(
+    (contact) => contact.liked == true
   )
 
   const resultFavorites = filteredContacts(favorites)
 
   const ViewResults = (): any =>
     !_.isEmpty(favorites) ? (
-      favorites.map((favorite, i) => (
-        <ContactView key={i} contact={contacts[favorite]} />
-      ))
+      favorites.map((favorite, i) => <ContactView key={i} contact={favorite} />)
     ) : (
       <TableRow>
         <TableCell>お気に入りが登録されていません。</TableCell>
