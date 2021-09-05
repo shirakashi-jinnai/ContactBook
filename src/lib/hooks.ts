@@ -1,4 +1,3 @@
-import firebase from 'firebase'
 import _ from 'lodash'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
@@ -27,37 +26,40 @@ export const useUserState = () => {
     return Math.abs(Math.floor(dt.diffNow().as('years')))
   }
 
-  const filterContactsBySearchConditions = (): Contact[] => {
-    // const filterQuery = contacts.filter((c) => {
-    //   if (_.isEmpty(queries)) {
-    //     return contacts
-    //   }
+  const filterContactsBySearchConditions = (contacts) => {
+    let filterQuery = []
+    Object.values(contacts).filter((c) => {
+      const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
+      for (const target of searchTargets) {
+        for (const query of queries) {
+          //この中にreturn文を設けても値が返されないため別途filterQueryを設置
+          if (new RegExp(query, 'i').test(target)) {
+            filterQuery.push(c)
+          }
+        }
+      }
+    })
 
-    //   for (let query of queries) {
-    //     return new RegExp(query, 'i').test(
-    //       c.firstName + c.lastName + c.address.prefecture
-    //     )
-    //   }
-    // })
+    if (!min && !max) {
+      return filterQuery
+    }
+    if (_.isEmpty(queries)) {
+      filterQuery = Object.values(contacts)
+    }
 
-    // if (!min && !max) {
-    //   return filterQuery
-    // }
-
-    // const filterAgeRange = filterQuery
-    //   .filter(({ birthday }) => !_.isEmpty(birthday))
-    //   .filter(({ birthday }) => {
-    //     const age = calcAge(birthday)
-    //     const result = max ? _.inRange(age, min, max) : age >= min
-    //     return result
-    //   })
-    // return filterAgeRange
-    return contacts
+    const filterAgeRange = filterQuery
+      .filter(({ birthday }) => !_.isEmpty(birthday))
+      .filter(({ birthday }) => {
+        const age = calcAge(birthday)
+        const result = max ? _.inRange(age, min, max) : age >= min
+        return result
+      })
+    return filterAgeRange
   }
 
   const filteredContacts = (contacts) => {
     if (!isSearching) return contacts
-    return filterContactsBySearchConditions()
+    return filterContactsBySearchConditions(contacts)
   }
 
   useEffect(() => {

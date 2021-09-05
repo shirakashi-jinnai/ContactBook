@@ -33,7 +33,9 @@ const FavoriteView = () => {
 
   const ViewResults = (): any =>
     !_.isEmpty(favorites) ? (
-      favorites.map((favorite, i) => <ContactView key={i} contact={favorite} />)
+      resultFavorites.map((favorite, i) => (
+        <ContactView key={i} contact={favorite} />
+      ))
     ) : (
       <TableRow>
         <TableCell>お気に入りが登録されていません。</TableCell>

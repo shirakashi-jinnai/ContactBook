@@ -23,12 +23,12 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
-  const resultContacts = filteredContacts(contacts)
+  const resultContacts = filteredContacts(Object.values(contacts))
 
   const ViewResults = () =>
     !_.isEmpty(contacts) ? (
-      Object.keys(contacts).map((contact, i) => (
-        <ContactView key={i} contact={contacts[contact]} />
+      resultContacts.map((contact, i) => (
+        <ContactView key={i} contact={contact} />
       ))
     ) : (
       <TableRow>

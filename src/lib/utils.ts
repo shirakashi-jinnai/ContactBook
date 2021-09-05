@@ -8,7 +8,6 @@ export const sendEmail = async (email: string) => {
     return
   }
   const callbackUrl = `${location.origin}/authentication`
-  console.log(callbackUrl)
 
   const actionCodeSettings = {
     url: callbackUrl,
@@ -25,5 +24,3 @@ export const sendEmail = async (email: string) => {
     alert(error.message)
   }
 }
-
-
