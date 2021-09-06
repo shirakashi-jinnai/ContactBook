@@ -10,7 +10,7 @@ type Contact = {
   lastName: string
   phoneNumber: number
   email: string
-  birthday: Date | null
+  birthday: string | firebase.firestore.Timestamp
   address: Address
   id: string
   liked: boolean

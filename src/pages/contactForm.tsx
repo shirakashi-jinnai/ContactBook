@@ -27,7 +27,7 @@ type ContactField = {
   lastName: string
   phoneNumber: number
   email: string
-  birthday: Date | null
+  birthday: firebase.firestore.Timestamp | Date | string
   address: Address
   liked: boolean
 }
@@ -40,7 +40,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     lastName: '',
     phoneNumber: 0,
     email: '',
-    birthday: null,
+    birthday: '',
     address: {
       postalCode: '',
       prefecture: '',
@@ -79,7 +79,6 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     if (contactAddress.birthday) {
       contactAddress.birthday = new Date(contactAddress.birthday)
     }
-    console.log('birthday', contactAddress.birthday)
     const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
     id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')
@@ -90,10 +89,17 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .onSnapshot((s) => {
+        if (s.data().birthday) {
+          const dt = DateTime.fromJSDate(s.data().birthday.toDate())
+          const data = { ...s.data(), birthday: dt.toFormat('yyyy-MM-dd') }
+          setContactAddress(data as ContactField)
+          return
+        }
         setContactAddress(s.data() as ContactField)
       })
     return () => unsub()
   }, [id])
+
 
   return (
     <Layout title={title}>

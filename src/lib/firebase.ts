@@ -24,3 +24,5 @@ if (!firebase.apps.length) {
 export const auth = firebase.auth()
 export const db = firebase.firestore()
 export const storage = firebase.storage()
+
+export const time = firebase.firestore.Timestamp.now()
