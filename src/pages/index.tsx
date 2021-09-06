@@ -42,7 +42,7 @@ const Home = () => {
         {isSearching && (
           <p>
             {resultContacts.length}件/
-            {contacts.length}件のヒット
+            {Object.keys(contacts).length}件のヒット
           </p>
         )}
         <TableContainer>

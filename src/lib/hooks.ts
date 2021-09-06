@@ -26,28 +26,28 @@ export const useUserState = () => {
     return Math.abs(Math.floor(dt.diffNow().as('years')))
   }
 
-  const filterContactsBySearchConditions = (contacts) => {
-    let filterQuery = []
+  const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
+    let filterQuery: Contact[] | Contacts = {}
     Object.values(contacts).filter((c) => {
       const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
       for (const target of searchTargets) {
         for (const query of queries) {
           //この中にreturn文を設けても値が返されないため別途filterQueryを設置
           if (new RegExp(query, 'i').test(target)) {
-            filterQuery.push(c)
+            filterQuery = { ...filterQuery, c }
           }
         }
       }
     })
 
     if (!min && !max) {
-      return filterQuery
+      return Object.values(filterQuery)
     }
     if (_.isEmpty(queries)) {
-      filterQuery = Object.values(contacts)
+      filterQuery = contacts
     }
 
-    const filterAgeRange = filterQuery
+    const filterAgeRange = Object.values(filterQuery)
       .filter(({ birthday }) => !_.isEmpty(birthday))
       .filter(({ birthday }) => {
         const age = calcAge(birthday)
@@ -57,7 +57,7 @@ export const useUserState = () => {
     return filterAgeRange
   }
 
-  const filteredContacts = (contacts) => {
+  const filteredContacts = (contacts: Contact[]): Contact[] => {
     if (!isSearching) return contacts
     return filterContactsBySearchConditions(contacts)
   }

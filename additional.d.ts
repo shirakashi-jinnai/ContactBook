@@ -21,7 +21,9 @@ type FilterCondition = {
   ageRangeCondition: { [key: string]: number | null }
 }
 
-type State = {
-  contacts: { [key: string]: Contact }
+type Contacts = { [key: string]: Contact }
+
+type UserProps = {
+  contacts: Contacts
   filterCondition: FilterCondition
 }

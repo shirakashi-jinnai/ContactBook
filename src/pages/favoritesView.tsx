@@ -25,15 +25,15 @@ const FavoriteView = () => {
   const { contacts, isSearching, filteredContacts } = useContext(UserContext)
 
   //検索元の値
-  const favorites = Object.values(contacts).filter(
-    (contact) => contact.liked == true
+  const favorites: Contact[] | unknown[] = Object.values(contacts).filter(
+    (contact: Contact) => contact.liked == true
   )
 
   const resultFavorites = filteredContacts(favorites)
 
   const ViewResults = (): any =>
     !_.isEmpty(favorites) ? (
-      resultFavorites.map((favorite, i) => (
+      resultFavorites.map((favorite: Contact, i: number) => (
         <ContactView key={i} contact={favorite} />
       ))
     ) : (
