@@ -84,6 +84,8 @@ const Header = () => {
 
   const onQueryChange = (e) => {
     const query = e.target.value
+    //queryを空白毎にくぎり、配列に変換
+    //'山田　太郎'=>['山田','太郎']
     const queries = query.split(/\s+/).filter((v) => !_.isEmpty(v))
     setFilterCondition({ queries })
   }
