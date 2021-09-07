@@ -75,11 +75,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
   const classes = useStyles()
-  const [age, setAge] = useState<string>('')
+  const [age, setAge] = useState<number | null>(null)
   const { setFilterCondition } = useContext(UserContext)
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string)
+    setAge(event.target.value as number)
   }
 
   const onQueryChange = (e) => {
