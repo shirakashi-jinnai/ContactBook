@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import _, { filter } from 'lodash'
+import _ from 'lodash'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import {

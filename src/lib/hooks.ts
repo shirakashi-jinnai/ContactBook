@@ -50,8 +50,7 @@ export const useUserState = () => {
       .filter(({ birthday }) => !_.isEmpty(birthday))
       .filter(({ birthday }) => {
         const age = calcAge(birthday)
-        const result = max ? _.inRange(age, min, max) : age >= min
-        return result
+        return max ? _.inRange(age, min, max) : age >= min
       })
     return filterAgeRange
   }

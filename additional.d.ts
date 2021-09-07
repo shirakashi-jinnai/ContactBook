@@ -22,8 +22,3 @@ type FilterCondition = {
 }
 
 type Contacts = { [key: string]: Contact }
-
-type UserProps = {
-  contacts: Contacts
-  filterCondition: FilterCondition
-}
