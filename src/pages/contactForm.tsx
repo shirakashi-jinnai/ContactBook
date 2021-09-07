@@ -27,7 +27,7 @@ type ContactField = {
   lastName: string
   phoneNumber: number
   email: string
-  birthday: firebase.firestore.Timestamp | Date | string
+  birthday: Date | null
   address: Address
   liked: boolean
 }
@@ -40,7 +40,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     lastName: '',
     phoneNumber: 0,
     email: '',
-    birthday: '',
+    birthday: null,
     address: {
       postalCode: '',
       prefecture: '',
@@ -99,7 +99,6 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       })
     return () => unsub()
   }, [id])
-
 
   return (
     <Layout title={title}>
