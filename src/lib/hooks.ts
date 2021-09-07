@@ -22,7 +22,7 @@ export const useUserState = () => {
 
   const calcAge = (birthday: Date): number => {
     const dt = DateTime.fromJSDate(birthday.toDate())
-    return Math.abs(Math.floor(dt.diffNow().as('years')))
+    return Math.floor(DateTime.now().diff(dt).as('years'))
   }
 
   const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
@@ -31,7 +31,6 @@ export const useUserState = () => {
       const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
       for (const target of searchTargets) {
         for (const query of queries) {
-          //この中にreturn文を設けても値が返されないため別途filterQueryを設置
           if (new RegExp(query, 'i').test(target)) {
             filterQuery = { ...filterQuery, c }
           }
