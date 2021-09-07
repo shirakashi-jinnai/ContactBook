@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { result } from 'lodash'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
@@ -26,8 +26,10 @@ export const useUserState = () => {
   }
 
   const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
-    let filterQuery: Contact[] | Contacts = {}
-    Object.values(contacts).filter((c) => {
+    let filterQuery: Contacts = {}
+    let resultQuery: Contact[] = []
+
+    Object.values(contacts).map((c) => {
       const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
       for (const target of searchTargets) {
         for (const query of queries) {
@@ -37,15 +39,16 @@ export const useUserState = () => {
         }
       }
     })
-
+    resultQuery = Object.values(filterQuery)
     if (!min && !max) {
-      return Object.values(filterQuery)
-    }
-    if (_.isEmpty(queries)) {
-      filterQuery = contacts
+      return resultQuery
     }
 
-    const filterAgeRange = Object.values(filterQuery)
+    if (_.isEmpty(queries)) {
+      resultQuery = contacts
+    }
+
+    const filterAgeRange = resultQuery
       .filter(({ birthday }) => !_.isEmpty(birthday))
       .filter(({ birthday }) => {
         const age = calcAge(birthday)
