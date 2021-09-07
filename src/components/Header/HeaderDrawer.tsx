@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import {
   Divider,
   Drawer,
@@ -17,6 +17,12 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import { auth } from '../../lib/firebase'
 import { FC, useState } from 'react'
 
+type MenuItems = {
+  label: string
+  path: string
+  icon: ReactElement
+}
+
 const HeaderDrawer: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
@@ -30,7 +36,7 @@ const HeaderDrawer: FC = () => {
     }
     setIsDrawerOpen(setDrawerOpen)
   }
-  const menuItems = [
+  const menuItems: MenuItems[] = [
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
       label: '連絡先を登録',

@@ -73,6 +73,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+type AgeFilterOptions = {
+  label: string
+  min?: number
+  max?: number
+}
+
 const Header = () => {
   const classes = useStyles()
   const [age, setAge] = useState<number | null>(null)
@@ -94,7 +100,7 @@ const Header = () => {
     setFilterCondition({ ageRangeCondition: { min, max } })
   }
 
-  const ageFilterOptions = [
+  const ageFilterOptions: AgeFilterOptions[] = [
     { label: '10歳未満', max: 10 },
     { label: '10歳~19歳', min: 10, max: 19 },
     { label: '20歳~29歳', min: 20, max: 29 },
