@@ -3,16 +3,15 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
 import { auth, db } from './firebase'
-import { initialState } from './initialstate'
 
 export const useUserState = () => {
   const router = useRouter()
   const [initializing, setInitializing] = useState(true)
-  const [contacts, setContacts] = useState(initialState.contacts)
+  const [contacts, setContacts] = useState({})
 
   const [filterCondition, setFilterCondition] = useReducer(
     (state: object, data: object) => _.assign({}, state, data),
-    initialState.filterCondition
+    { queries: [], ageRangeCondition: { min: null, max: null } }
   )
 
   const { ageRangeCondition, queries } = <FilterCondition>filterCondition
