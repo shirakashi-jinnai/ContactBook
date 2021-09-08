@@ -17,7 +17,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import { auth } from '../../lib/firebase'
 import { FC, useState } from 'react'
 
-type MenuItems = {
+type MenuItem = {
   label: string
   path: string
   icon: ReactElement
@@ -36,7 +36,7 @@ const HeaderDrawer: FC = () => {
     }
     setIsDrawerOpen(setDrawerOpen)
   }
-  const menuItems: MenuItems[] = [
+  const menuItems: MenuItem[] = [
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
       label: '連絡先を登録',

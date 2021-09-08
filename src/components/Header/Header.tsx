@@ -73,20 +73,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-type AgeFilterOptions = {
+type AgeFilterOption = {
   label: string
   min?: number
   max?: number
 }
 
+type Age = {
+  min?: number | null
+  max?: number | null
+}
+
 const Header = () => {
   const classes = useStyles()
-  const [age, setAge] = useState<number | null>(null)
+  const [age, setAge] = useState<Age>({ min: null, max: null })
   const { setFilterCondition } = useContext(UserContext)
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as number)
+  const handleChange = (event: React.ChangeEvent<{ value: Age }>) => {
+    setAge(event.target.value as Age)
   }
+  console.log(age)
 
   const onQueryChange = (e) => {
     const query = e.target.value
@@ -100,7 +106,7 @@ const Header = () => {
     setFilterCondition({ ageRangeCondition: { min, max } })
   }
 
-  const ageFilterOptions: AgeFilterOptions[] = [
+  const ageFilterOptions: AgeFilterOption[] = [
     { label: '10歳未満', max: 10 },
     { label: '10歳~19歳', min: 10, max: 19 },
     { label: '20歳~29歳', min: 20, max: 29 },
@@ -144,18 +150,20 @@ const Header = () => {
                 value={age}
                 onChange={handleChange}>
                 <MenuItem
-                  value='None'
+                  value={{ min: null, max: null }}
                   onClick={() => onRangeChange(null, null)}>
                   <em>None</em>
                 </MenuItem>
-                {ageFilterOptions.map((option, i) => (
-                  <MenuItem
-                    key={i}
-                    value={option.label}
-                    onClick={() => onRangeChange(option.min, option.max)}>
-                    {option.label}
-                  </MenuItem>
-                ))}
+                {ageFilterOptions.map(
+                  (option, i): JSX.Element => (
+                    <MenuItem
+                      key={i}
+                      value={{ min: option.min, max: option.max }}
+                      onClick={() => onRangeChange(option.min, option.max)}>
+                      {option.label}
+                    </MenuItem>
+                  )
+                )}
               </Select>
             </FormControl>
           </Toolbar>
