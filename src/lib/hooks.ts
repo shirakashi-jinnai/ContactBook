@@ -1,4 +1,4 @@
-import _, { result } from 'lodash'
+import _ from 'lodash'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
@@ -10,11 +10,12 @@ export const useUserState = () => {
   const [contacts, setContacts] = useState({})
 
   const [filterCondition, setFilterCondition] = useReducer(
-    (state: object, data: object) => _.assign({}, state, data),
+    (state: FilterCondition, data: Partial<FilterCondition>) =>
+      _.assign({}, state, data),
     { queries: [], ageRangeCondition: { min: null, max: null } }
   )
 
-  const { ageRangeCondition, queries } = <FilterCondition>filterCondition
+  const { ageRangeCondition, queries } = filterCondition
   const { min, max } = ageRangeCondition
 
   //検索中かどうか
@@ -22,7 +23,7 @@ export const useUserState = () => {
 
   const calcAge = (birthday: Date): number => {
     const dt = DateTime.fromJSDate(birthday.toDate())
-    return Math.floor(DateTime.now().diff(dt).as('years'))
+    return _.floor(DateTime.now().diff(dt).as('years'))
   }
 
   const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
