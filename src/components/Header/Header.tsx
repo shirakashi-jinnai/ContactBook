@@ -92,7 +92,6 @@ const Header = () => {
   const handleChange = (event: React.ChangeEvent<{ value: Age }>) => {
     setAge(event.target.value as Age)
   }
-  console.log(age)
 
   const onQueryChange = (e) => {
     const query = e.target.value

@@ -28,7 +28,6 @@ export const useUserState = () => {
 
   const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
     const queryResult: Contact[] = []
-    console.log('contacts', contacts)
 
     contacts.forEach((c) => {
       const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
@@ -46,11 +45,11 @@ export const useUserState = () => {
       return Array.from(new Set(queryResult))
     }
 
-    const result = _.isEmpty(queries)
+    const filteredResult = _.isEmpty(queries)
       ? contacts
       : Array.from(new Set(queryResult))
 
-    const filterAgeRange = result
+    const filterAgeRange = filteredResult
       .filter(({ birthday }) => !_.isEmpty(birthday))
       .filter(({ birthday }) => {
         const age = calcAge(birthday)
