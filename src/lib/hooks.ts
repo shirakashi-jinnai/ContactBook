@@ -27,29 +27,30 @@ export const useUserState = () => {
   }
 
   const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
-    let filterQuery: Contacts = {}
-    let resultQuery: Contact[] = []
+    const queryResult: Contact[] = []
+    console.log('contacts', contacts)
 
-    Object.values(contacts).map((c) => {
+    contacts.forEach((c) => {
       const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
       for (const target of searchTargets) {
         for (const query of queries) {
           if (new RegExp(query, 'i').test(target)) {
-            filterQuery = { ...filterQuery, c }
+            queryResult.push(c)
           }
         }
       }
     })
-    resultQuery = Object.values(filterQuery)
+
     if (!min && !max) {
-      return resultQuery
+      //重複した要素を削除して返す
+      return Array.from(new Set(queryResult))
     }
 
-    if (_.isEmpty(queries)) {
-      resultQuery = contacts
-    }
+    const result = _.isEmpty(queries)
+      ? contacts
+      : Array.from(new Set(queryResult))
 
-    const filterAgeRange = resultQuery
+    const filterAgeRange = result
       .filter(({ birthday }) => !_.isEmpty(birthday))
       .filter(({ birthday }) => {
         const age = calcAge(birthday)
