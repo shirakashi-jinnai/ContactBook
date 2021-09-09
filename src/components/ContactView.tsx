@@ -85,14 +85,6 @@ const ContactView: FC<Props> = (props) => {
   const classes = useStyles()
   const { firstName, lastName, id, liked, address, birthday } = props.contact
 
-  const displayBirthday = (): string => {
-    if (birthday) {
-      const dt = DateTime.fromJSDate(birthday.toDate())
-      return dt.toFormat('yyyy-MM-dd')
-    }
-    return
-  }
-
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
@@ -124,7 +116,11 @@ const ContactView: FC<Props> = (props) => {
       <TableRow>
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
         <TableCell>{address.prefecture}</TableCell>
-        <TableCell>{displayBirthday()}</TableCell>
+        <TableCell>
+          {birthday
+            ? DateTime.fromJSDate(birthday.toDate()).toFormat('yyyy-MM-dd')
+            : null}
+        </TableCell>
         <TableCell align='center'>
           <IconButton onClick={toggleLike}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
