@@ -79,18 +79,18 @@ type AgeFilterOption = {
   max?: number
 }
 
-type Age = {
+type AgeRange = {
   min?: number | null
   max?: number | null
 }
 
 const Header = () => {
   const classes = useStyles()
-  const [age, setAge] = useState<Age>({ min: null, max: null })
+  const [age, setAge] = useState<AgeRange>({ min: null, max: null })
   const { setFilterCondition } = useContext(UserContext)
 
-  const handleChange = (event: React.ChangeEvent<{ value: Age }>) => {
-    setAge(event.target.value as Age)
+  const handleChange = (event: React.ChangeEvent<{ value: AgeRange }>) => {
+    setAge(event.target.value as AgeRange)
   }
 
   const onQueryChange = (e) => {
