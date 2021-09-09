@@ -25,17 +25,6 @@ const Home = () => {
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
   const resultContacts = filteredContacts(_.values(contacts))
 
-  const ViewResults = () =>
-    !_.isEmpty(contacts) ? (
-      resultContacts.map((contact, i) => (
-        <ContactView key={i} contact={contact} />
-      ))
-    ) : (
-      <TableRow>
-        <TableCell>連絡先が登録されていません。</TableCell>
-      </TableRow>
-    )
-
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
@@ -56,7 +45,15 @@ const Home = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <ViewResults />
+              {!_.isEmpty(contacts) ? (
+                resultContacts.map((contact: Contact, i: number) => (
+                  <ContactView key={i} contact={contact} />
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell>連絡先が登録されていません。</TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

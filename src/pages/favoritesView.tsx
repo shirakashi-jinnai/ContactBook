@@ -32,17 +32,6 @@ const FavoriteView = () => {
 
   const resultFavorites = filteredContacts(favorites)
 
-  const ViewResults = (): any =>
-    !_.isEmpty(favorites) ? (
-      resultFavorites.map((favorite: Contact, i: number) => (
-        <ContactView key={i} contact={favorite} />
-      ))
-    ) : (
-      <TableRow>
-        <TableCell>お気に入りが登録されていません。</TableCell>
-      </TableRow>
-    )
-
   return (
     <Layout title='お気に入りリスト'>
       <div className={classes.viewArea}>
@@ -64,7 +53,15 @@ const FavoriteView = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <ViewResults />
+              {!_.isEmpty(favorites) ? (
+                resultFavorites.map((favorite: Contact, i: number) => (
+                  <ContactView key={i} contact={favorite} />
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell>お気に入りが登録されていません。</TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
