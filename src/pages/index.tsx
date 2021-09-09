@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
-  const resultContacts = filteredContacts(Object.values(contacts))
+  const resultContacts = filteredContacts(_.values(contacts))
 
   const ViewResults = () =>
     !_.isEmpty(contacts) ? (
@@ -42,7 +42,7 @@ const Home = () => {
         {isSearching && (
           <p>
             {resultContacts.length}件/
-            {Object.keys(contacts).length}件のヒット
+            {_.keys(contacts).length}件のヒット
           </p>
         )}
         <TableContainer>

@@ -25,9 +25,10 @@ const FavoriteView = () => {
   const { contacts, isSearching, filteredContacts } = useContext(UserContext)
 
   //検索元の値
-  const favorites: Contact[] | unknown[] = Object.values(contacts).filter(
-    (contact: Contact) => contact.liked == true
-  )
+  const favorites: Contact[] | unknown[] = _(contacts)
+    .values()
+    .filter('liked')
+    .value()
 
   const resultFavorites = filteredContacts(favorites)
 
