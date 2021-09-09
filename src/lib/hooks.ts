@@ -74,10 +74,6 @@ export const useUserState = () => {
           id: doc.id,
           ...doc.data(),
         }))
-        // const objContacts = arrayContacts.reduce((obj, data) => {
-        //   obj[data.id] = data
-        //   return obj
-        // }, {})
         const objContacts = _.transform(
           arrayContacts,
           (res, c) => {
