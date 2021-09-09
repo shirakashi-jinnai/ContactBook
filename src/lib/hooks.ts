@@ -42,12 +42,10 @@ export const useUserState = () => {
 
     if (!min && !max) {
       //重複した要素を削除して返す
-      return Array.from(new Set(queryResult))
+      return _.uniq(queryResult)
     }
 
-    const filteredResult = _.isEmpty(queries)
-      ? contacts
-      : Array.from(new Set(queryResult))
+    const filteredResult = _.isEmpty(queries) ? contacts : _.uniq(queryResult)
 
     const filterAgeRange = filteredResult
       .filter(({ birthday }) => !_.isEmpty(birthday))
@@ -72,15 +70,22 @@ export const useUserState = () => {
       }
       const colRef = db.collection(`users/${user.uid}/contacts`)
       const unsub = colRef.onSnapshot((s) => {
-        const contacts = _.map(s.docs, (doc) => ({
+        const arrayContacts = _.map(s.docs, (doc) => ({
           id: doc.id,
           ...doc.data(),
         }))
-        const obj = contacts.reduce((obj, data) => {
-          obj[data.id] = data
-          return obj
-        }, {})
-        setContacts(obj)
+        // const objContacts = arrayContacts.reduce((obj, data) => {
+        //   obj[data.id] = data
+        //   return obj
+        // }, {})
+        const objContacts = _.transform(
+          arrayContacts,
+          (res, c) => {
+            res[c.id] = c
+          },
+          {}
+        )
+        setContacts(objContacts)
       })
       setInitializing(false)
       return () => unsub()
