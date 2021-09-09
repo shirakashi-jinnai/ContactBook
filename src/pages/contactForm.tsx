@@ -8,6 +8,7 @@ import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import firebase from 'firebase'
+import { Contacts } from '@material-ui/icons'
 
 const useStyles = makeStyles({
   contactArea: {
@@ -53,7 +54,13 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const onValueChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setContact({ ...contact, [e.target.name]: e.target.value })
+    setContact({
+      ...contact,
+      [e.target.name]:
+        e.target.name !== 'birthday'
+          ? e.target.value
+          : new Date(e.target.value),
+    })
   }
 
   const onAddressChange = (
@@ -72,10 +79,6 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       return
     }
 
-    //Date型へ変換させる
-    if (contact.birthday) {
-      contact.birthday = new Date(contact.birthday)
-    }
     const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
     id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')
@@ -87,8 +90,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .onSnapshot((s) => {
         if (s.data().birthday) {
-          const dt = DateTime.fromJSDate(s.data().birthday.toDate())
-          const data = { ...s.data(), birthday: dt.toFormat('yyyy-MM-dd') }
+          const data = { ...s.data(), birthday: s.data().birthday.toDate() }
           setContact(data as ContactField)
           return
         }
@@ -157,7 +159,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
         <TextField
           type='date'
           name='birthday'
-          value={contact.birthday}
+          value={DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')}
           onChange={onValueChange}
         />
       </div>
