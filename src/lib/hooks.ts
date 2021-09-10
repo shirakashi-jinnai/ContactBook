@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
 import { auth, db } from './firebase'
+import { TimestampConberter } from './TimestampConverter'
 
 export const useUserState = () => {
   const router = useRouter()
@@ -68,21 +69,22 @@ export const useUserState = () => {
         return
       }
       const colRef = db.collection(`users/${user.uid}/contacts`)
-      const unsub = colRef.onSnapshot((s) => {
-        const arrayContacts = _.map(s.docs, (doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          birthday: doc.data().birthday && doc.data().birthday.toDate(),
-        }))
-        const objContacts = _.transform(
-          arrayContacts,
-          (res, c) => {
-            res[c.id] = c
-          },
-          {}
-        )
-        setContacts(objContacts)
-      })
+      const unsub = colRef
+        .withConverter(new TimestampConberter())
+        .onSnapshot((s) => {
+          const arrayContacts = _.map(s.docs, (doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          const objContacts = _.transform(
+            arrayContacts,
+            (res, c) => {
+              res[c.id] = c
+            },
+            {}
+          )
+          setContacts(objContacts)
+        })
       setInitializing(false)
       return () => unsub()
     })
