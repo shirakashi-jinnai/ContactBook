@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 type Profile = {
   firstName: string
   lastName: string
-  phoneNumber: number
+  phoneNumber: string
   email: string
   birthday: Date | null
 }
@@ -34,7 +34,7 @@ type Profile = {
 type ContactField = {
   firstName: string
   lastName: string
-  phoneNumber: number
+  phoneNumber: string
   email: string
   birthday: Date | null
   address: Address
@@ -48,7 +48,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     {
       firstName: '',
       lastName: '',
-      phoneNumber: 0,
+      phoneNumber: '',
       email: '',
       birthday: null,
     }

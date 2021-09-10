@@ -93,7 +93,6 @@ const Header = () => {
     setAge(event.target.value)
     setFilterCondition({ ageRangeCondition: event.target.value })
   }
-  console.log('age', age)
 
   const onQueryChange = (e) => {
     const query = e.target.value
@@ -102,10 +101,6 @@ const Header = () => {
     const queries = query.split(/\s+/).filter((v) => !_.isEmpty(v))
     setFilterCondition({ queries })
   }
-
-  // const onRangeChange = (min: number, max: number) => {
-  //   setFilterCondition({ ageRangeCondition: { min, max } })
-  // }
 
   const ageFilterOptions: AgeFilterOption[] = [
     { label: '10歳未満', max: 10 },

@@ -8,7 +8,7 @@ type Address = {
 type Contact = {
   firstName: string
   lastName: string
-  phoneNumber: number
+  phoneNumber: string
   email: string
   birthday: Date | null
   address: Address
