@@ -29,15 +29,11 @@ export const useUserState = () => {
   }
 
   const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
-    const queryResult: Contact[] = []
-
-    contacts.forEach((c) => {
+    const queryResult = contacts.filter((c) => {
       const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
       for (const target of searchTargets) {
         for (const query of queries) {
-          if (new RegExp(query, 'i').test(target)) {
-            queryResult.push(c)
-          }
+          if (new RegExp(query, 'i').test(target)) return true
         }
       }
     })
