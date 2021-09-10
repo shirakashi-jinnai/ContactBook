@@ -15,7 +15,6 @@ export const useUserState = () => {
       _.assign({}, state, data),
     { queries: [], ageRangeCondition: { min: null, max: null } }
   )
-  console.log(filterCondition)
 
   const { ageRangeCondition, queries } = filterCondition
   const { min, max } = ageRangeCondition
@@ -44,7 +43,6 @@ export const useUserState = () => {
     }
 
     const filteredResult = _.isEmpty(queries) ? contacts : _.uniq(queryResult)
-    console.log(filteredResult)
     const filterAgeRange = filteredResult.filter(({ birthday }) => {
       const age = calcAge(birthday)
       return max ? _.inRange(age, min, max) : age >= min
