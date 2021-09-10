@@ -118,7 +118,7 @@ const ContactView: FC<Props> = (props) => {
         <TableCell>{address.prefecture}</TableCell>
         <TableCell>
           {birthday
-            ? DateTime.fromJSDate(birthday.toDate()).toFormat('yyyy-MM-dd')
+            ? DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')
             : null}
         </TableCell>
         <TableCell align='center'>

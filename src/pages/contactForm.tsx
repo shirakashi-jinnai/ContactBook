@@ -83,6 +83,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')
   }
+  console.log('birthday', contact.birthday)
 
   useEffect(() => {
     if (!id) return
@@ -90,7 +91,10 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .onSnapshot((s) => {
         if (s.data().birthday) {
-          const data = { ...s.data(), birthday: s.data().birthday.toDate() }
+          const data = {
+            ...s.data(),
+            birthday: new Date(s.data().birthday.toDate()),
+          }
           setContact(data as ContactField)
           return
         }

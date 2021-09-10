@@ -14,6 +14,7 @@ export const useUserState = () => {
       _.assign({}, state, data),
     { queries: [], ageRangeCondition: { min: null, max: null } }
   )
+  console.log(filterCondition)
 
   const { ageRangeCondition, queries } = filterCondition
   const { min, max } = ageRangeCondition
@@ -22,7 +23,7 @@ export const useUserState = () => {
   const isSearching = !_.isEmpty(queries) || min || max
 
   const calcAge = (birthday: Date): number => {
-    const dt = DateTime.fromJSDate(birthday.toDate())
+    const dt = DateTime.fromJSDate(birthday)
     return _.floor(DateTime.now().diff(dt).as('years'))
   }
 
@@ -46,13 +47,11 @@ export const useUserState = () => {
     }
 
     const filteredResult = _.isEmpty(queries) ? contacts : _.uniq(queryResult)
-
-    const filterAgeRange = filteredResult
-      .filter(({ birthday }) => !_.isEmpty(birthday))
-      .filter(({ birthday }) => {
-        const age = calcAge(birthday)
-        return max ? _.inRange(age, min, max) : age >= min
-      })
+    console.log(filteredResult)
+    const filterAgeRange = filteredResult.filter(({ birthday }) => {
+      const age = calcAge(birthday)
+      return max ? _.inRange(age, min, max) : age >= min
+    })
     return filterAgeRange
   }
 
@@ -73,6 +72,7 @@ export const useUserState = () => {
         const arrayContacts = _.map(s.docs, (doc) => ({
           id: doc.id,
           ...doc.data(),
+          birthday: doc.data().birthday && doc.data().birthday.toDate(),
         }))
         const objContacts = _.transform(
           arrayContacts,
