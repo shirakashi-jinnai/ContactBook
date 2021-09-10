@@ -35,6 +35,7 @@ export const useUserState = () => {
           if (new RegExp(query, 'i').test(target)) return true
         }
       }
+      return false
     })
 
     if (!min && !max) {
@@ -66,14 +67,10 @@ export const useUserState = () => {
       const unsub = colRef
         .withConverter(new TimestampConberter())
         .onSnapshot((s) => {
-          const arrayContacts = _.map(s.docs, (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
           const objContacts = _.transform(
-            arrayContacts,
-            (res, c) => {
-              res[c.id] = c
+            s.docs,
+            (res, doc) => {
+              res[doc.id] = doc.data()
             },
             {}
           )

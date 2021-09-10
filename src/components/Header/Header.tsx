@@ -89,9 +89,11 @@ const Header = () => {
   const [age, setAge] = useState<AgeRange>({ min: null, max: null })
   const { setFilterCondition } = useContext(UserContext)
 
-  const handleChange = (event: React.ChangeEvent<{ value: AgeRange }>) => {
-    setAge(event.target.value as AgeRange)
+  const onAgeChange = (event: React.ChangeEvent<{ value: AgeRange }>) => {
+    setAge(event.target.value)
+    setFilterCondition({ ageRangeCondition: event.target.value })
   }
+  console.log('age', age)
 
   const onQueryChange = (e) => {
     const query = e.target.value
@@ -101,9 +103,9 @@ const Header = () => {
     setFilterCondition({ queries })
   }
 
-  const onRangeChange = (min: number, max: number) => {
-    setFilterCondition({ ageRangeCondition: { min, max } })
-  }
+  // const onRangeChange = (min: number, max: number) => {
+  //   setFilterCondition({ ageRangeCondition: { min, max } })
+  // }
 
   const ageFilterOptions: AgeFilterOption[] = [
     { label: '10歳未満', max: 10 },
@@ -147,18 +149,15 @@ const Header = () => {
                 labelId='search-age-label'
                 className={classes.select}
                 value={age}
-                onChange={handleChange}>
-                <MenuItem
-                  value={{ min: null, max: null }}
-                  onClick={() => onRangeChange(null, null)}>
+                onChange={onAgeChange}>
+                <MenuItem value={{ min: null, max: null }}>
                   <em>None</em>
                 </MenuItem>
                 {ageFilterOptions.map(
                   (option, i): JSX.Element => (
                     <MenuItem
                       key={i}
-                      value={{ min: option.min, max: option.max }}
-                      onClick={() => onRangeChange(option.min, option.max)}>
+                      value={{ min: option.min, max: option.max }}>
                       {option.label}
                     </MenuItem>
                   )

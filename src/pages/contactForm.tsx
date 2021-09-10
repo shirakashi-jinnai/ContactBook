@@ -64,22 +64,19 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   )
 
   const onAddressChange = (e) => {
-    const value = { [e.target.name]: e.target.value }
-    setAddress(value)
+    setAddress({ [e.target.name]: e.target.value })
   }
 
   const onValueChange = (e) => {
     const value = {
       [e.target.name]:
-        e.target.name !== 'birthday'
-          ? e.target.value
-          : new Date(e.target.value),
+        e.target.name == 'birthday' ? new Date(e.target.value) : e.target.value,
     }
     setProfile(value)
   }
 
   //firestoreに保存
-  const savecontact = async (data: ContactField) => {
+  const saveContact = (data: ContactField) => {
     if (_.isEmpty(profile.firstName) || _.isEmpty(profile.lastName)) {
       alert('必須項目を入力してください')
       return
@@ -177,7 +174,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       <div className={classes.button}>
         <PrimaryButton
           label='保存'
-          onClick={() => savecontact({ ...profile, address })}
+          onClick={() => saveContact({ ...profile, address })}
         />
       </div>
     </Layout>

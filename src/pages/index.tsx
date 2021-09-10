@@ -44,14 +44,14 @@ const Home = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!_.isEmpty(contacts) ? (
-                resultContacts.map((contact: Contact, i: number) => (
-                  <ContactView key={i} contact={contact} />
-                ))
-              ) : (
+              {_.isEmpty(contacts) ? (
                 <TableRow>
                   <TableCell>連絡先が登録されていません。</TableCell>
                 </TableRow>
+              ) : (
+                resultContacts.map((contact: Contact, i: number) => (
+                  <ContactView key={i} contact={contact} />
+                ))
               )}
             </TableBody>
           </Table>

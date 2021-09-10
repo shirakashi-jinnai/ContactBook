@@ -25,10 +25,7 @@ const FavoriteView = () => {
   const { contacts, isSearching, filteredContacts } = useContext(UserContext)
 
   //検索元の値
-  const favorites: Contact[] | unknown[] = _(contacts)
-    .values()
-    .filter('liked')
-    .value()
+  const favorites: Contact[] = _(contacts).values().filter('liked').value()
 
   const resultFavorites = filteredContacts(favorites)
 
@@ -53,14 +50,14 @@ const FavoriteView = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!_.isEmpty(favorites) ? (
-                resultFavorites.map((favorite: Contact, i: number) => (
-                  <ContactView key={i} contact={favorite} />
-                ))
-              ) : (
+              {_.isEmpty(favorites) ? (
                 <TableRow>
                   <TableCell>お気に入りが登録されていません。</TableCell>
                 </TableRow>
+              ) : (
+                resultFavorites.map((favorite: Contact, i: number) => (
+                  <ContactView key={i} contact={favorite} />
+                ))
               )}
             </TableBody>
           </Table>
