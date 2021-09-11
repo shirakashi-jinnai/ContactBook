@@ -27,10 +27,7 @@ const FavoriteView = () => {
   //検索元の値
   const favorites: Contacts = _.keys(contacts)
     .filter((key) => contacts[key].liked == true)
-    .reduce((res, key) => {
-      res[key] = contacts[key]
-      return res
-    }, {})
+    .reduce((res, key) => ((res[key] = contacts[key]), res), {})
 
   const resultFavorites = filteredContacts(favorites)
 

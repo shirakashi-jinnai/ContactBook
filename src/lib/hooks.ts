@@ -58,10 +58,7 @@ export const useUserState = () => {
     if (!isSearching) return contacts
     return _.transform(
       filterContactsBySearchConditions(contacts),
-      (res, key) => {
-        res[key] = contacts[key]
-        return res
-      },
+      (res, key) => (res[key] = contacts[key]),
       {}
     )
   }
@@ -80,11 +77,10 @@ export const useUserState = () => {
         .onSnapshot((s) => {
           const objContacts = _.transform(
             s.docs,
-            (res, doc) => {
-              res[doc.id] = doc.data()
-            },
+            (res, doc) => (res[doc.id] = doc.data()),
             {}
           )
+          console.log(objContacts)
           setContacts(objContacts)
         })
       setInitializing(false)
