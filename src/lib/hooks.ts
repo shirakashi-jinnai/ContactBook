@@ -27,9 +27,13 @@ export const useUserState = () => {
     return _.floor(DateTime.now().diff(dt).as('years'))
   }
 
-  const filterContactsBySearchConditions = (contacts: Contact[]): Contact[] => {
-    const queryResult = contacts.filter((c) => {
-      const searchTargets = [c.lastName, c.firstName, c.address.prefecture]
+  const filterContactsBySearchConditions = (contacts: Contacts): string[] => {
+    const queryResult = _.keys(contacts).filter((key) => {
+      const searchTargets = [
+        contacts[key].lastName,
+        contacts[key].firstName,
+        contacts[key].address.prefecture,
+      ]
       for (const target of searchTargets) {
         for (const query of queries) {
           if (new RegExp(query, 'i').test(target)) return true
@@ -39,22 +43,29 @@ export const useUserState = () => {
     })
 
     if (!min && !max) {
-      //重複した要素を削除して返す
-      return _.uniq(queryResult)
+      return queryResult
     }
 
-    const filteredResult = _.isEmpty(queries) ? contacts : _.uniq(queryResult)
-    const filterAgeRange = filteredResult.filter(({ birthday }) => {
-      const age = calcAge(birthday)
+    const filteredResult = _.isEmpty(queries) ? _.keys(contacts) : queryResult
+    const filterAgeRange = filteredResult.filter((key) => {
+      const age = calcAge(contacts[key].birthday)
       return max ? _.inRange(age, min, max) : age >= min
     })
     return filterAgeRange
   }
 
-  const filteredContacts = (contacts: Contact[]): Contact[] => {
+  const filteredContacts = (contacts: Contacts): Contacts => {
     if (!isSearching) return contacts
-    return filterContactsBySearchConditions(contacts)
+    return _.transform(
+      filterContactsBySearchConditions(contacts),
+      (res, key) => {
+        res[key] = contacts[key]
+        return res
+      },
+      {}
+    )
   }
+  filteredContacts(contacts)
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {

@@ -78,12 +78,13 @@ const RemoveModal = ({ modalOpen, close, id }) => {
 
 type Props = {
   contact: Contact
+  id: string
 }
 
 const ContactView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id, liked, address, birthday } = props.contact
+  const { firstName, lastName, liked, address, birthday } = props.contact
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -106,13 +107,17 @@ const ContactView: FC<Props> = (props) => {
   }
 
   const toggleLike = async () => {
-    const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+    const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${props.id}`)
     await docRef.update({ liked: !liked })
   }
 
   return (
     <>
-      <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
+      <RemoveModal
+        modalOpen={modalOpen}
+        close={handleCloseModal}
+        id={props.id}
+      />
       <TableRow>
         <TableCell>{`${lastName} ${firstName}`}</TableCell>
         <TableCell>{address.prefecture}</TableCell>
@@ -130,7 +135,7 @@ const ContactView: FC<Props> = (props) => {
       </TableRow>
 
       <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-        <Link href={`/${id}`} passHref>
+        <Link href={`/${props.id}`} passHref>
           <MenuItem>
             <EditIcon />
             <a className={classes.link}>編集</a>

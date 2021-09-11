@@ -23,13 +23,13 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles()
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
-  const resultContacts = filteredContacts(_.values(contacts))
+  const resultContacts = filteredContacts(contacts)
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
         {isSearching && (
           <p>
-            {resultContacts.length}件/
+            {_.keys(resultContacts).length}件/
             {_.keys(contacts).length}件のヒット
           </p>
         )}
@@ -49,8 +49,8 @@ const Home = () => {
                   <TableCell>連絡先が登録されていません。</TableCell>
                 </TableRow>
               ) : (
-                resultContacts.map((contact: Contact, i: number) => (
-                  <ContactView key={i} contact={contact} />
+                _.keys(resultContacts).map((key: string, i: number) => (
+                  <ContactView key={i} contact={resultContacts[key]} id={key} />
                 ))
               )}
             </TableBody>
