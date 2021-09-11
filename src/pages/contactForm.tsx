@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { concat } from 'lodash'
 import { useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
@@ -9,6 +9,7 @@ import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import firebase from 'firebase'
 import { Contacts } from '@material-ui/icons'
+import { TimestampConberter } from '../lib/TimestampConverter'
 
 const useStyles = makeStyles({
   contactArea: {
@@ -23,14 +24,6 @@ const useStyles = makeStyles({
   },
 })
 
-type Profile = {
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  email: string
-  birthday: Date | null
-}
-
 type ContactField = {
   firstName: string
   lastName: string
@@ -40,31 +33,45 @@ type ContactField = {
   address: Address
 }
 
+type Action = {
+  type: string
+  payload: Partial<ContactField>
+}
+
 const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
-  const [profile, setProfile] = useReducer(
-    (state: Profile, data: Partial<Profile>) => _.assign({}, state, data),
-    {
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      email: '',
-      birthday: null,
+  const contactReducer = (state: ContactField, action: Action) => {
+    switch (action.type) {
+      case 'profile':
+        return { ...state, ...action.payload }
+      case 'address':
+        return { ...state, address: { ...state.address, ...action.payload } }
+      case 'fetchData':
+        return { ...action.payload }
+      default:
+        break
     }
-  )
-  const [address, setAddress] = useReducer(
-    (state: Address, data: Partial<Address>) => _.assign({}, state, data),
-    {
+  }
+  const [contact, setContact] = useReducer(contactReducer, {
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    birthday: null,
+    address: {
       postalCode: '',
       prefecture: '',
       municipalities: '',
       houseNumber: '',
-    }
-  )
+    },
+  })
 
   const onAddressChange = (e) => {
-    setAddress({ [e.target.name]: e.target.value })
+    setContact({
+      payload: { [e.target.name]: e.target.value },
+      type: 'address',
+    })
   }
 
   const onValueChange = (e) => {
@@ -72,12 +79,12 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       [e.target.name]:
         e.target.name == 'birthday' ? new Date(e.target.value) : e.target.value,
     }
-    setProfile(value)
+    setContact({ payload: value, type: 'profile' })
   }
 
   //firestoreに保存
-  const saveContact = (data: ContactField) => {
-    if (_.isEmpty(profile.firstName) || _.isEmpty(profile.lastName)) {
+  const saveContact = (data: Partial<ContactField>) => {
+    if (_.isEmpty(contact.firstName) || _.isEmpty(contact.lastName)) {
       alert('必須項目を入力してください')
       return
     }
@@ -91,18 +98,9 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     if (!id) return
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+      .withConverter(new TimestampConberter())
       .onSnapshot((s) => {
-        setAddress(s.data().address)
-        delete s.data().address
-        if (s.data().birthday) {
-          const data = {
-            ...s.data(),
-            birthday: new Date(s.data().birthday.toDate()),
-          }
-          setProfile(data)
-          return
-        }
-        setProfile(s.data())
+        setContact({ payload: s.data(), type: 'fetchData' })
       })
     return () => unsub()
   }, [id])
@@ -114,14 +112,14 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
         <TextField
           label='姓(必須)'
           required
-          value={profile.lastName}
+          value={contact.lastName}
           name='lastName'
           onChange={onValueChange}
         />
         <TextField
           label='名(必須)'
           required
-          value={profile.firstName}
+          value={contact.firstName}
           name='firstName'
           onChange={onValueChange}
         />
@@ -129,53 +127,50 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
           label='メール'
           type='email'
           name='email'
-          value={profile.email}
+          value={contact.email}
           onChange={onValueChange}
         />
         <TextField
           label='電話番号'
           name='phoneNumber'
-          value={profile.phoneNumber}
+          value={contact.phoneNumber}
           onChange={onValueChange}
         />
         <p>住所</p>
         <TextField
           label='郵便番号'
           name='postalCode'
-          value={address.postalCode}
+          value={contact.address.postalCode}
           onChange={onAddressChange}
         />
         <TextField
           label='都道府県'
           name='prefecture'
-          value={address.prefecture}
+          value={contact.address.prefecture}
           onChange={onAddressChange}
         />
         <TextField
           label='市区町村'
           name='municipalities'
-          value={address.municipalities}
+          value={contact.address.municipalities}
           onChange={onAddressChange}
         />
         <TextField
           label='番地'
           name='houseNumber'
-          value={address.houseNumber}
+          value={contact.address.houseNumber}
           onChange={onAddressChange}
         />
         <p>生年月日</p>
         <TextField
           type='date'
           name='birthday'
-          value={DateTime.fromJSDate(profile.birthday).toFormat('yyyy-MM-dd')}
+          value={DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')}
           onChange={onValueChange}
         />
       </div>
       <div className={classes.button}>
-        <PrimaryButton
-          label='保存'
-          onClick={() => saveContact({ ...profile, address })}
-        />
+        <PrimaryButton label='保存' onClick={() => saveContact(contact)} />
       </div>
     </Layout>
   )
