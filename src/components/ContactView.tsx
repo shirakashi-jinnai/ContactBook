@@ -5,13 +5,12 @@ import Link from 'next/link'
 import { auth, db } from '../lib/firebase'
 import {
   Button,
-  Divider,
   IconButton,
-  ListItem,
-  ListItemText,
   Menu,
   MenuItem,
   Modal,
+  TableCell,
+  TableRow,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -19,6 +18,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import { DateTime } from 'luxon'
 import { UserContext } from '../lib/context'
 
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +48,7 @@ const useStyles = makeStyles((theme) => ({
 //削除時のモーダル
 const RemoveModal = ({ modalOpen, close, id }) => {
   const classes = useStyles()
-
-  const removeEntry = async (id: string) => {
+  const removeContact = async (id: string) => {
     await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).delete()
     console.log('deleted!')
   }
@@ -63,7 +62,7 @@ const RemoveModal = ({ modalOpen, close, id }) => {
             color='primary'
             variant='contained'
             onClick={() => {
-              removeEntry(id)
+              removeContact(id)
               close()
             }}>
             削除する
@@ -78,13 +77,14 @@ const RemoveModal = ({ modalOpen, close, id }) => {
 }
 
 type Props = {
-  entry: Entry
+  contact: Contact
+  id: string
 }
 
-const EntryView: FC<Props> = (props) => {
+const ContactView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, id, liked } = props.entry
+  const { firstName, lastName, liked, address, birthday } = props.contact
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -107,42 +107,51 @@ const EntryView: FC<Props> = (props) => {
   }
 
   const toggleLike = async () => {
-    const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+    const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${props.id}`)
     await docRef.update({ liked: !liked })
   }
 
   return (
     <>
-      <RemoveModal modalOpen={modalOpen} close={handleCloseModal} id={id} />
-      <ListItem button className={classes.item}>
-        <ListItemText primary={`${lastName} ${firstName}`} />
-        <IconButton onClick={toggleLike}>
-          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </IconButton>
-        <IconButton onClick={handleClickMenu}>
-          <MoreVertIcon />
-        </IconButton>
+      <RemoveModal
+        modalOpen={modalOpen}
+        close={handleCloseModal}
+        id={props.id}
+      />
+      <TableRow>
+        <TableCell>{`${lastName} ${firstName}`}</TableCell>
+        <TableCell>{address.prefecture}</TableCell>
+        <TableCell>
+          {birthday && DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')}
+        </TableCell>
+        <TableCell align='center'>
+          <IconButton onClick={toggleLike}>
+            {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
+          <IconButton onClick={handleClickMenu}>
+            <MoreVertIcon />
+          </IconButton>
+        </TableCell>
+      </TableRow>
 
-        <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-          <Link href='/[id]' as={`/${id}`} passHref>
-            <MenuItem>
-              <EditIcon />
-              <a className={classes.link}>編集</a>
-            </MenuItem>
-          </Link>
-          <MenuItem
-            onClick={() => {
-              handleCloseMenu()
-              handleOpenModal()
-            }}>
-            <DeleteIcon />
-            削除
+      <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
+        <Link href={`/${props.id}`} passHref>
+          <MenuItem>
+            <EditIcon />
+            <a className={classes.link}>編集</a>
           </MenuItem>
-        </Menu>
-      </ListItem>
-      <Divider />
+        </Link>
+        <MenuItem
+          onClick={() => {
+            handleCloseMenu()
+            handleOpenModal()
+          }}>
+          <DeleteIcon />
+          削除
+        </MenuItem>
+      </Menu>
     </>
   )
 }
 
-export default EntryView
+export default ContactView

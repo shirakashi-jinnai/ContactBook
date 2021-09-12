@@ -1,17 +1,24 @@
 type Address = {
   postalCode: string
-  prefectures: string
+  prefecture: string
   municipalities: string
   houseNumber: string
 }
 
-type Entry = {
+type Contact = {
   firstName: string
   lastName: string
-  phoneNumber: number
+  phoneNumber: string
   email: string
   birthday: Date | null
   address: Address
   id: string
   liked: boolean
 }
+
+type FilterCondition = {
+  queries: string[]
+  ageRangeCondition: { [key: string]: number | null }
+}
+
+type Contacts = { [key: string]: Contact }

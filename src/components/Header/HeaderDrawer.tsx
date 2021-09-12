@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import React, { ReactElement } from 'react'
 import {
   Divider,
   Drawer,
@@ -16,6 +17,12 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import { auth } from '../../lib/firebase'
 import { FC, useState } from 'react'
 
+type MenuItem = {
+  label: string
+  path: string
+  icon: ReactElement
+}
+
 const HeaderDrawer: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
@@ -29,11 +36,11 @@ const HeaderDrawer: FC = () => {
     }
     setIsDrawerOpen(setDrawerOpen)
   }
-  const menus = [
+  const menuItems: MenuItem[] = [
     { label: 'ホームへ', path: '/', icon: <HomeIcon /> },
     {
       label: '連絡先を登録',
-      path: '/entryForm',
+      path: '/contactForm',
       icon: <AddCircleOutlineIcon />,
     },
     {
@@ -62,16 +69,16 @@ const HeaderDrawer: FC = () => {
         open={isDrawerOpen}
         onClose={(e) => toggleDrawer(false, e)}>
         <List>
-          {menus.map((menu) => (
-            <>
-              <Link href={menu.path} passHref>
+          {menuItems.map((item, i) => (
+            <React.Fragment key={i}>
+              <Link href={item.path} passHref>
                 <ListItem button>
-                  <ListItemIcon>{menu.icon}</ListItemIcon>
-                  <ListItemText primary={menu.label} />
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.label} />
                 </ListItem>
               </Link>
               <Divider />
-            </>
+            </React.Fragment>
           ))}
           <ListItem button onClick={signout}>
             <ListItemIcon>

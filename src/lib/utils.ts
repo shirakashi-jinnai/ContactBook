@@ -1,12 +1,13 @@
+import _ from 'lodash'
+import { DateTime } from 'luxon'
 import { db, auth } from './firebase'
 
-export const sendEmail = async (email: string) => {
+export const sendEmail = async (email: string): Promise<void> => {
   if (!email) {
     alert('メールアドレスを入力してください')
     return
   }
   const callbackUrl = `${location.origin}/authentication`
-  console.log(callbackUrl)
 
   const actionCodeSettings = {
     url: callbackUrl,
@@ -23,4 +24,3 @@ export const sendEmail = async (email: string) => {
     alert(error.message)
   }
 }
-

@@ -2,8 +2,16 @@ import { useContext } from 'react'
 import _ from 'lodash'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import { makeStyles } from '@material-ui/core'
-import EntryView from '../components/EntryView'
+import {
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core'
+import ContactView from '../components/ContactView'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -14,18 +22,48 @@ const useStyles = makeStyles({
 
 const FavoriteView = () => {
   const classes = useStyles()
-  const { user } = useContext(UserContext)
-  const favorites = _.filter(user.contacts, 'liked')
+  const { contacts, isSearching, filteredContacts } = useContext(UserContext)
+
+  //検索元の値
+  const favorites = _(contacts)
+    .keys()
+    .filter((key) => contacts[key].liked)
+    .reduce((res, key) => ((res[key] = contacts[key]), res), {})
+
+  const resultFavorites = filteredContacts(favorites)
+
   return (
     <Layout title='お気に入りリスト'>
       <div className={classes.viewArea}>
-        {!_.isEmpty(favorites) ? (
-          favorites.map((favorite: Entry, i: number) => (
-            <EntryView key={i} entry={favorite} />
-          ))
-        ) : (
-          <p>お気に入りが登録されていません。</p>
+        {isSearching && (
+          <p>
+            {_.size(resultFavorites)}件/
+            {_.size(favorites)}件のヒット
+          </p>
         )}
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>名前</TableCell>
+                <TableCell>住所</TableCell>
+                <TableCell>生年月日</TableCell>
+                <TableCell align='center'>その他</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {_.isEmpty(favorites) ? (
+                <TableRow>
+                  <TableCell>お気に入りが登録されていません。</TableCell>
+                </TableRow>
+              ) : (
+                _.map(resultFavorites, (c, key) => (
+                  <ContactView key={key} contact={c} id={key} />
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </Layout>
   )

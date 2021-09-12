@@ -1,12 +1,17 @@
 import _ from 'lodash'
 import { useContext, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
-import EntryView from '../components/EntryView'
+import ContactView from '../components/ContactView'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core'
 
 const useStyles = makeStyles({
   viewArea: {
@@ -16,21 +21,41 @@ const useStyles = makeStyles({
 })
 
 const Home = () => {
-  const router = useRouter()
   const classes = useStyles()
-  const { user } = useContext(UserContext)
-  console.log(user)
-
+  const { contacts, filteredContacts, isSearching } = useContext(UserContext)
+  const resultContacts = filteredContacts(contacts)
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
-        {!_.isEmpty(user.contacts) ? (
-          user.contacts.map((entry: Entry, i: number) => (
-            <EntryView key={i} entry={entry} />
-          ))
-        ) : (
-          <p>連絡先が登録されていません。</p>
+        {isSearching && (
+          <p>
+            {_.size(resultContacts)}件/
+            {_.size(contacts)}件のヒット
+          </p>
         )}
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>名前</TableCell>
+                <TableCell>住所</TableCell>
+                <TableCell>生年月日</TableCell>
+                <TableCell align='center'>その他</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {_.isEmpty(contacts) ? (
+                <TableRow>
+                  <TableCell>連絡先が登録されていません。</TableCell>
+                </TableRow>
+              ) : (
+                _.map(resultContacts, (c, key) => (
+                  <ContactView key={key} contact={c} id={key} />
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </Layout>
   )

@@ -19,8 +19,6 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
 
-// const firebase = !fb.apps.length ? fb.initializeApp(firebaseConfig) : fb.app();
-
 export const auth = firebase.auth()
 export const db = firebase.firestore()
 export const storage = firebase.storage()
