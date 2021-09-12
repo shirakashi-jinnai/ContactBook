@@ -39,7 +39,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
 
   const [contact, setContact] = useReducer(
     (state: ContactField, data: Partial<ContactField>) =>
-      _.assign({}, state, _.merge(state, data)),
+      _.merge({}, state, data),
     {
       firstName: '',
       lastName: '',
