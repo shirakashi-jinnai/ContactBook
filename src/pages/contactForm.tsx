@@ -33,45 +33,30 @@ type ContactField = {
   address: Address
 }
 
-type Action = {
-  type: string
-  payload: Partial<ContactField>
-}
-
 const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
-  const contactReducer = (state: ContactField, action: Action) => {
-    switch (action.type) {
-      case 'profile':
-        return { ...state, ...action.payload }
-      case 'address':
-        return { ...state, address: { ...state.address, ...action.payload } }
-      case 'fetchData':
-        return { ...action.payload }
-      default:
-        break
+
+  const [contact, setContact] = useReducer(
+    (state: ContactField, data: Partial<ContactField>) =>
+      _.assign({}, state, _.merge(state, data)),
+    {
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      email: '',
+      birthday: null,
+      address: {
+        postalCode: '',
+        prefecture: '',
+        municipalities: '',
+        houseNumber: '',
+      },
     }
-  }
-  const [contact, setContact] = useReducer(contactReducer, {
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-    birthday: null,
-    address: {
-      postalCode: '',
-      prefecture: '',
-      municipalities: '',
-      houseNumber: '',
-    },
-  })
+  )
 
   const onAddressChange = (e) => {
-    setContact({
-      payload: { [e.target.name]: e.target.value },
-      type: 'address',
-    })
+    setContact({ address: { [e.target.name]: e.target.value } })
   }
 
   const onValueChange = (e) => {
@@ -79,7 +64,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       [e.target.name]:
         e.target.name == 'birthday' ? new Date(e.target.value) : e.target.value,
     }
-    setContact({ payload: value, type: 'profile' })
+    setContact(value)
   }
 
   //firestoreに保存
@@ -99,9 +84,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .withConverter(new TimestampConberter())
-      .onSnapshot((s) => {
-        setContact({ payload: s.data(), type: 'fetchData' })
-      })
+      .onSnapshot((s) => setContact(s.data()))
     return () => unsub()
   }, [id])
 
