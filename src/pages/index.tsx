@@ -29,8 +29,8 @@ const Home = () => {
       <div className={classes.viewArea}>
         {isSearching && (
           <p>
-            {_.keys(resultContacts).length}件/
-            {_.keys(contacts).length}件のヒット
+            {_.size(resultContacts)}件/
+            {_.size(contacts)}件のヒット
           </p>
         )}
         <TableContainer>
@@ -49,8 +49,8 @@ const Home = () => {
                   <TableCell>連絡先が登録されていません。</TableCell>
                 </TableRow>
               ) : (
-                _.keys(resultContacts).map((key: string, i: number) => (
-                  <ContactView key={i} contact={resultContacts[key]} id={key} />
+                _.map(resultContacts, (c, key) => (
+                  <ContactView key={key} contact={c} id={key} />
                 ))
               )}
             </TableBody>
