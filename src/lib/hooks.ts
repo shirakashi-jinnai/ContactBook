@@ -75,13 +75,12 @@ export const useUserState = () => {
       const unsub = colRef
         .withConverter(new TimestampConberter())
         .onSnapshot((s) => {
-          const objContacts = _.transform(
+          const res = _.transform(
             s.docs,
-            (res, doc) => (res[doc.id] = doc.data()),
+            (acc, doc) => (acc[doc.id] = doc.data()),
             {}
           )
-          console.log(objContacts)
-          setContacts(objContacts)
+          setContacts(res)
         })
       setInitializing(false)
       return () => unsub()
