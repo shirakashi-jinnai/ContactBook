@@ -12,8 +12,7 @@ type Contact = {
   email: string
   birthday: Date | null
   address: Address
-  id: string
-  liked: boolean
+  liked?: boolean
 }
 
 type FilterCondition = {

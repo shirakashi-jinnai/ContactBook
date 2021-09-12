@@ -43,6 +43,13 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit',
     textDecoration: 'none',
   },
+  nameTag: {
+    cursor: 'pointer',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }))
 
 //削除時のモーダル
@@ -119,7 +126,11 @@ const ContactView: FC<Props> = (props) => {
         id={props.id}
       />
       <TableRow>
-        <TableCell>{`${lastName} ${firstName}`}</TableCell>
+        <TableCell>
+          <Link href={`/${props.id}`} passHref>
+            <a className={classes.nameTag}>{`${lastName} ${firstName}`}</a>
+          </Link>
+        </TableCell>
         <TableCell>{address.prefecture}</TableCell>
         <TableCell>
           {birthday && DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')}
