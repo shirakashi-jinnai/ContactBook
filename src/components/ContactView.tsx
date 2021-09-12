@@ -135,7 +135,7 @@ const ContactView: FC<Props> = (props) => {
       </TableRow>
 
       <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-        <Link href={`/${props.id}`} passHref>
+        <Link href={`/edit/${props.id}`} passHref>
           <MenuItem>
             <EditIcon />
             <a className={classes.link}>編集</a>

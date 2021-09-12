@@ -1,10 +1,9 @@
-import ContactForm from './contactForm'
-import { useRouter } from 'next/dist/client/router'
-
-const ContactEdit = () => {
-  const router = useRouter()
-  const { id } = router.query
-  return <ContactForm id={id} title='連絡先の編集' />
+import Layout from '../components/Layout'
+const ContactDetaile = () => {
+  return (
+    <Layout title='連絡先の詳細'>
+      <h1>連絡先の詳細</h1>
+    </Layout>
+  )
 }
-
-export default ContactEdit
+export default ContactDetaile
