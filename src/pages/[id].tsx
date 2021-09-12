@@ -8,7 +8,7 @@ import { Container } from '@material-ui/core'
 const ContactDetaile = () => {
   const router = useRouter()
   const { id } = router.query
-  const [contact, setContact] = useState({
+  const [contact, setContact] = useState<Contact>({
     firstName: '',
     lastName: '',
     phoneNumber: '',

@@ -1,8 +1,5 @@
 type Address = {
-  postalCode: string
-  prefecture: string
-  municipalities: string
-  houseNumber: string
+  [key: string]: string
 }
 
 type Contact = {
