@@ -26,7 +26,6 @@ const ContactDetaile = () => {
       .withConverter(new TimestampConberter())
       .onSnapshot((s) => {
         s.data()
-        console.log(s.data())
         setContact(s.data() as Contact)
       })
   }, [id])

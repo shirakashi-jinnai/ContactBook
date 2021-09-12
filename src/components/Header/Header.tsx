@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { min } from 'lodash'
 import { useState, useContext } from 'react'
 import { auth } from '../../lib/firebase'
 import {
@@ -75,23 +75,24 @@ const useStyles = makeStyles((theme) => ({
 
 type AgeFilterOption = {
   label: string
-  min?: number
-  max?: number
+  min?: string
+  max?: string
 }
 
 type AgeRange = {
-  min?: number | null
-  max?: number | null
+  min?: string
+  max?: string
 }
 
 const Header = () => {
   const classes = useStyles()
-  const [age, setAge] = useState<AgeRange>({ min: null, max: null })
+  const [age, setAge] = useState<AgeRange>()
   const { setFilterCondition } = useContext(UserContext)
 
-  const onAgeChange = (event: React.ChangeEvent<{ value: AgeRange }>) => {
-    setAge(event.target.value)
-    setFilterCondition({ ageRangeCondition: event.target.value })
+  const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
+    const range = event.target.value.split('-')
+    setAge({ min: range[0], max: range[1] })
+    setFilterCondition({ ageRangeCondition: { min: range[0], max: range[1] } })
   }
 
   const onQueryChange = (e) => {
@@ -103,15 +104,15 @@ const Header = () => {
   }
 
   const ageFilterOptions: AgeFilterOption[] = [
-    { label: '10歳未満', max: 10 },
-    { label: '10歳~19歳', min: 10, max: 19 },
-    { label: '20歳~29歳', min: 20, max: 29 },
-    { label: '30歳~39歳', min: 30, max: 39 },
-    { label: '40歳~49歳', min: 40, max: 49 },
-    { label: '50歳~59歳', min: 50, max: 59 },
-    { label: '60歳~69歳', min: 60, max: 69 },
-    { label: '70歳~79歳', min: 70, max: 79 },
-    { label: '80歳以上', min: 80 },
+    { label: '10歳未満', min: '', max: '10' },
+    { label: '10歳~19歳', min: '10', max: '19' },
+    { label: '20歳~29歳', min: '20', max: '29' },
+    { label: '30歳~39歳', min: '30', max: '39' },
+    { label: '40歳~49歳', min: '40', max: '49' },
+    { label: '50歳~59歳', min: '50', max: '59' },
+    { label: '60歳~69歳', min: '60', max: '69' },
+    { label: '70歳~79歳', min: '70', max: '79' },
+    { label: '80歳以上', min: '80', max: '' },
   ]
 
   return (
@@ -145,14 +146,12 @@ const Header = () => {
                 className={classes.select}
                 value={age}
                 onChange={onAgeChange}>
-                <MenuItem value={{ min: null, max: null }}>
+                <MenuItem value={``}>
                   <em>None</em>
                 </MenuItem>
                 {ageFilterOptions.map(
                   (option, i): JSX.Element => (
-                    <MenuItem
-                      key={i}
-                      value={{ min: option.min, max: option.max }}>
+                    <MenuItem key={i} value={`${option.min}-${option.max}`}>
                       {option.label}
                     </MenuItem>
                   )
