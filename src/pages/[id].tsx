@@ -12,11 +12,17 @@ import {
   Typography,
   makeStyles,
   IconButton,
+  Menu,
+  MenuItem,
 } from '@material-ui/core'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+import RemoveModal from '../components/RemoveModal'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
+import { toggleLike } from '../lib/utils'
 
 const useStyles = makeStyles({
   button: {
@@ -36,6 +42,8 @@ const ContactDetaile = () => {
   const classes = useStyles()
   const [contact, setContact] = useState<Contact>()
   const [modalOpen, setModalOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const menuOpen = Boolean(anchorEl)
 
   const handleOpenModal = () => {
     setModalOpen(true)
@@ -43,6 +51,14 @@ const ContactDetaile = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false)
+  }
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null)
+  }
+
+  const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
   }
 
   useEffect(() => {
@@ -55,6 +71,7 @@ const ContactDetaile = () => {
   }, [id])
   return (
     <Layout title='連絡先の詳細'>
+      <RemoveModal id={id} modalOpen={modalOpen} close={handleCloseModal} />
       {contact && (
         <Container maxWidth='sm'>
           <div className={classes.header}>
@@ -62,12 +79,31 @@ const ContactDetaile = () => {
               連絡先の詳細
             </Typography>
             <div>
-              <IconButton>
+              <IconButton onClick={() => toggleLike(id, contact.liked)}>
                 {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
-              <IconButton>
+              <IconButton onClick={handleClickMenu}>
                 <MoreVertIcon />
               </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={menuOpen}
+                onClose={handleCloseMenu}>
+                <Link href={`/edit/${id}`} passHref>
+                  <MenuItem>
+                    <EditIcon />
+                    <a>編集</a>
+                  </MenuItem>
+                </Link>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseMenu()
+                    handleOpenModal()
+                  }}>
+                  <DeleteIcon />
+                  削除
+                </MenuItem>
+              </Menu>
             </div>
           </div>
           <div>
