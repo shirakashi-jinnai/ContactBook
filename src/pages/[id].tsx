@@ -6,14 +6,27 @@ import { auth, db } from '../lib/firebase'
 import { DateTime } from 'luxon'
 import { TimestampConberter } from '../lib/TimestampConverter'
 import Layout from '../components/Layout'
-import { Container, Divider, Typography, makeStyles } from '@material-ui/core'
+import {
+  Container,
+  Divider,
+  Typography,
+  makeStyles,
+  IconButton,
+} from '@material-ui/core'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import FavoriteIcon from '@material-ui/icons/Favorite'
 
 const useStyles = makeStyles({
   button: {
     textDecoration: 'none',
     display: 'flex',
     justifyContent: 'center',
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 })
 
@@ -22,6 +35,15 @@ const ContactDetaile = () => {
   const { id } = router.query
   const classes = useStyles()
   const [contact, setContact] = useState<Contact>()
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const handleOpenModal = () => {
+    setModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setModalOpen(false)
+  }
 
   useEffect(() => {
     db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
@@ -33,11 +55,21 @@ const ContactDetaile = () => {
   }, [id])
   return (
     <Layout title='連絡先の詳細'>
-      <Container maxWidth='sm'>
-        <Typography variant='h5' gutterBottom color='inherit'>
-          連絡先の詳細
-        </Typography>
-        {contact && (
+      {contact && (
+        <Container maxWidth='sm'>
+          <div className={classes.header}>
+            <Typography variant='h5' gutterBottom color='inherit'>
+              連絡先の詳細
+            </Typography>
+            <div>
+              <IconButton>
+                {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </IconButton>
+              <IconButton>
+                <MoreVertIcon />
+              </IconButton>
+            </div>
+          </div>
           <div>
             <Typography variant='caption' color='inherit'>
               名前
@@ -98,15 +130,15 @@ const ContactDetaile = () => {
             </Typography>
             <Divider />
           </div>
-        )}
-        <div className={classes.button}>
-          <Link href={`/edit/${id}`}>
-            <a style={{ textDecoration: 'none' }}>
-              <PrimaryButton label='編集する' onClick={() => ''} />
-            </a>
-          </Link>
-        </div>
-      </Container>
+          <div className={classes.button}>
+            <Link href={`/edit/${id}`}>
+              <a style={{ textDecoration: 'none' }}>
+                <PrimaryButton label='編集する' onClick={() => ''} />
+              </a>
+            </Link>
+          </div>
+        </Container>
+      )}
     </Layout>
   )
 }
