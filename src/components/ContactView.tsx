@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   nameTag: {
     cursor: 'pointer',
+    color: 'inherit',
     textDecoration: 'none',
     '&:hover': {
       textDecoration: 'underline',
