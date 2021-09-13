@@ -62,12 +62,14 @@ const ContactDetaile = () => {
   }
 
   useEffect(() => {
-    db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+    const unsub = db
+      .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .withConverter(new TimestampConberter())
       .onSnapshot((s) => {
         s.data()
         setContact(s.data() as Contact)
       })
+    return () => unsub()
   }, [id])
   return (
     <Layout title='連絡先の詳細'>
