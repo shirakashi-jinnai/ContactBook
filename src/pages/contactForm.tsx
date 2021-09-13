@@ -9,7 +9,7 @@ import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import firebase from 'firebase'
 import { Contacts } from '@material-ui/icons'
-import { TimestampConberter } from '../lib/TimestampConverter'
+import { TimestampConverter } from '../lib/TimestampConverter'
 
 const useStyles = makeStyles({
   contactArea: {
@@ -73,7 +73,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     if (!id) return
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-      .withConverter(new TimestampConberter())
+      .withConverter(new TimestampConverter())
       .onSnapshot((s) => setContact(s.data()))
     return () => unsub()
   }, [id])

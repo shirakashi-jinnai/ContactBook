@@ -19,8 +19,8 @@ import EditIcon from '@material-ui/icons/Edit'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import RemoveModal from './RemoveModal'
-import { toggleLike } from '../lib/utils'
+import DeletionConfirmationModal from './DeletionConfirmationModal'
+import { setLike } from '../lib/utils'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -72,9 +72,9 @@ const ContactView: FC<Props> = (props) => {
 
   return (
     <>
-      <RemoveModal
+      <DeletionConfirmationModal
         modalOpen={modalOpen}
-        close={handleCloseModal}
+        onClose={handleCloseModal}
         id={props.id}
       />
       <TableRow>
@@ -88,7 +88,7 @@ const ContactView: FC<Props> = (props) => {
           {birthday && DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')}
         </TableCell>
         <TableCell align='center'>
-          <IconButton onClick={() => toggleLike(props.id, liked)}>
+          <IconButton onClick={() => setLike(props.id, liked)}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton onClick={handleClickMenu}>

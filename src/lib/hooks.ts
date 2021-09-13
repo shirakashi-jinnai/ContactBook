@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useReducer, useState } from 'react'
 import { auth, db } from './firebase'
-import { TimestampConberter } from './TimestampConverter'
+import { TimestampConverter } from './TimestampConverter'
 
 export const useUserState = () => {
   const router = useRouter()
@@ -73,7 +73,7 @@ export const useUserState = () => {
       }
       const colRef = db.collection(`users/${user.uid}/contacts`)
       const unsub = colRef
-        .withConverter(new TimestampConberter())
+        .withConverter(new TimestampConverter())
         .onSnapshot((s) => {
           const res = _.transform(
             s.docs,

@@ -4,7 +4,7 @@ import { useRouter } from 'next/dist/client/router'
 import { useEffect, useState } from 'react'
 import { auth, db } from '../lib/firebase'
 import { DateTime } from 'luxon'
-import { TimestampConberter } from '../lib/TimestampConverter'
+import { TimestampConverter } from '../lib/TimestampConverter'
 import Layout from '../components/Layout'
 import {
   Container,
@@ -19,10 +19,10 @@ import PrimaryButton from '../components/UIkit/PrimaryButton'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import RemoveModal from '../components/RemoveModal'
+import DeletionConfirmationModal from '../components/DeletionConfirmationModal'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
-import { toggleLike } from '../lib/utils'
+import { setLike } from '../lib/utils'
 
 const useStyles = makeStyles({
   button: {
@@ -64,16 +64,21 @@ const ContactDetaile = () => {
   useEffect(() => {
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-      .withConverter(new TimestampConberter())
+      .withConverter(new TimestampConverter<Contact>())
       .onSnapshot((s) => {
         s.data()
-        setContact(s.data() as Contact)
+        setContact(s.data())
       })
     return () => unsub()
   }, [id])
+
   return (
     <Layout title='連絡先の詳細'>
-      <RemoveModal id={id} modalOpen={modalOpen} close={handleCloseModal} />
+      <DeletionConfirmationModal
+        id={id}
+        modalOpen={modalOpen}
+        onClose={handleCloseModal}
+      />
       {contact && (
         <Container maxWidth='sm'>
           <div className={classes.header}>
@@ -81,7 +86,7 @@ const ContactDetaile = () => {
               連絡先の詳細
             </Typography>
             <div>
-              <IconButton onClick={() => toggleLike(id, contact.liked)}>
+              <IconButton onClick={() => setLike(id, contact.liked)}>
                 {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
               <IconButton onClick={handleClickMenu}>

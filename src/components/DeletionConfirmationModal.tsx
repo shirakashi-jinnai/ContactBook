@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 })
 
 //削除時のモーダル
-const RemoveModal = ({ modalOpen, close, id }) => {
+const DeletionConfirmationModal = ({ modalOpen, onClose, id }) => {
   const classes = useStyles()
   const router = useRouter()
   const removeContact = async (id: string) => {
@@ -41,7 +41,7 @@ const RemoveModal = ({ modalOpen, close, id }) => {
             variant='contained'
             onClick={() => {
               removeContact(id)
-              close()
+              onClose()
             }}>
             削除する
           </Button>
@@ -54,4 +54,4 @@ const RemoveModal = ({ modalOpen, close, id }) => {
   )
 }
 
-export default RemoveModal
+export default DeletionConfirmationModal
