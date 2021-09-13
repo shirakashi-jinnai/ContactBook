@@ -11,7 +11,7 @@ type Contact = {
   phoneNumber: string
   email: string
   birthday: Date | null
-  address: Address
+  address: Partial<Address>
   liked?: boolean
 }
 
