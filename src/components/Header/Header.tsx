@@ -75,13 +75,13 @@ const useStyles = makeStyles((theme) => ({
 
 type AgeFilterOption = {
   label: string
-  min?: string
-  max?: string
+  min?: number
+  max?: number
 }
 
 type AgeRange = {
-  min?: string
-  max?: string
+  min?: number
+  max?: number
 }
 
 const Header = () => {
@@ -91,8 +91,9 @@ const Header = () => {
 
   const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
     const range = event.target.value.split('-')
-    setAge({ min: range[0], max: range[1] })
-    setFilterCondition({ ageRangeCondition: { min: range[0], max: range[1] } })
+    const rangeValue = { min: Number(range[0]), max: Number(range[1]) }
+    setAge(rangeValue)
+    setFilterCondition({ ageRangeCondition: rangeValue })
   }
 
   const onQueryChange = (e) => {
@@ -104,15 +105,15 @@ const Header = () => {
   }
 
   const ageFilterOptions: AgeFilterOption[] = [
-    { label: '10歳未満', min: '', max: '10' },
-    { label: '10歳~19歳', min: '10', max: '19' },
-    { label: '20歳~29歳', min: '20', max: '29' },
-    { label: '30歳~39歳', min: '30', max: '39' },
-    { label: '40歳~49歳', min: '40', max: '49' },
-    { label: '50歳~59歳', min: '50', max: '59' },
-    { label: '60歳~69歳', min: '60', max: '69' },
-    { label: '70歳~79歳', min: '70', max: '79' },
-    { label: '80歳以上', min: '80', max: '' },
+    { label: '10歳未満', max: 10 },
+    { label: '10歳~19歳', min: 10, max: 19 },
+    { label: '20歳~29歳', min: 20, max: 29 },
+    { label: '30歳~39歳', min: 30, max: 39 },
+    { label: '40歳~49歳', min: 40, max: 49 },
+    { label: '50歳~59歳', min: 50, max: 59 },
+    { label: '60歳~69歳', min: 60, max: 69 },
+    { label: '70歳~79歳', min: 70, max: 79 },
+    { label: '80歳以上', min: 80 },
   ]
 
   return (
@@ -146,7 +147,7 @@ const Header = () => {
                 className={classes.select}
                 value={age}
                 onChange={onAgeChange}>
-                <MenuItem value={``}>
+                <MenuItem value='none'>
                   <em>None</em>
                 </MenuItem>
                 {ageFilterOptions.map(
