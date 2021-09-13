@@ -28,7 +28,6 @@ const DeletionConfirmationModal = ({ modalOpen, onClose, id }) => {
   const removeContact = async (id: string) => {
     await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).delete()
     router.push('/')
-    console.log('deleted!')
   }
 
   return (
