@@ -131,8 +131,9 @@ const ContactDetaile = () => {
               生年月日
             </Typography>
             <Typography color='inherit'>
-              {DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd') ||
-                'none'}
+              {contact.birthday
+                ? DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')
+                : 'none'}
             </Typography>
             <Divider />
 

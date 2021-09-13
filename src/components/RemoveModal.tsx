@@ -2,6 +2,7 @@ import { Button, Modal } from '@material-ui/core'
 import { auth, db } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
   modal: {
@@ -23,8 +24,10 @@ const useStyles = makeStyles({
 //削除時のモーダル
 const RemoveModal = ({ modalOpen, close, id }) => {
   const classes = useStyles()
+  const router = useRouter()
   const removeContact = async (id: string) => {
     await db.doc(`users/${auth.currentUser.uid}/contacts/${id}`).delete()
+    router.push('/')
     console.log('deleted!')
   }
 
