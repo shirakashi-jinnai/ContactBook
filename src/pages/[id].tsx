@@ -174,10 +174,11 @@ const ContactDetaile = () => {
             <Divider />
           </div>
           <div className={classes.button}>
-            <PrimaryButton
-              label='編集する'
-              onClick={() => router.push(`/edit/${id}`)}
-            />
+            <Link href={`/edit/${id}`}>
+              <a style={{ textDecoration: 'none' }}>
+                <PrimaryButton label='編集する' onClick={() => null} />
+              </a>
+            </Link>
           </div>
         </Container>
       )}
