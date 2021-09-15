@@ -23,7 +23,7 @@ type MenuItem = {
   icon: ReactElement
 }
 
-const HeaderDrawer: FC = () => {
+const HeaderDrawer: FC = React.memo(() => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const toggleDrawer = (setDrawerOpen: boolean, e: any) => {
@@ -90,6 +90,6 @@ const HeaderDrawer: FC = () => {
       </Drawer>
     </>
   )
-}
+})
 
 export default HeaderDrawer
