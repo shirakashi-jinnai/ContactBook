@@ -17,7 +17,7 @@ type Contact = {
 
 type FilterCondition = {
   queries: string[]
-  ageRangeCondition: { [key: string]: number | null }
+  ageRangeCondition: { [key: string]: number | undefined }
 }
 
 type Contacts = { [key: string]: Contact }
