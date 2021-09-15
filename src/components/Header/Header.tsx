@@ -1,5 +1,4 @@
-import React from 'react'
-import _, { min } from 'lodash'
+import _ from 'lodash'
 import { useState, useContext, memo } from 'react'
 import { auth } from '../../lib/firebase'
 import {
@@ -85,7 +84,7 @@ type AgeRange = {
   max?: number
 }
 
-const Header = React.memo(() => {
+const Header = () => {
   const classes = useStyles()
   const [age, setAge] = useState<AgeRange>()
   const { setFilterCondition } = useContext(UserContext)
@@ -170,6 +169,6 @@ const Header = React.memo(() => {
       )}
     </div>
   )
-})
+}
 
-export default Header
+export default memo(Header)

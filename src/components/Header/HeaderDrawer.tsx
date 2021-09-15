@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { ReactElement } from 'react'
+import React, { memo, ReactElement } from 'react'
 import {
   Divider,
   Drawer,
@@ -23,7 +23,7 @@ type MenuItem = {
   icon: ReactElement
 }
 
-const HeaderDrawer: FC = React.memo(() => {
+const HeaderDrawer: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   const toggleDrawer = (setDrawerOpen: boolean, e: any) => {
@@ -90,6 +90,6 @@ const HeaderDrawer: FC = React.memo(() => {
       </Drawer>
     </>
   )
-})
+}
 
-export default HeaderDrawer
+export default memo(HeaderDrawer)
