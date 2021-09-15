@@ -75,13 +75,13 @@ const useStyles = makeStyles((theme) => ({
 
 type AgeFilterOption = {
   label: string
-  min?: number | undefined
-  max?: number | undefined
+  min?: number
+  max?: number
 }
 
 type AgeRange = {
-  min?: number | undefined
-  max?: number | undefined
+  min?: number
+  max?: number
 }
 
 const Header = () => {
@@ -92,8 +92,8 @@ const Header = () => {
 
   const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
     if (event.target.value === defaultLabel) {
-      setAge({ min: undefined, max: undefined })
-      setFilterCondition({ min: undefined, max: undefined })
+      setAge({})
+      setFilterCondition({ ageRangeCondition: {} })
     }
     const range = event.target.value.split('-')
     const rangeValue = { min: Number(range[0]), max: Number(range[1]) }

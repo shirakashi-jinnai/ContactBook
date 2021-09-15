@@ -13,7 +13,7 @@ export const useUserState = () => {
   const [filterCondition, setFilterCondition] = useReducer(
     (state: FilterCondition, data: Partial<FilterCondition>) =>
       _.assign({}, state, data),
-    { queries: [], ageRangeCondition: { min: undefined, max: undefined } }
+    { queries: [], ageRangeCondition: {} }
   )
 
   const { ageRangeCondition, queries } = filterCondition
