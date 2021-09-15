@@ -22,7 +22,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import DeletionConfirmationModal from '../components/DeletionConfirmationModal'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
-import { setLike } from '../lib/utils'
+import { toggleLike } from '../lib/utils'
 
 const useStyles = makeStyles({
   button: {
@@ -86,7 +86,7 @@ const ContactDetaile = () => {
               連絡先の詳細
             </Typography>
             <div>
-              <IconButton onClick={() => setLike(id, contact.liked)}>
+              <IconButton onClick={() => toggleLike(id)}>
                 {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
               <IconButton onClick={handleClickMenu}>

@@ -20,7 +20,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
-import { setLike } from '../lib/utils'
+import { toggleLike } from '../lib/utils'
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -88,7 +88,7 @@ const ContactView: FC<Props> = (props) => {
           {birthday && DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')}
         </TableCell>
         <TableCell align='center'>
-          <IconButton onClick={() => setLike(props.id, liked)}>
+          <IconButton onClick={() => toggleLike(props.id)}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton onClick={handleClickMenu}>
