@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import { FC } from 'react'
 
 const useStyles = makeStyles({
   button: {
@@ -12,13 +13,16 @@ const useStyles = makeStyles({
   },
 })
 
-const PrimaryButton = (props) => {
+type PrimaryButton = {
+  label: string
+  onClick?: () => Function
+}
+
+const PrimaryButton: FC<PrimaryButton> = (props) => {
+  const onClick = () => props.onClick || undefined
   const classes = useStyles()
   return (
-    <Button
-      variant='contained'
-      className={classes.button}
-      onClick={() => props.onClick()}>
+    <Button variant='contained' className={classes.button} onClick={onClick()}>
       {props.label}
     </Button>
   )

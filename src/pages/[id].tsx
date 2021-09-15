@@ -177,7 +177,7 @@ const ContactDetaile = () => {
             <Link href={`/edit/${id}`}>
               <a style={{ textDecoration: 'none' }}>
                 {/* onClickのイベントを無効にするためnullを記述 */}
-                <PrimaryButton label='編集する' onClick={() => null} />
+                <PrimaryButton label='編集する' />
               </a>
             </Link>
           </div>
