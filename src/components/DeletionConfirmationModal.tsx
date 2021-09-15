@@ -31,7 +31,7 @@ const DeletionConfirmationModal = ({ modalOpen, onClose, id }) => {
   }
 
   return (
-    <Modal open={modalOpen} onClose={close} className={classes.modal}>
+    <Modal open={modalOpen} onClose={onClose} className={classes.modal}>
       <div className={classes.paper}>
         <h3>削除しますか？</h3>
         <div>
@@ -44,7 +44,7 @@ const DeletionConfirmationModal = ({ modalOpen, onClose, id }) => {
             }}>
             削除する
           </Button>
-          <Button color='secondary' variant='contained' onClick={close}>
+          <Button color='secondary' variant='contained' onClick={onClose}>
             キャンセル
           </Button>
         </div>
