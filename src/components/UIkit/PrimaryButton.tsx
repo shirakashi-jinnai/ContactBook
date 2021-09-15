@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 type PrimaryButton = {
   label: string
-  onClick?: () => any
+  onClick?: () => void
 }
 
 const PrimaryButton: FC<PrimaryButton> = (props) => {

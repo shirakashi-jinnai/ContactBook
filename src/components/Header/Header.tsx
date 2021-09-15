@@ -94,6 +94,7 @@ const Header = () => {
     if (event.target.value === DEFAULT_LABEL) {
       setAge({})
       setFilterCondition({ ageRangeCondition: {} })
+      return
     }
     const range = event.target.value.split('-')
     const rangeValue = { min: Number(range[0]), max: Number(range[1]) }
