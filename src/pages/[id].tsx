@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 
 const ContactDetaile = () => {
   const router = useRouter()
-  const { id } = router.query
+  const id = router.query.id as string
   const classes = useStyles()
   const [contact, setContact] = useState<Contact>()
   const [modalOpen, setModalOpen] = useState(false)
