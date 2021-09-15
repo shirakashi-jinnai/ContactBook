@@ -7,8 +7,6 @@ import { makeStyles } from '@material-ui/styles'
 import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
-import firebase from 'firebase'
-import { Contacts } from '@material-ui/icons'
 import { TimestampConverter } from '../lib/TimestampConverter'
 
 const useStyles = makeStyles({

@@ -1,15 +1,12 @@
 import React from 'react'
-import { useState, useContext, useCallback, FC } from 'react'
+import { useState, FC } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { auth, db } from '../lib/firebase'
 import { DateTime } from 'luxon'
 import {
-  Button,
   IconButton,
   Menu,
   MenuItem,
-  Modal,
   TableCell,
   TableRow,
 } from '@material-ui/core'

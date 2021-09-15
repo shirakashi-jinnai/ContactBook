@@ -1,11 +1,9 @@
 import _ from 'lodash'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/dist/client/router'
-import { useEffect, useState } from 'react'
-import { auth, db } from '../lib/firebase'
 import { DateTime } from 'luxon'
-import { TimestampConverter } from '../lib/TimestampConverter'
-import Layout from '../components/Layout'
+import { auth, db } from '../lib/firebase'
 import {
   Container,
   Divider,
@@ -22,6 +20,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import DeletionConfirmationModal from '../components/DeletionConfirmationModal'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
+import Layout from '../components/Layout'
+import { TimestampConverter } from '../lib/TimestampConverter'
 import { toggleLike } from '../lib/utils'
 
 const useStyles = makeStyles({

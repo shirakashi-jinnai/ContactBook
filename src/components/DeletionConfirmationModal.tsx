@@ -1,8 +1,7 @@
-import { Button, Modal } from '@material-ui/core'
-import { auth, db } from '../lib/firebase'
-import { makeStyles } from '@material-ui/styles'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { auth, db } from '../lib/firebase'
+import { Button, Modal } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles({
   modal: {

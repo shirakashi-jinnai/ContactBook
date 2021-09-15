@@ -1,5 +1,5 @@
+import { useState } from 'react'
 import { makeStyles, TextField } from '@material-ui/core'
-import { useCallback, useContext, useState } from 'react'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { sendEmail } from '../lib/utils'

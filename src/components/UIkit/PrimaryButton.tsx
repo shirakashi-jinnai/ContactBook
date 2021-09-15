@@ -1,6 +1,6 @@
+import { FC } from 'react'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { FC } from 'react'
 
 const useStyles = makeStyles({
   button: {
