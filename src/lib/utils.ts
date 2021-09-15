@@ -27,6 +27,6 @@ export const sendEmail = async (email: string): Promise<void> => {
 
 export const toggleLike = async (id: string) => {
   const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-  const liked = await docRef.get().then((doc) => doc.data().liked)
+  const { liked } = await docRef.get().then((doc) => doc.data())
   await docRef.update({ liked: !liked })
 }

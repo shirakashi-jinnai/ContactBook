@@ -88,10 +88,10 @@ const Header = () => {
   const classes = useStyles()
   const [age, setAge] = useState<AgeRange>()
   const { setFilterCondition } = useContext(UserContext)
-  const defaultLabel = 'None'
+  const default_label = 'None'
 
   const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
-    if (event.target.value === defaultLabel) {
+    if (event.target.value === default_label) {
       setAge({})
       setFilterCondition({ ageRangeCondition: {} })
     }
@@ -152,7 +152,7 @@ const Header = () => {
                 className={classes.select}
                 value={age}
                 onChange={onAgeChange}>
-                <MenuItem value={defaultLabel}>
+                <MenuItem value={default_label}>
                   <em>None</em>
                 </MenuItem>
                 {ageFilterOptions.map(

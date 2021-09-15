@@ -66,7 +66,6 @@ const ContactDetaile = () => {
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
       .withConverter(new TimestampConverter<Contact>())
       .onSnapshot((s) => {
-        s.data()
         setContact(s.data())
       })
     return () => unsub()
