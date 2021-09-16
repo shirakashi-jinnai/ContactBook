@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { memo, ReactElement, useState, FC } from 'react'
+import React, { ReactElement, useState, FC } from 'react'
 import {
   Divider,
   Drawer,
@@ -91,4 +91,4 @@ const HeaderDrawer: FC = () => {
   )
 }
 
-export default memo(HeaderDrawer)
+export default HeaderDrawer

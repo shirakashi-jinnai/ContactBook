@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { useState, useContext, memo } from 'react'
+import { useState, useContext } from 'react'
 import { auth } from '../../lib/firebase'
 import {
   alpha,
@@ -84,11 +84,12 @@ type AgeRange = {
   max?: number
 }
 
+const DEFAULT_LABEL = 'None'
+
 const Header = () => {
   const classes = useStyles()
-  const [age, setAge] = useState<AgeRange>()
+  const [age, setAge] = useState<AgeRange>({})
   const { setFilterCondition } = useContext(UserContext)
-  const DEFAULT_LABEL = 'None'
 
   const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
     if (event.target.value === DEFAULT_LABEL) {
@@ -172,4 +173,4 @@ const Header = () => {
   )
 }
 
-export default memo(Header)
+export default Header
