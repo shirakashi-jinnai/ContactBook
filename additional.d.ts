@@ -17,7 +17,10 @@ type Contact = {
 
 type FilterCondition = {
   queries: string[]
-  ageRangeCondition: { [key: string]: number | undefined }
+  ageRangeCondition: {
+    min?: number
+    max?: number
+  }
 }
 
 type Contacts = { [key: string]: Contact }
