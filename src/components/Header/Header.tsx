@@ -91,13 +91,15 @@ const Header = () => {
   const { setFilterCondition } = useContext(UserContext)
 
   const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
-    if (event.target.value === DEFAULT_LABEL) {
+    const [min, max] = event.target.value.split('-')
+
+    if (min === DEFAULT_LABEL) {
       setAge({ min: null, max: null })
       setFilterCondition({ ageRangeCondition: {} })
       return
     }
-    const range = event.target.value.split('-')
-    const rangeValue = { min: Number(range[0]), max: Number(range[1]) }
+
+    const rangeValue = { min: Number(min), max: Number(max) }
     setAge(rangeValue)
     setFilterCondition({ ageRangeCondition: rangeValue })
   }
@@ -121,6 +123,23 @@ const Header = () => {
     { label: '70歳~79歳', min: 70, max: 79 },
     { label: '80歳以上', min: 80 },
   ]
+
+  //画面上にrenderさせるための値を加工する処理
+  const renderValue = (v: string): string => {
+    const [min, max] = v.split('-')
+
+    if (!/\d/.test(v)) return DEFAULT_LABEL
+    if (!/\d/.test(min)) return `${max}歳未満`
+    if (!/\d/.test(max)) return `${min}歳以上`
+    return `${min}歳~${max}歳`
+  }
+
+  //MenuItemに入力されるvalueと同じ値に変換する処理
+  const convertValue = (v: AgeRange): string => {
+    const { min, max } = v
+    if (!min && !max) return DEFAULT_LABEL
+    return `${min}-${max}`
+  }
 
   return (
     <div className={classes.grow}>
@@ -151,7 +170,8 @@ const Header = () => {
               <Select
                 labelId='search-age-label'
                 className={classes.select}
-                value={age}
+                value={convertValue(age)}
+                renderValue={(v: string) => renderValue(v)}
                 onChange={onAgeChange}>
                 <MenuItem value={DEFAULT_LABEL}>
                   <em>None</em>
