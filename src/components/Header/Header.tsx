@@ -5,7 +5,6 @@ import {
   alpha,
   AppBar,
   FormControl,
-  FormHelperText,
   InputBase,
   InputLabel,
   makeStyles,
