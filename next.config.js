@@ -1,5 +1,5 @@
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   env: {
     FIREBASE_KEY: process.env.FIREBASE_KEY,
     FIREBASE_DOMAIN: process.env.FIREBASE_DOMAIN,
