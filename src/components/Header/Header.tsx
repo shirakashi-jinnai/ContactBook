@@ -87,12 +87,12 @@ const DEFAULT_LABEL = 'None'
 
 const Header = () => {
   const classes = useStyles()
-  const [age, setAge] = useState<AgeRange>(null)
+  const [age, setAge] = useState<AgeRange>({ min: null, max: null })
   const { setFilterCondition } = useContext(UserContext)
 
   const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
     if (event.target.value === DEFAULT_LABEL) {
-      setAge(null)
+      setAge({ min: null, max: null })
       setFilterCondition({ ageRangeCondition: {} })
       return
     }
