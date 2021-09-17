@@ -176,7 +176,6 @@ const ContactDetaile = () => {
           <div className={classes.button}>
             <Link href={`/edit/${id}`}>
               <a style={{ textDecoration: 'none' }}>
-                {/* onClickのイベントを無効にするためnullを記述 */}
                 <PrimaryButton label='編集する' />
               </a>
             </Link>
