@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState, FC } from 'react'
 import {
   Divider,
   Drawer,
@@ -15,7 +15,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import { auth } from '../../lib/firebase'
-import { FC, useState } from 'react'
 
 type MenuItem = {
   label: string

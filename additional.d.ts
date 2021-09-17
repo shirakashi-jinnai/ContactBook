@@ -11,14 +11,16 @@ type Contact = {
   phoneNumber: string
   email: string
   birthday: Date | null
-  address: Address
-  id: string
-  liked: boolean
+  address: Partial<Address>
+  liked?: boolean
 }
 
 type FilterCondition = {
   queries: string[]
-  ageRangeCondition: { [key: string]: number | null }
+  ageRangeCondition: {
+    min?: number
+    max?: number
+  }
 }
 
 type Contacts = { [key: string]: Contact }

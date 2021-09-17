@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/styles'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { makeStyles } from '@material-ui/styles'
 import { auth, db } from '../lib/firebase'
 
 const useStyles = makeStyles({

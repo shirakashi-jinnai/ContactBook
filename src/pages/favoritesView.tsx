@@ -1,7 +1,6 @@
-import { useContext } from 'react'
 import _ from 'lodash'
+import { useContext } from 'react'
 import Layout from '../components/Layout'
-import { UserContext } from '../lib/context'
 import {
   makeStyles,
   Table,
@@ -11,6 +10,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core'
+import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
 
 const useStyles = makeStyles({

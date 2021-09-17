@@ -7,9 +7,7 @@ import { makeStyles } from '@material-ui/styles'
 import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
-import firebase from 'firebase'
-import { Contacts } from '@material-ui/icons'
-import { TimestampConberter } from '../lib/TimestampConverter'
+import { TimestampConverter } from '../lib/TimestampConverter'
 
 const useStyles = makeStyles({
   contactArea: {
@@ -24,22 +22,12 @@ const useStyles = makeStyles({
   },
 })
 
-type ContactField = {
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  email: string
-  birthday: Date | null
-  address: Address
-}
-
 const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
 
   const [contact, setContact] = useReducer(
-    (state: ContactField, data: Partial<ContactField>) =>
-      _.merge({}, state, data),
+    (state: Contact, data: Partial<Contact>) => _.merge({}, state, data),
     {
       firstName: '',
       lastName: '',
@@ -68,7 +56,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   }
 
   //firestoreに保存
-  const saveContact = (data: Partial<ContactField>) => {
+  const saveContact = (data: Partial<Contact>) => {
     if (_.isEmpty(contact.firstName) || _.isEmpty(contact.lastName)) {
       alert('必須項目を入力してください')
       return
@@ -83,7 +71,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     if (!id) return
     const unsub = db
       .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-      .withConverter(new TimestampConberter())
+      .withConverter(new TimestampConverter())
       .onSnapshot((s) => setContact(s.data()))
     return () => unsub()
   }, [id])

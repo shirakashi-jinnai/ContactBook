@@ -8,7 +8,7 @@ import {
 
 const { Timestamp } = firebase.firestore
 
-export class TimestampConberter<T extends DocumentData>
+export class TimestampConverter<T extends DocumentData>
   implements FirestoreDataConverter<DocumentData>
 {
   toFirestore(moduleObject: DocumentData): DocumentData {

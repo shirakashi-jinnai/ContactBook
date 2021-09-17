@@ -1,9 +1,9 @@
 import _ from 'lodash'
+import { useEffect, useReducer, useState } from 'react'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
-import { useEffect, useReducer, useState } from 'react'
 import { auth, db } from './firebase'
-import { TimestampConberter } from './TimestampConverter'
+import { TimestampConverter } from './TimestampConverter'
 
 export const useUserState = () => {
   const router = useRouter()
@@ -13,14 +13,14 @@ export const useUserState = () => {
   const [filterCondition, setFilterCondition] = useReducer(
     (state: FilterCondition, data: Partial<FilterCondition>) =>
       _.assign({}, state, data),
-    { queries: [], ageRangeCondition: { min: null, max: null } }
+    { queries: [], ageRangeCondition: {} }
   )
 
   const { ageRangeCondition, queries } = filterCondition
   const { min, max } = ageRangeCondition
 
   //検索中かどうか
-  const isSearching = !_.isEmpty(queries) || min || max
+  const isSearching = !_.isEmpty(queries) || !isNaN(min) || !isNaN(max)
 
   const calcAge = (birthday: Date): number => {
     const dt = DateTime.fromJSDate(birthday)
@@ -49,7 +49,7 @@ export const useUserState = () => {
     const filteredResult = _.isEmpty(queries) ? _.keys(contacts) : queryResult
     const filterAgeRange = filteredResult.filter((key) => {
       const age = calcAge(contacts[key].birthday)
-      return max ? _.inRange(age, min, max) : age >= min
+      return isNaN(max) ? age >= min : _.inRange(age, min, max)
     })
     return filterAgeRange
   }
@@ -73,7 +73,7 @@ export const useUserState = () => {
       }
       const colRef = db.collection(`users/${user.uid}/contacts`)
       const unsub = colRef
-        .withConverter(new TimestampConberter())
+        .withConverter(new TimestampConverter())
         .onSnapshot((s) => {
           const res = _.transform(
             s.docs,
