@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import _ from 'lodash'
 import { useEffect, useReducer, useState } from 'react'
 import { DateTime } from 'luxon'
