@@ -6,6 +6,7 @@ type Address = {
 }
 
 type Contact = {
+  avatarImg: string
   firstName: string
   lastName: string
   phoneNumber: string

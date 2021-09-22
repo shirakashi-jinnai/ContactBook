@@ -1,10 +1,12 @@
 import _ from 'lodash'
 import { useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import { DateTime } from 'luxon'
-import { auth, db } from '../lib/firebase'
+import shortid from 'shortid'
+import { auth, db, storage } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
-import { TextField } from '@material-ui/core'
+import { Avatar, TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { TimestampConverter } from '../lib/TimestampConverter'
@@ -20,15 +22,25 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
   },
+  label: {
+    margin: '0 auto',
+  },
+  image: {
+    objectFit: 'cover',
+    borderRadius: '50%',
+    objectPosition: '50% 50%',
+  },
 })
 
 const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
+  const storageRef = storage.ref().child('images')
 
   const [contact, setContact] = useReducer(
     (state: Contact, data: Partial<Contact>) => _.merge({}, state, data),
     {
+      avatarImg: '/user.png',
       firstName: '',
       lastName: '',
       phoneNumber: '',
@@ -45,6 +57,17 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
 
   const onAddressChange = (e) => {
     setContact({ address: { [e.target.name]: e.target.value } })
+  }
+
+  const onImageChange = async (e) => {
+    let blob = new Blob(e.target.files, { type: 'image/jpeg' })
+    const fileRef = storageRef.child(shortid.generate())
+    const upload = fileRef.put(blob)
+    upload.then(() => {
+      upload.snapshot.ref.getDownloadURL().then((downloadURL) => {
+        setContact({ [e.target.name]: downloadURL })
+      })
+    })
   }
 
   const onValueChange = (e) => {
@@ -80,6 +103,21 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     <Layout title={title}>
       <div className={classes.contactArea}>
         <h1>{title}</h1>
+        <label className={classes.label}>
+          <Image
+            className={classes.image}
+            alt='avatar'
+            src={contact.avatarImg}
+            width={250}
+            height={250}
+          />
+          <input
+            type='file'
+            style={{ display: 'none' }}
+            name='avatarImg'
+            onChange={onImageChange}
+          />
+        </label>
         <TextField
           label='姓(必須)'
           required

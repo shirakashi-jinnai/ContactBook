@@ -24,6 +24,7 @@ const Home = () => {
   const classes = useStyles()
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
   const resultContacts = filteredContacts(contacts)
+
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
