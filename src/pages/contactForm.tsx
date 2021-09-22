@@ -70,13 +70,12 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       await storageRef.child(contact.avatarImg.id).delete()
 
     const fileName = shortid.generate()
-    const upload = storageRef
+    const uploadTask = await storageRef
       .child(fileName)
       .put(new Blob(files, { type: 'image/jpeg' }))
-    upload.then(() => {
-      upload.snapshot.ref.getDownloadURL().then((downloadURL) => {
-        setContact({ avatarImg: { path: downloadURL, id: fileName } })
-      })
+
+    setContact({
+      avatarImg: { path: await uploadTask.ref.getDownloadURL(), id: fileName },
     })
   }
 
