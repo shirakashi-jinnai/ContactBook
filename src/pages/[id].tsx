@@ -23,6 +23,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import Layout from '../components/Layout'
 import { TimestampConverter } from '../lib/TimestampConverter'
 import { toggleLike } from '../lib/utils'
+import Image from 'next/image'
 
 const useStyles = makeStyles({
   button: {
@@ -33,6 +34,15 @@ const useStyles = makeStyles({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  imageArea: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  image: {
+    objectFit: 'cover',
+    borderRadius: '50%',
+    objectPosition: '50% 50%',
   },
 })
 
@@ -113,6 +123,16 @@ const ContactDetaile = () => {
             </div>
           </div>
           <div>
+            <div className={classes.imageArea}>
+              <Image
+                className={classes.image}
+                src={contact.avatarImg}
+                alt='avatar'
+                width={200}
+                height={200}
+              />
+            </div>
+
             <Typography variant='caption' color='inherit'>
               名前
             </Typography>

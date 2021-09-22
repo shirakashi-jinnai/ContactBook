@@ -29,6 +29,7 @@ const useStyles = makeStyles({
     objectFit: 'cover',
     borderRadius: '50%',
     objectPosition: '50% 50%',
+    cursor: 'pointer',
   },
 })
 
@@ -108,8 +109,8 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
             className={classes.image}
             alt='avatar'
             src={contact.avatarImg}
-            width={250}
-            height={250}
+            width={200}
+            height={200}
           />
           <input
             type='file'

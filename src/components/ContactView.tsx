@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { DateTime } from 'luxon'
 import {
+  Avatar,
   IconButton,
   Menu,
   MenuItem,
@@ -45,7 +46,8 @@ type Props = {
 const ContactView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { firstName, lastName, liked, address, birthday } = props.contact
+  const { avatarImg, firstName, lastName, liked, address, birthday } =
+    props.contact
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -75,6 +77,9 @@ const ContactView: FC<Props> = (props) => {
         id={props.id}
       />
       <TableRow>
+        <TableCell>
+          <Avatar src={avatarImg} alt='avatar' />
+        </TableCell>
         <TableCell>
           <Link href={`/${props.id}`} passHref>
             <a className={classes.nameTag}>{`${lastName} ${firstName}`}</a>
