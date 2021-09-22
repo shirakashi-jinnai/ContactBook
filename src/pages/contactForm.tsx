@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import shortid from 'shortid'
 import { auth, db, storage } from '../lib/firebase'
 import { makeStyles } from '@material-ui/styles'
-import { Avatar, TextField } from '@material-ui/core'
+import { TextField } from '@material-ui/core'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { TimestampConverter } from '../lib/TimestampConverter'
@@ -60,12 +60,12 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   }
 
   const onImageChange = async (e) => {
-    let blob = new Blob(e.target.files, { type: 'image/jpeg' })
+    const blob = new Blob(e.target.files, { type: 'image/jpeg' })
     const fileRef = storageRef.child(shortid.generate())
     const upload = fileRef.put(blob)
     upload.then(() => {
       upload.snapshot.ref.getDownloadURL().then((downloadURL) => {
-        setContact({ [e.target.name]: downloadURL })
+        setContact({ avatarImg: downloadURL })
       })
     })
   }
@@ -114,7 +114,6 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
           <input
             type='file'
             style={{ display: 'none' }}
-            name='avatarImg'
             onChange={onImageChange}
           />
         </label>
