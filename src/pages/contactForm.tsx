@@ -41,7 +41,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const [contact, setContact] = useReducer(
     (state: Contact, data: Partial<Contact>) => _.merge({}, state, data),
     {
-      avatarImg: '/user.png',
+      avatarImg: { path: '/user.png', id: null },
       firstName: '',
       lastName: '',
       phoneNumber: '',
@@ -61,12 +61,21 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   }
 
   const onImageChange = async (e) => {
-    const blob = new Blob(e.target.files, { type: 'image/jpeg' })
-    const fileRef = storageRef.child(shortid.generate())
-    const upload = fileRef.put(blob)
+    const { files } = e.target
+    //空のファイルが入力された場合の処理
+    if (!files.length) return
+
+    //入力毎にstorageにある以前の画像を削除する処理
+    if (contact.avatarImg.id)
+      await storageRef.child(contact.avatarImg.id).delete()
+
+    const fileName = shortid.generate()
+    const upload = storageRef
+      .child(fileName)
+      .put(new Blob(files, { type: 'image/jpeg' }))
     upload.then(() => {
       upload.snapshot.ref.getDownloadURL().then((downloadURL) => {
-        setContact({ avatarImg: downloadURL })
+        setContact({ avatarImg: { path: downloadURL, id: fileName } })
       })
     })
   }
@@ -108,7 +117,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
           <Image
             className={classes.image}
             alt='avatar'
-            src={contact.avatarImg}
+            src={contact.avatarImg.path}
             width={200}
             height={200}
           />

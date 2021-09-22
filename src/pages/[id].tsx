@@ -126,7 +126,7 @@ const ContactDetaile = () => {
             <div className={classes.imageArea}>
               <Image
                 className={classes.image}
-                src={contact.avatarImg}
+                src={contact.avatarImg.path}
                 alt='avatar'
                 width={200}
                 height={200}
