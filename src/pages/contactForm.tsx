@@ -62,8 +62,12 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
 
   const onImageChange = async (e) => {
     const { files } = e.target
+
     //空のファイルが入力された場合の処理
     if (!files.length) return
+
+    if (!/(jpeg|jpg)/.test(files[0].type))
+      return alert('画像ファイルはjpeg形式にしてください。')
 
     //入力毎にstorageにある以前の画像を削除する処理
     if (contact.avatarImg.id)
@@ -72,7 +76,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     const fileName = shortid.generate()
     const uploadTask = await storageRef
       .child(fileName)
-      .put(new Blob(files, { type: 'image/jpeg' }))
+      .put(new Blob(files, { type: files[0].type }))
 
     setContact({
       avatarImg: { path: await uploadTask.ref.getDownloadURL(), id: fileName },
