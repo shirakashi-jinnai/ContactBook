@@ -41,7 +41,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const [contact, setContact] = useReducer(
     (state: Contact, data: Partial<Contact>) => _.merge({}, state, data),
     {
-      avatarImg: { path: '/user.png', id: null },
+      avatarImg: { path: '', id: null },
       firstName: '',
       lastName: '',
       phoneNumber: '',
@@ -120,7 +120,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
           <Image
             className={classes.image}
             alt='avatar'
-            src={contact.avatarImg.path}
+            src={contact.avatarImg.path || '/user.png'}
             width={200}
             height={200}
           />

@@ -78,7 +78,7 @@ const ContactView: FC<Props> = (props) => {
       />
       <TableRow>
         <TableCell>
-          <Avatar src={avatarImg.path} alt='avatar' />
+          <Avatar src={avatarImg.path || '/user.png'} alt='avatar' />
         </TableCell>
         <TableCell>
           <Link href={`/${props.id}`} passHref>
