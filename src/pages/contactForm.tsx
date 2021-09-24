@@ -36,7 +36,8 @@ const useStyles = makeStyles({
 const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
-  const storageRef = storage.ref().child('images')
+  const storageRef = storage.ref().child(auth.currentUser.uid)
+  const fileName = shortid.generate()
 
   const [contact, setContact] = useReducer(
     (state: Contact, data: Partial<Contact>) => _.merge({}, state, data),
@@ -70,10 +71,9 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     if (contact.avatarImg.id)
       await storageRef.child(contact.avatarImg.id).delete()
 
-    const fileName = shortid.generate()
     const uploadTask = await storageRef
       .child(fileName)
-      .put(new Blob(files, { type: files[0].type }))
+      .put(new Blob(files, { type: 'image/jpeg' }))
 
     setContact({
       avatarImg: { path: await uploadTask.ref.getDownloadURL(), id: fileName },
