@@ -66,9 +66,6 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     //空のファイルが入力された場合の処理
     if (!files.length) return
 
-    if (!/(jpeg|jpg)/.test(files[0].type))
-      return alert('画像ファイルはjpeg形式にしてください。')
-
     //入力毎にstorageにある以前の画像を削除する処理
     if (contact.avatarImg.id)
       await storageRef.child(contact.avatarImg.id).delete()
@@ -125,6 +122,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
             height={200}
           />
           <input
+            accept='image/jpeg'
             type='file'
             style={{ display: 'none' }}
             onChange={onImageChange}
