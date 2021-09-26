@@ -36,7 +36,8 @@ const useStyles = makeStyles({
 const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const classes = useStyles()
   const router = useRouter()
-  const storageRef = storage.ref().child(auth.currentUser.uid)
+  const { uid } = auth.currentUser
+  const storageRef = storage.ref().child(uid)
   const fileName = shortid.generate()
 
   const [contact, setContact] = useReducer(
@@ -67,13 +68,12 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     //空のファイルが入力された場合の処理
     if (!files.length) return
 
-    //入力毎にstorageにある以前の画像を削除する処理
-    if (contact.avatarImg.id)
-      await storageRef.child(contact.avatarImg.id).delete()
-
     const uploadTask = await storageRef
       .child(fileName)
       .put(new Blob(files, { type: 'image/jpeg' }))
+
+    const metaData = await storageRef.child(fileName).getMetadata()
+    sessionStorage.setItem(uid, metaData.name)
 
     setContact({
       avatarImg: { path: await uploadTask.ref.getDownloadURL(), id: fileName },
@@ -94,20 +94,43 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       alert('必須項目を入力してください')
       return
     }
+    sessionStorage.removeItem(uid)
 
-    const colRef = db.collection(`users/${auth.currentUser.uid}/contacts`)
+    const colRef = db.collection(`users/${uid}/contacts`)
     id ? colRef.doc(id).update(data) : colRef.add(data)
     router.push('/')
+  }
+
+  const getTemporaryImage = () => {
+    const storageItem = sessionStorage.getItem(uid)
+    if (!storageItem) return
+    storageRef
+      .child(storageItem)
+      .getDownloadURL()
+      .then((url) => {
+        setContact({ avatarImg: { path: url, id: storageItem } })
+      })
   }
 
   useEffect(() => {
     if (!id) return
     const unsub = db
-      .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+      .doc(`users/${uid}/contacts/${id}`)
       .withConverter(new TimestampConverter())
-      .onSnapshot((s) => setContact(s.data()))
+      .onSnapshot((s) => {
+        setContact(s.data())
+        getTemporaryImage()
+      })
+
     return () => unsub()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  useEffect(() => {
+    if (id) return
+    getTemporaryImage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Layout title={title}>
