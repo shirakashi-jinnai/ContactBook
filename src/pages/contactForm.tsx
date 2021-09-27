@@ -39,7 +39,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const { uid } = auth.currentUser
   const storageRef = storage.ref().child(uid)
   const fileName = shortid.generate()
-  const temporaryImg = sessionStorage.getItem(uid)
+  const temporaryImgName = sessionStorage.getItem(uid)
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -127,13 +127,13 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       })
   }
 
-  const getTemporaryImage = () => {
-    if (!temporaryImg) return
+  const fetchTemporaryImage = () => {
+    if (!temporaryImgName) return
     storageRef
-      .child(temporaryImg)
+      .child(temporaryImgName)
       .getDownloadURL()
       .then((url) => {
-        setContact({ avatarImg: { path: url, id: temporaryImg } })
+        setContact({ avatarImg: { path: url, id: temporaryImgName } })
       })
   }
 
@@ -144,7 +144,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
       .withConverter(new TimestampConverter())
       .onSnapshot((s) => {
         setContact(s.data())
-        getTemporaryImage()
+        fetchTemporaryImage()
       })
 
     return () => unsub()
@@ -153,7 +153,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
 
   useEffect(() => {
     if (id) return
-    getTemporaryImage()
+    fetchTemporaryImage()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -188,7 +188,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
                 アップロード
               </MenuItem>
             </label>
-            {temporaryImg && (
+            {temporaryImgName && (
               <MenuItem
                 onClick={() => {
                   handleClose()
@@ -197,7 +197,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
                 下書き画像を削除
               </MenuItem>
             )}
-            {contact.avatarImg.id && id && !temporaryImg && (
+            {contact.avatarImg.id && id && !temporaryImgName && (
               <MenuItem
                 onClick={() => {
                   handleClose()
