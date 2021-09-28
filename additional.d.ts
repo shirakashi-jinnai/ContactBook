@@ -6,6 +6,7 @@ type Address = {
 }
 
 type Contact = {
+  avatarImg: { path: string; id: string | null }
   firstName: string
   lastName: string
   phoneNumber: string

@@ -24,6 +24,7 @@ const Home = () => {
   const classes = useStyles()
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
   const resultContacts = filteredContacts(contacts)
+
   return (
     <Layout title={'連絡帳'}>
       <div className={classes.viewArea}>
@@ -37,6 +38,7 @@ const Home = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell></TableCell>
                 <TableCell>名前</TableCell>
                 <TableCell>住所</TableCell>
                 <TableCell>生年月日</TableCell>
