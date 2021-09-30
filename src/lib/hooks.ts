@@ -5,6 +5,7 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { auth, db } from './firebase'
 import { TimestampConverter } from './TimestampConverter'
+import { PageviewRounded, PauseCircleOutlineSharp } from '@material-ui/icons'
 
 export const useUserState = () => {
   const router = useRouter()
@@ -81,7 +82,9 @@ export const useUserState = () => {
             (acc, doc) => (acc[doc.id] = doc.data()),
             {}
           )
-          setContacts(res)
+
+          const alphabeticalRes  =_(res).toPairs().sort((a,b)=> a[1].lastName.localeCompare(b[1].lastName,'ja')).fromPairs().value()
+          setContacts(alphabeticalRes)
         })
       setInitializing(false)
       return () => unsub()
