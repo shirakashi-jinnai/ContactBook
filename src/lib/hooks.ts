@@ -5,7 +5,6 @@ import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
 import { auth, db } from './firebase'
 import { TimestampConverter } from './TimestampConverter'
-import { PageviewRounded, PauseCircleOutlineSharp } from '@material-ui/icons'
 
 export const useUserState = () => {
   const router = useRouter()
@@ -27,6 +26,13 @@ export const useUserState = () => {
   const calcAge = (birthday: Date): number => {
     const dt = DateTime.fromJSDate(birthday)
     return _.floor(DateTime.now().diff(dt).as('years'))
+  }
+
+  //カタカナを平仮名へ変換
+  const convertToHiragana = (str: string) => {
+    return str.replace(/[\u30A1-\u30FA]/g, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) - 0x60)
+    )
   }
 
   const filterContactsBySearchConditions = (contacts: Contacts): string[] => {
@@ -77,13 +83,22 @@ export const useUserState = () => {
       const unsub = colRef
         .withConverter(new TimestampConverter())
         .onSnapshot((s) => {
-          const res = _.transform(
+          const res: Contacts = _.transform(
             s.docs,
             (acc, doc) => (acc[doc.id] = doc.data()),
             {}
           )
 
-          const alphabeticalRes  =_(res).toPairs().sort((a,b)=> a[1].lastName.localeCompare(b[1].lastName,'ja')).fromPairs().value()
+          const alphabeticalRes = _(res)
+            .toPairs()
+            .sort((a, b) =>
+              convertToHiragana(a[1].lastName).localeCompare(
+                convertToHiragana(b[1].lastName),
+                'ja'
+              )
+            )
+            .fromPairs()
+            .value()
           setContacts(alphabeticalRes)
         })
       setInitializing(false)
