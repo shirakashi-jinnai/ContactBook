@@ -28,6 +28,13 @@ export const useUserState = () => {
     return _.floor(DateTime.now().diff(dt).as('years'))
   }
 
+  //カタカナを平仮名へ変換
+  const convertToHiragana = (str: string) => {
+    return str.replace(/[\u30A1-\u30FA]/g, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) - 0x60)
+    )
+  }
+
   const filterContactsBySearchConditions = (contacts: Contacts): string[] => {
     const queryResult = _.keys(contacts).filter((key) => {
       const searchTargets = [
@@ -76,12 +83,23 @@ export const useUserState = () => {
       const unsub = colRef
         .withConverter(new TimestampConverter())
         .onSnapshot((s) => {
-          const res = _.transform(
+          const res: Contacts = _.transform(
             s.docs,
             (acc, doc) => (acc[doc.id] = doc.data()),
             {}
           )
-          setContacts(res)
+
+          const alphabeticalRes = _(res)
+            .toPairs()
+            .sort((a, b) =>
+              convertToHiragana(a[1].lastName).localeCompare(
+                convertToHiragana(b[1].lastName),
+                'ja'
+              )
+            )
+            .fromPairs()
+            .value()
+          setContacts(alphabeticalRes)
         })
       setInitializing(false)
       return () => unsub()
