@@ -46,7 +46,7 @@ type Props = {
 const ContactView: FC<Props> = (props) => {
   const router = useRouter()
   const classes = useStyles()
-  const { avatarImg, firstName, lastName, liked, address, birthday } =
+  const { avatarImg, firstName, lastName, liked, address, birthday, isTrash } =
     props.contact
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -75,6 +75,7 @@ const ContactView: FC<Props> = (props) => {
         modalOpen={modalOpen}
         onClose={handleCloseModal}
         id={props.id}
+        isTrash={isTrash}
       />
       <TableRow>
         <TableCell>

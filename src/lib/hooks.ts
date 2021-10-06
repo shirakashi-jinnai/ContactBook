@@ -9,7 +9,7 @@ import { TimestampConverter } from './TimestampConverter'
 export const useUserState = () => {
   const router = useRouter()
   const [initializing, setInitializing] = useState(true)
-  const [contacts, setContacts] = useState({})
+  const [contacts, setContacts] = useState<Contacts>({})
 
   const [filterCondition, setFilterCondition] = useReducer(
     (state: FilterCondition, data: Partial<FilterCondition>) =>
