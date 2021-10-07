@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import _ from 'lodash'
+import _, { Collection } from 'lodash'
 import { useEffect, useReducer, useState } from 'react'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
@@ -36,7 +36,11 @@ export const useUserState = () => {
   }
 
   const filterContactsBySearchConditions = (contacts: Contacts): string[] => {
-    const queryResult = _.keys(contacts).filter((key) => {
+    const trashExcludedKeys = _(contacts)
+      .keys()
+      .filter((key) => !contacts[key].isTrash)
+      .value()
+    const queryResult = trashExcludedKeys.filter((key) => {
       const searchTargets = [
         contacts[key].lastName,
         contacts[key].firstName,
@@ -63,7 +67,14 @@ export const useUserState = () => {
   }
 
   const filteredContacts = (contacts: Contacts): Contacts => {
-    if (!isSearching) return contacts
+    if (!isSearching) {
+      return _(contacts)
+        .keys()
+        .filter((key) => !contacts[key].isTrash)
+        .transform((res, key) => (res[key] = contacts[key]), {})
+        .value()
+    }
+
     return _.transform(
       filterContactsBySearchConditions(contacts),
       (res, key) => (res[key] = contacts[key]),
