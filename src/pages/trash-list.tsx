@@ -1,8 +1,10 @@
 import _ from 'lodash'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import {
+  Button,
   Container,
   Fab,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -16,6 +18,7 @@ import { db, auth } from '../lib/firebase'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import TrashView from '../components/TrashView'
+import React from 'react'
 
 const useStyles = makeStyles({
   fab: {
@@ -23,10 +26,27 @@ const useStyles = makeStyles({
     top: 600,
     left: 1200,
   },
+  modal: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  paper: {
+    background: '#fff',
+    borderRadius: 5,
+    width: 250,
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 20,
+  },
 })
 
 const TrashList = () => {
   const classes = useStyles()
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const handleOpenModal = () => setOpenModal(true)
+  const handleCloseModal = () => setOpenModal(false)
   const { contacts } = useContext(UserContext)
   const trashList = _(contacts)
     .keys()
@@ -46,6 +66,32 @@ const TrashList = () => {
 
   return (
     <>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        className={classes.modal}>
+        <div className={classes.paper}>
+          <h3>ゴミ箱を削除しますか？</h3>
+          <div>
+            <Button
+              color='primary'
+              variant='contained'
+              onClick={() => {
+                deleteAllTrashLists()
+                handleCloseModal()
+              }}>
+              削除する
+            </Button>
+            <Button
+              color='secondary'
+              variant='contained'
+              onClick={handleCloseModal}>
+              キャンセル
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
       <Layout title='ゴミ箱リスト'>
         <Container maxWidth='md'>
           <h1>ゴミ箱リスト</h1>
@@ -80,7 +126,7 @@ const TrashList = () => {
             variant='extended'
             color='secondary'
             className={classes.fab}
-            onClick={deleteAllTrashLists}>
+            onClick={handleOpenModal}>
             <DeleteForever />
             ゴミ箱を空にする
           </Fab>
