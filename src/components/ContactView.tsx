@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, FC } from 'react'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { DateTime } from 'luxon'
 import {
@@ -44,7 +43,6 @@ type Props = {
 }
 
 const ContactView: FC<Props> = (props) => {
-  const router = useRouter()
   const classes = useStyles()
   const { avatarImg, firstName, lastName, liked, address, birthday, isTrash } =
     props.contact

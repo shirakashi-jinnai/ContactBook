@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import _, { Collection } from 'lodash'
+import _ from 'lodash'
 import { useEffect, useReducer, useState } from 'react'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'

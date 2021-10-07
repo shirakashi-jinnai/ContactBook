@@ -3,7 +3,6 @@ import { useContext } from 'react'
 import Layout from '../components/Layout'
 import {
   Container,
-  makeStyles,
   Table,
   TableBody,
   TableCell,

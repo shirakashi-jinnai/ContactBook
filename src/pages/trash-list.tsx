@@ -18,7 +18,6 @@ import { db, auth } from '../lib/firebase'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import TrashView from '../components/TrashView'
-import React from 'react'
 
 const useStyles = makeStyles({
   fab: {

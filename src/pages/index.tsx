@@ -1,6 +1,5 @@
 import _ from 'lodash'
-import { useContext, useEffect } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { useContext } from 'react'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
