@@ -3,6 +3,7 @@ import { auth, db } from '../lib/firebase'
 import { Button, Modal } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { toggleIsTrash } from '../lib/utils'
+import FC from 'react'
 
 const useStyles = makeStyles({
   modal: {
@@ -21,8 +22,20 @@ const useStyles = makeStyles({
   },
 })
 
+type Props = {
+  modalOpen: boolean
+  onClose: () => void
+  id: string
+  isTrash?: boolean
+}
+
 //削除時のモーダル
-const DeletionConfirmationModal = ({ modalOpen, onClose, id, isTrash }) => {
+const DeletionConfirmationModal = ({
+  modalOpen,
+  onClose,
+  id,
+  isTrash,
+}: Props): JSX.Element => {
   const classes = useStyles()
   const router = useRouter()
   const removeContact = async (id: string) => {
