@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
 import {
+  Container,
   Table,
   TableBody,
   TableCell,
@@ -13,21 +14,13 @@ import {
   TableRow,
 } from '@material-ui/core'
 
-const useStyles = makeStyles({
-  viewArea: {
-    maxWidth: 850,
-    margin: '0 auto',
-  },
-})
-
 const Home = () => {
-  const classes = useStyles()
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
   const resultContacts = filteredContacts(contacts)
 
   return (
     <Layout title={'連絡帳'}>
-      <div className={classes.viewArea}>
+      <Container maxWidth='md'>
         {isSearching && (
           <p>
             {_.size(resultContacts)}件/
@@ -58,7 +51,7 @@ const Home = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </Container>
     </Layout>
   )
 }
