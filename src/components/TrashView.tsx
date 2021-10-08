@@ -14,7 +14,12 @@ import DeleteForever from '@material-ui/icons/DeleteForever'
 import { toggleTrashed } from '../lib/utils'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
 
-const TrashView = ({ trashedContact, contactId }) => {
+type Props = {
+  trashedContact: Contact
+  contactId: string
+}
+
+const TrashView = ({ trashedContact, contactId }: Props): JSX.Element => {
   const { firstName, lastName, avatarImg, birthday, address, trashed } =
     trashedContact
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
