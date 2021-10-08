@@ -90,9 +90,9 @@ const TrashList = () => {
         </div>
       </Modal>
 
-      <Layout title='ゴミ箱リスト'>
+      <Layout title='ゴミ箱'>
         <Container maxWidth='md'>
-          <h1>ゴミ箱リスト</h1>
+          <h1>ゴミ箱</h1>
           <TableContainer>
             <Table>
               <TableHead>
