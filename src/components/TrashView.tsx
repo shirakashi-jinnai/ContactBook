@@ -14,9 +14,9 @@ import DeleteForever from '@material-ui/icons/DeleteForever'
 import { toggleTrashed } from '../lib/utils'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
 
-const TrashView = (props) => {
+const TrashView = ({ trashedContact, contactId }) => {
   const { firstName, lastName, avatarImg, birthday, address, trashed } =
-    props.trashedContact
+    trashedContact
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -40,7 +40,7 @@ const TrashView = (props) => {
   return (
     <>
       <DeletionConfirmationModal
-        id={props.contactId}
+        id={contactId}
         modalOpen={modalOpen}
         onClose={handleCloseModal}
         trashed={trashed}
@@ -67,7 +67,7 @@ const TrashView = (props) => {
       <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
         <MenuItem
           onClick={() => {
-            toggleTrashed(props.contactId)
+            toggleTrashed(contactId)
             handleCloseMenu()
           }}>
           <RestoreFromTrash />

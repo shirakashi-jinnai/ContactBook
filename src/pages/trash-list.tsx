@@ -53,13 +53,12 @@ const TrashList = () => {
     .reduce((res, key) => ((res[key] = contacts[key]), res), {})
 
   const deleteAllTrashedContacts = () => {
-    db.collection(`users/${auth.currentUser.uid}/contacts`)
+    const contactRef = `users/${auth.currentUser.uid}/contacts`
+    db.collection(contactRef)
       .where('trashed', '==', true)
       .get()
       .then((snapshots) => {
-        snapshots.forEach((s) =>
-          db.doc(`users/${auth.currentUser.uid}/contacts/${s.id}`).delete()
-        )
+        snapshots.forEach((s) => db.doc(`${contactRef}/${s.id}`).delete())
       })
   }
 

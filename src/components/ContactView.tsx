@@ -42,10 +42,10 @@ type Props = {
   contactId: string
 }
 
-const ContactView: FC<Props> = (props) => {
+const ContactView: FC<Props> = ({ contact, contactId }) => {
   const classes = useStyles()
   const { avatarImg, firstName, lastName, liked, address, birthday, trashed } =
-    props.contact
+    contact
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -72,7 +72,7 @@ const ContactView: FC<Props> = (props) => {
       <DeletionConfirmationModal
         modalOpen={modalOpen}
         onClose={handleCloseModal}
-        id={props.contactId}
+        id={contactId}
         trashed={trashed}
       />
       <TableRow>
@@ -80,7 +80,7 @@ const ContactView: FC<Props> = (props) => {
           <Avatar src={avatarImg.path || '/user.png'} alt='avatar' />
         </TableCell>
         <TableCell>
-          <Link href={`/${props.contactId}`} passHref>
+          <Link href={`/${contactId}`} passHref>
             <a className={classes.nameTag}>{`${lastName} ${firstName}`}</a>
           </Link>
         </TableCell>
@@ -89,7 +89,7 @@ const ContactView: FC<Props> = (props) => {
           {birthday && DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')}
         </TableCell>
         <TableCell align='center'>
-          <IconButton onClick={() => toggleLike(props.contactId)}>
+          <IconButton onClick={() => toggleLike(contactId)}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton onClick={handleClickMenu}>
@@ -99,7 +99,7 @@ const ContactView: FC<Props> = (props) => {
       </TableRow>
 
       <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
-        <Link href={`/edit/${props.contactId}`} passHref>
+        <Link href={`/edit/${contactId}`} passHref>
           <MenuItem>
             <EditIcon />
             <a className={classes.link}>編集</a>
