@@ -87,7 +87,7 @@ const ContactDetaile = () => {
         id={id}
         modalOpen={modalOpen}
         onClose={handleCloseModal}
-        isTrash={contact.isTrash}
+        trashed={contact.trashed}
       />
       {contact && (
         <Container maxWidth='sm'>

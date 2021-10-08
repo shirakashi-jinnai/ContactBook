@@ -44,7 +44,7 @@ const Home = () => {
                 </TableRow>
               ) : (
                 _.map(resultContacts, (c, key) => (
-                  <ContactView key={key} contact={c} id={key} />
+                  <ContactView key={key} contact={c} contactId={key} />
                 ))
               )}
             </TableBody>

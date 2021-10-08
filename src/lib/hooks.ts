@@ -38,7 +38,7 @@ export const useUserState = () => {
   const filterContactsBySearchConditions = (contacts: Contacts): string[] => {
     const trashExcludedKeys = _(contacts)
       .keys()
-      .filter((key) => !contacts[key].isTrash)
+      .filter((key) => !contacts[key].trashed)
       .value()
     const queryResult = trashExcludedKeys.filter((key) => {
       const searchTargets = [
@@ -70,7 +70,7 @@ export const useUserState = () => {
     if (!isSearching) {
       return _(contacts)
         .keys()
-        .filter((key) => !contacts[key].isTrash)
+        .filter((key) => !contacts[key].trashed)
         .transform((res, key) => (res[key] = contacts[key]), {})
         .value()
     }

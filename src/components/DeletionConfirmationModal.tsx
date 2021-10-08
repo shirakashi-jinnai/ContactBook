@@ -2,8 +2,7 @@ import { useRouter } from 'next/router'
 import { auth, db } from '../lib/firebase'
 import { Button, Modal } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { toggleIsTrash } from '../lib/utils'
-import FC from 'react'
+import { toggleTrashed } from '../lib/utils'
 
 const useStyles = makeStyles({
   modal: {
@@ -26,7 +25,7 @@ type Props = {
   modalOpen: boolean
   onClose: () => void
   id: string
-  isTrash?: boolean
+  trashed?: boolean
 }
 
 //削除時のモーダル
@@ -34,7 +33,7 @@ const DeletionConfirmationModal = ({
   modalOpen,
   onClose,
   id,
-  isTrash,
+  trashed,
 }: Props): JSX.Element => {
   const classes = useStyles()
   const router = useRouter()
@@ -46,14 +45,14 @@ const DeletionConfirmationModal = ({
   return (
     <Modal open={modalOpen} onClose={onClose} className={classes.modal}>
       <div className={classes.paper}>
-        {isTrash ? (
+        {trashed ? (
           <h3>完全に削除しますか？</h3>
         ) : (
           <h3>ゴミ箱へ移しますか？</h3>
         )}
 
         <div>
-          {isTrash ? (
+          {trashed ? (
             <Button
               color='primary'
               variant='contained'
@@ -68,7 +67,7 @@ const DeletionConfirmationModal = ({
               color='primary'
               variant='contained'
               onClick={() => {
-                toggleIsTrash(id)
+                toggleTrashed(id)
                 onClose()
               }}>
               ゴミ箱へ

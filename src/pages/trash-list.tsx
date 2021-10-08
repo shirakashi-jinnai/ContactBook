@@ -47,14 +47,14 @@ const TrashList = () => {
   const handleOpenModal = () => setOpenModal(true)
   const handleCloseModal = () => setOpenModal(false)
   const { contacts } = useContext(UserContext)
-  const trashList = _(contacts)
+  const trashedContacts = _(contacts)
     .keys()
-    .filter((key) => contacts[key].isTrash)
+    .filter((key) => contacts[key].trashed)
     .reduce((res, key) => ((res[key] = contacts[key]), res), {})
 
-  const deleteAllTrashLists = () => {
+  const deleteAllTrashedContacts = () => {
     db.collection(`users/${auth.currentUser.uid}/contacts`)
-      .where('isTrash', '==', true)
+      .where('trashed', '==', true)
       .get()
       .then((snapshots) => {
         snapshots.forEach((s) =>
@@ -70,13 +70,13 @@ const TrashList = () => {
         onClose={handleCloseModal}
         className={classes.modal}>
         <div className={classes.paper}>
-          <h3>ゴミ箱を削除しますか？</h3>
+          <h3>ゴミ箱を空にしますか？</h3>
           <div>
             <Button
               color='primary'
               variant='contained'
               onClick={() => {
-                deleteAllTrashLists()
+                deleteAllTrashedContacts()
                 handleCloseModal()
               }}>
               削除する
@@ -106,13 +106,13 @@ const TrashList = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {_.isEmpty(trashList) ? (
+                {_.isEmpty(trashedContacts) ? (
                   <TableRow>
                     <TableCell>ゴミ箱は空です</TableCell>
                   </TableRow>
                 ) : (
-                  _.map(trashList, (c, key) => (
-                    <TrashView trashList={c} id={key} key={key} />
+                  _.map(trashedContacts, (c, key) => (
+                    <TrashView trashedContact={c} contactId={key} key={key} />
                   ))
                 )}
               </TableBody>
@@ -120,7 +120,7 @@ const TrashList = () => {
           </TableContainer>
         </Container>
 
-        {!_.isEmpty(trashList) && (
+        {!_.isEmpty(trashedContacts) && (
           <Fab
             variant='extended'
             color='secondary'

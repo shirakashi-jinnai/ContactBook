@@ -11,14 +11,15 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import RestoreFromTrash from '@material-ui/icons/RestoreFromTrash'
 import DeleteForever from '@material-ui/icons/DeleteForever'
-import { toggleIsTrash } from '../lib/utils'
+import { toggleTrashed } from '../lib/utils'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
 
 const TrashView = (props) => {
-  const { firstName, lastName, avatarImg, birthday, address ,isTrash} = props.trashList
+  const { firstName, lastName, avatarImg, birthday, address, trashed } =
+    props.trashedContact
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
-  const [modalOpen,setModalOpen]=useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   const handleCloseMenu = () => {
     setAnchorEl(null)
@@ -38,13 +39,13 @@ const TrashView = (props) => {
 
   return (
     <>
-    <DeletionConfirmationModal
-      id={props.id}
-      modalOpen={modalOpen}
-      onClose={handleCloseModal}
-      isTrash={isTrash}
-    />
-    
+      <DeletionConfirmationModal
+        id={props.contactId}
+        modalOpen={modalOpen}
+        onClose={handleCloseModal}
+        trashed={trashed}
+      />
+
       <TableRow>
         <TableCell>
           <Avatar src={avatarImg.path} alt='avatar' />
@@ -66,7 +67,7 @@ const TrashView = (props) => {
       <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleCloseMenu}>
         <MenuItem
           onClick={() => {
-            toggleIsTrash(props.id)
+            toggleTrashed(props.contactId)
             handleCloseMenu()
           }}>
           <RestoreFromTrash />

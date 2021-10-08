@@ -51,7 +51,7 @@ const FavoriteView = () => {
                 </TableRow>
               ) : (
                 _.map(resultFavorites, (c, key) => (
-                  <ContactView key={key} contact={c} id={key} />
+                  <ContactView key={key} contact={c} contactId={key} />
                 ))
               )}
             </TableBody>
