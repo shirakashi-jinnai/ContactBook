@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import { useContext, useEffect } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { useContext } from 'react'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
 import {
+  Container,
   Table,
   TableBody,
   TableCell,
@@ -13,21 +13,13 @@ import {
   TableRow,
 } from '@material-ui/core'
 
-const useStyles = makeStyles({
-  viewArea: {
-    maxWidth: 850,
-    margin: '0 auto',
-  },
-})
-
 const Home = () => {
-  const classes = useStyles()
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)
   const resultContacts = filteredContacts(contacts)
 
   return (
     <Layout title={'連絡帳'}>
-      <div className={classes.viewArea}>
+      <Container maxWidth='md'>
         {isSearching && (
           <p>
             {_.size(resultContacts)}件/
@@ -52,13 +44,13 @@ const Home = () => {
                 </TableRow>
               ) : (
                 _.map(resultContacts, (c, key) => (
-                  <ContactView key={key} contact={c} id={key} />
+                  <ContactView key={key} contact={c} contactId={key} />
                 ))
               )}
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </Container>
     </Layout>
   )
 }

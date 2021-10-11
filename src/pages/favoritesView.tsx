@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { useContext } from 'react'
 import Layout from '../components/Layout'
 import {
-  makeStyles,
+  Container,
   Table,
   TableBody,
   TableCell,
@@ -13,15 +13,7 @@ import {
 import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
 
-const useStyles = makeStyles({
-  viewArea: {
-    maxWidth: 850,
-    margin: '0 auto',
-  },
-})
-
 const FavoriteView = () => {
-  const classes = useStyles()
   const { contacts, isSearching, filteredContacts } = useContext(UserContext)
 
   //検索元の値
@@ -34,7 +26,7 @@ const FavoriteView = () => {
 
   return (
     <Layout title='お気に入りリスト'>
-      <div className={classes.viewArea}>
+      <Container maxWidth='md'>
         {isSearching && (
           <p>
             {_.size(resultFavorites)}件/
@@ -59,13 +51,13 @@ const FavoriteView = () => {
                 </TableRow>
               ) : (
                 _.map(resultFavorites, (c, key) => (
-                  <ContactView key={key} contact={c} id={key} />
+                  <ContactView key={key} contact={c} contactId={key} />
                 ))
               )}
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </Container>
     </Layout>
   )
 }

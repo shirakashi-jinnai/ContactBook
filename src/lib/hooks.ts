@@ -9,7 +9,7 @@ import { TimestampConverter } from './TimestampConverter'
 export const useUserState = () => {
   const router = useRouter()
   const [initializing, setInitializing] = useState(true)
-  const [contacts, setContacts] = useState({})
+  const [contacts, setContacts] = useState<Contacts>({})
 
   const [filterCondition, setFilterCondition] = useReducer(
     (state: FilterCondition, data: Partial<FilterCondition>) =>
@@ -36,7 +36,11 @@ export const useUserState = () => {
   }
 
   const filterContactsBySearchConditions = (contacts: Contacts): string[] => {
-    const queryResult = _.keys(contacts).filter((key) => {
+    const trashExcludedKeys = _(contacts)
+      .keys()
+      .filter((key) => !contacts[key].trashed)
+      .value()
+    const queryResult = trashExcludedKeys.filter((key) => {
       const searchTargets = [
         contacts[key].lastName,
         contacts[key].firstName,
@@ -63,7 +67,14 @@ export const useUserState = () => {
   }
 
   const filteredContacts = (contacts: Contacts): Contacts => {
-    if (!isSearching) return contacts
+    if (!isSearching) {
+      return _(contacts)
+        .keys()
+        .filter((key) => !contacts[key].trashed)
+        .transform((res, key) => (res[key] = contacts[key]), {})
+        .value()
+    }
+
     return _.transform(
       filterContactsBySearchConditions(contacts),
       (res, key) => (res[key] = contacts[key]),

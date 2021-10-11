@@ -14,6 +14,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+import DeleteOutline from '@material-ui/icons/DeleteOutline'
 import { auth } from '../../lib/firebase'
 
 type MenuItem = {
@@ -46,6 +47,11 @@ const HeaderDrawer: FC = () => {
       label: 'お気に入りリスト',
       path: '/favoritesView',
       icon: <FavoriteIcon />,
+    },
+    {
+      label: 'ゴミ箱リスト',
+      path: '/trash-list',
+      icon: <DeleteOutline />,
     },
   ]
 

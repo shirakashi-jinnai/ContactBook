@@ -29,3 +29,9 @@ export const toggleLike = async (id: string) => {
   const { liked } = await docRef.get().then((doc) => doc.data())
   await docRef.update({ liked: !liked })
 }
+
+export const toggleTrashed = async (id: string) => {
+  const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
+  const { trashed } = await docRef.get().then((doc) => doc.data())
+  await docRef.update({ trashed: !trashed })
+}
