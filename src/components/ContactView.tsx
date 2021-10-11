@@ -42,7 +42,7 @@ type Props = {
   contactId: string
 }
 
-const ContactView: FC<Props> = ({ contact, contactId }): JSX.Element => {
+const ContactView: FC<Props> = ({ contact, contactId }) => {
   const classes = useStyles()
   const { avatarImg, firstName, lastName, liked, address, birthday, trashed } =
     contact

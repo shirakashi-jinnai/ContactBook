@@ -19,7 +19,7 @@ type Props = {
   contactId: string
 }
 
-const TrashView = ({ trashedContact, contactId }: Props): JSX.Element => {
+const TrashView = ({ trashedContact, contactId }: Props) => {
   const { firstName, lastName, avatarImg, birthday, address, trashed } =
     trashedContact
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
