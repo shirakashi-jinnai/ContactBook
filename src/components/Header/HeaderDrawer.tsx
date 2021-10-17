@@ -8,13 +8,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core'
-import { Menu } from '@material-ui/icons'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import HomeIcon from '@material-ui/icons/Home'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import DeleteOutline from '@material-ui/icons/DeleteOutline'
+} from '@mui/material'
+import Menu from '@mui/icons-material/Menu'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import HomeIcon from '@mui/icons-material/Home'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
+
 import { auth } from '../../lib/firebase'
 
 type MenuItem = {

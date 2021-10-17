@@ -1,23 +1,25 @@
 import _ from 'lodash'
 import { useState, useContext } from 'react'
 import { auth } from '../../lib/firebase'
-import {
-  alpha,
-  AppBar,
-  FormControl,
-  InputBase,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  Toolbar,
-  Typography,
-} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import HeaderDrawer from './HeaderDrawer'
 import { UserContext } from '../../lib/context'
+import {
+  AppBar,
+  alpha,
+  FormControl,
+  InputBase,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Toolbar,
+  Typography,
+} from '@mui/material'
+import { makeStyles } from '@material-ui/styles'
+import { Theme } from '@material-ui/core'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   grow: {
     flexGrow: 1,
   },
@@ -61,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
   },
   select: {
     color: 'white',
-    marginTop: theme.spacing(2),
   },
   form: {
     margin: theme.spacing(1),
@@ -90,7 +91,7 @@ const Header = () => {
   const [age, setAge] = useState<AgeRange>({ min: null, max: null })
   const { setFilterCondition } = useContext(UserContext)
 
-  const onAgeChange = (event: React.ChangeEvent<{ value: string }>) => {
+  const onAgeChange = (event: SelectChangeEvent<string>) => {
     const [min, max] = event.target.value.split('-')
 
     if (min === DEFAULT_LABEL) {
