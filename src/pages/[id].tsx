@@ -2,28 +2,28 @@ import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/dist/client/router'
+import Image from 'next/image'
 import { DateTime } from 'luxon'
 import { auth, db } from '../lib/firebase'
 import {
   Container,
   Divider,
   Typography,
-  makeStyles,
   IconButton,
   Menu,
   MenuItem,
-} from '@material-ui/core'
+} from '@mui/material'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
-import FavoriteIcon from '@material-ui/icons/Favorite'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import DeletionConfirmationModal from '../components/DeletionConfirmationModal'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import Layout from '../components/Layout'
 import { TimestampConverter } from '../lib/TimestampConverter'
 import { toggleLike } from '../lib/utils'
-import Image from 'next/image'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
   button: {
@@ -87,7 +87,6 @@ const ContactDetaile = () => {
         id={id}
         modalOpen={modalOpen}
         onClose={handleCloseModal}
-        trashed={contact.trashed}
       />
       {contact && (
         <Container maxWidth='sm'>

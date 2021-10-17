@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { makeStyles, TextField } from '@material-ui/core'
+import { TextField } from '@mui/material'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { sendEmail } from '../lib/utils'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
   signup: {

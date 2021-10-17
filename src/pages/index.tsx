@@ -11,7 +11,16 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@material-ui/core'
+} from '@mui/material'
+// import {
+//   Container,
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableContainer,
+//   TableHead,
+//   TableRow,
+// } from '@material-ui/core'
 
 const Home = () => {
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)

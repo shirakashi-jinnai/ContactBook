@@ -11,9 +11,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@material-ui/core'
-import DeleteForever from '@material-ui/icons/DeleteForever'
-import { makeStyles } from '@material-ui/core'
+} from '@mui/material'
+import DeleteForever from '@mui/icons-material/DeleteForever'
+import { makeStyles } from '@mui/styles'
 import { db, auth } from '../lib/firebase'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
