@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
+import { Button, Modal } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { auth, db } from '../lib/firebase'
-import { Button, Modal } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
 import { toggleTrashed } from '../lib/utils'
 
 const useStyles = makeStyles({

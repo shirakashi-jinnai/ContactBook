@@ -3,11 +3,11 @@ import { DateTime } from 'luxon'
 import {
   Avatar,
   IconButton,
+  Menu,
+  MenuItem,
   TableCell,
   TableRow,
-  MenuItem,
-  Menu,
-} from '@material-ui/core'
+} from '@mui/material'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import RestoreFromTrash from '@material-ui/icons/RestoreFromTrash'
 import DeleteForever from '@material-ui/icons/DeleteForever'

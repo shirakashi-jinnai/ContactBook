@@ -9,13 +9,13 @@ import {
   MenuItem,
   TableCell,
   TableRow,
-} from '@material-ui/core'
+} from '@mui/material'
 import { makeStyles } from '@material-ui/styles'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
 import { toggleLike } from '../lib/utils'
 
