@@ -83,124 +83,127 @@ const ContactDetaile = () => {
 
   return (
     <Layout title='連絡先の詳細'>
-      <DeletionConfirmationModal
-        id={id}
-        modalOpen={modalOpen}
-        onClose={handleCloseModal}
-      />
       {contact && (
-        <Container maxWidth='sm'>
-          <div className={classes.header}>
-            <Typography variant='h5' gutterBottom color='inherit'>
-              連絡先の詳細
-            </Typography>
-            <div>
-              <IconButton onClick={() => toggleLike(id)}>
-                {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-              </IconButton>
-              <IconButton onClick={handleClickMenu}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={menuOpen}
-                onClose={handleCloseMenu}>
-                <Link href={`/edit/${id}`} passHref>
-                  <MenuItem>
-                    <EditIcon />
-                    <a>編集</a>
+        <>
+          <DeletionConfirmationModal
+            id={id}
+            modalOpen={modalOpen}
+            onClose={handleCloseModal}
+            trashed={contact.trashed}
+          />
+          <Container maxWidth='sm'>
+            <div className={classes.header}>
+              <Typography variant='h5' gutterBottom color='inherit'>
+                連絡先の詳細
+              </Typography>
+              <div>
+                <IconButton onClick={() => toggleLike(id)}>
+                  {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </IconButton>
+                <IconButton onClick={handleClickMenu}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuOpen}
+                  onClose={handleCloseMenu}>
+                  <Link href={`/edit/${id}`} passHref>
+                    <MenuItem>
+                      <EditIcon />
+                      <a>編集</a>
+                    </MenuItem>
+                  </Link>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseMenu()
+                      handleOpenModal()
+                    }}>
+                    <DeleteIcon />
+                    削除
                   </MenuItem>
-                </Link>
-                <MenuItem
-                  onClick={() => {
-                    handleCloseMenu()
-                    handleOpenModal()
-                  }}>
-                  <DeleteIcon />
-                  削除
-                </MenuItem>
-              </Menu>
+                </Menu>
+              </div>
             </div>
-          </div>
-          <div>
-            <div className={classes.imageArea}>
-              <Image
-                className={classes.image}
-                src={contact.avatarImg.path}
-                alt='avatar'
-                width={200}
-                height={200}
-              />
+            <div>
+              <div className={classes.imageArea}>
+                <Image
+                  className={classes.image}
+                  src={contact.avatarImg.path}
+                  alt='avatar'
+                  width={200}
+                  height={200}
+                />
+              </div>
+
+              <Typography variant='caption' color='inherit'>
+                名前
+              </Typography>
+              <Typography color='inherit'>
+                {contact.lastName} {contact.firstName}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                電話番号
+              </Typography>
+              <Typography>{contact.phoneNumber || 'none'}</Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                メールアドレス
+              </Typography>
+              <Typography>{contact.email || 'none'}</Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                生年月日
+              </Typography>
+              <Typography color='inherit'>
+                {contact.birthday
+                  ? DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')
+                  : 'none'}
+              </Typography>
+              <Divider />
+
+              <p>住所</p>
+              <Typography color='inherit'>
+                {contact.address.postalCode || 'none'}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                都道府県
+              </Typography>
+              <Typography color='inherit'>
+                {contact.address.prefecture || 'none'}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                市区町村
+              </Typography>
+              <Typography color='inherit'>
+                {contact.address.municipalities || 'none'}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                番地
+              </Typography>
+              <Typography color='inherit'>
+                {contact.address.houseNumber || 'none'}
+              </Typography>
+              <Divider />
             </div>
-
-            <Typography variant='caption' color='inherit'>
-              名前
-            </Typography>
-            <Typography color='inherit'>
-              {contact.lastName} {contact.firstName}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              電話番号
-            </Typography>
-            <Typography>{contact.phoneNumber || 'none'}</Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              メールアドレス
-            </Typography>
-            <Typography>{contact.email || 'none'}</Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              生年月日
-            </Typography>
-            <Typography color='inherit'>
-              {contact.birthday
-                ? DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')
-                : 'none'}
-            </Typography>
-            <Divider />
-
-            <p>住所</p>
-            <Typography color='inherit'>
-              {contact.address.postalCode || 'none'}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              都道府県
-            </Typography>
-            <Typography color='inherit'>
-              {contact.address.prefecture || 'none'}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              市区町村
-            </Typography>
-            <Typography color='inherit'>
-              {contact.address.municipalities || 'none'}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              番地
-            </Typography>
-            <Typography color='inherit'>
-              {contact.address.houseNumber || 'none'}
-            </Typography>
-            <Divider />
-          </div>
-          <div className={classes.button}>
-            <Link href={`/edit/${id}`}>
-              <a style={{ textDecoration: 'none' }}>
-                <PrimaryButton label='編集する' />
-              </a>
-            </Link>
-          </div>
-        </Container>
+            <div className={classes.button}>
+              <Link href={`/edit/${id}`}>
+                <a style={{ textDecoration: 'none' }}>
+                  <PrimaryButton label='編集する' />
+                </a>
+              </Link>
+            </div>
+          </Container>
+        </>
       )}
     </Layout>
   )

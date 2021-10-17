@@ -1,9 +1,6 @@
 import _ from 'lodash'
 import { useState, useContext } from 'react'
-import { auth } from '../../lib/firebase'
-import SearchIcon from '@material-ui/icons/Search'
-import HeaderDrawer from './HeaderDrawer'
-import { UserContext } from '../../lib/context'
+import SearchIcon from '@mui/icons-material/Search'
 import {
   AppBar,
   alpha,
@@ -18,6 +15,9 @@ import {
 } from '@mui/material'
 import { makeStyles } from '@material-ui/styles'
 import { Theme } from '@material-ui/core'
+import { auth } from '../../lib/firebase'
+import HeaderDrawer from './HeaderDrawer'
+import { UserContext } from '../../lib/context'
 
 const useStyles = makeStyles((theme: Theme) => ({
   grow: {
