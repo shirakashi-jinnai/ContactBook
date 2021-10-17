@@ -1,16 +1,12 @@
-import { AppProps } from 'next/dist/next-server/lib/router/router'
-import React, { useEffect } from 'react'
-import { UserContext } from '../lib/context'
-import {
-  Backdrop,
-  CircularProgress,
-  CssBaseline,
-  ThemeProvider,
-} from '@material-ui/core'
 import _ from 'lodash'
+import { AppProps } from 'next/dist/next-server/lib/router/router'
+import { useContext } from 'react'
+import React, { useEffect } from 'react'
+import { Backdrop, CircularProgress, CssBaseline } from '@mui/material'
+import { ThemeProvider } from '@material-ui/styles'
+import { UserContext } from '../lib/context'
 import { theme } from '../assets/theme.js'
 import { useUserState } from '../lib/hooks'
-import { useContext } from 'react'
 
 const FirebaseInitWrapper = ({ children }) => {
   const { initializing } = useContext(UserContext)
