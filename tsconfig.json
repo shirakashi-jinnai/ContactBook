@@ -19,7 +19,8 @@
     "additional.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/_document.tsx"
+    "src/pages/_document.tsx",
+    "src/assets/theme.js"
   ],
   "exclude": ["node_modules"]
 }

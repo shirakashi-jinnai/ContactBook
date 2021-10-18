@@ -10,7 +10,7 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@mui/styles'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FavoriteIcon from '@mui/icons-material/Favorite'
@@ -44,8 +44,15 @@ type Props = {
 
 const ContactView: FC<Props> = ({ contact, contactId }) => {
   const classes = useStyles()
-  const { avatarImg, firstName, lastName, liked, address, birthday, trashed } =
-    contact
+  const {
+    avatarImg,
+    firstName,
+    lastName,
+    liked,
+    address,
+    birthday,
+    trashed,
+  } = contact
 
   const [modalOpen, setModalOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)

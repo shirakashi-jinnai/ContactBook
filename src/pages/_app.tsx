@@ -3,9 +3,9 @@ import { AppProps } from 'next/dist/next-server/lib/router/router'
 import { useContext } from 'react'
 import React, { useEffect } from 'react'
 import { Backdrop, CircularProgress, CssBaseline } from '@mui/material'
-import { ThemeProvider } from '@material-ui/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import { UserContext } from '../lib/context'
-import { theme } from '../assets/theme.js'
+import { theme } from '../assets/theme'
 import { useUserState } from '../lib/hooks'
 
 const FirebaseInitWrapper = ({ children }) => {

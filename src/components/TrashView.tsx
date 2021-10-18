@@ -20,8 +20,14 @@ type Props = {
 }
 
 const TrashView = ({ trashedContact, contactId }: Props) => {
-  const { firstName, lastName, avatarImg, birthday, address, trashed } =
-    trashedContact
+  const {
+    firstName,
+    lastName,
+    avatarImg,
+    birthday,
+    address,
+    trashed,
+  } = trashedContact
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
