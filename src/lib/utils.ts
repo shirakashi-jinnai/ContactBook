@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { sendSignInLinkToEmail } from '@firebase/auth'
 import { db, auth } from './firebase'
 
 export const sendEmail = async (email: string): Promise<void> => {
@@ -15,7 +16,7 @@ export const sendEmail = async (email: string): Promise<void> => {
 
   window.localStorage.setItem('emailForSignIn', email), 'setitem'
   try {
-    await auth.sendSignInLinkToEmail(email, actionCodeSettings)
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings)
     alert('メールを送信しました')
   } catch (error) {
     console.log(error.code)

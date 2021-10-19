@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth'
+import { setDoc, doc } from 'firebase/firestore'
 import { makeStyles } from '@mui/styles'
 import { auth, db } from '../lib/firebase'
 
@@ -22,21 +24,25 @@ const Authentication = () => {
       localStorage.getItem('emailForSignIn') ||
       window.prompt('確認のためにメールアドレスを入力してください')
 
-    if (!auth.isSignInWithEmailLink(window.location.href)) {
+    if (!isSignInWithEmailLink(auth, window.location.href)) {
       console.log('not emailLink')
       window.localStorage.removeItem('emailForSignIn')
       return
     }
 
     try {
-      await auth.signInWithEmailLink(email, window.location.href)
+      await signInWithEmailLink(auth, email, window.location.href)
       window.localStorage.removeItem('emailForSignIn')
       const { uid } = auth.currentUser
       console.log(uid, email)
-      db.doc(`users/${uid}`).set({
+      await setDoc(doc(db, 'users', uid), {
         uid: uid,
         email: email,
       })
+      // db.doc(`users/${uid}`).set({
+      //   uid: uid,
+      //   email: email,
+      // })
       router.push('/')
     } catch (error) {
       console.log('エラー', error)
