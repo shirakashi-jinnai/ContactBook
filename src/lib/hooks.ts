@@ -3,8 +3,9 @@ import _ from 'lodash'
 import { useEffect, useReducer, useState } from 'react'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
-import { auth, db } from './firebase'
+import { collection, onSnapshot } from 'firebase/firestore'
 import { TimestampConverter } from './TimestampConverter'
+import { auth, db } from './firebase'
 
 export const useUserState = () => {
   const router = useRouter()
@@ -90,28 +91,29 @@ export const useUserState = () => {
         router.push('/signup')
         return
       }
-      const colRef = db.collection(`users/${user.uid}/contacts`)
-      const unsub = colRef
-        .withConverter(new TimestampConverter())
-        .onSnapshot((s) => {
-          const res: Contacts = _.transform(
-            s.docs,
-            (acc, doc) => (acc[doc.id] = doc.data()),
-            {}
-          )
 
-          const alphabeticalRes = _(res)
-            .toPairs()
-            .sort((a, b) =>
-              convertToHiragana(a[1].lastName).localeCompare(
-                convertToHiragana(b[1].lastName),
-                'ja'
-              )
+      const colRef = collection(db, `users/${user.uid}/contacts`).withConverter(
+        new TimestampConverter()
+      )
+      const unsub: any = onSnapshot(colRef, (s) => {
+        const res: Contacts = _.transform(
+          s.docs,
+          (acc, doc) => (acc[doc.id] = doc.data()),
+          {}
+        )
+
+        const alphabeticalRes = _(res)
+          .toPairs()
+          .sort((a, b) =>
+            convertToHiragana(a[1].lastName).localeCompare(
+              convertToHiragana(b[1].lastName),
+              'ja'
             )
-            .fromPairs()
-            .value()
-          setContacts(alphabeticalRes)
-        })
+          )
+          .fromPairs()
+          .value()
+        setContacts(alphabeticalRes)
+      })
       setInitializing(false)
       return () => unsub()
     })

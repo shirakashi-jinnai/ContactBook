@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { sendSignInLinkToEmail } from '@firebase/auth'
 import { db, auth } from './firebase'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 
 export const sendEmail = async (email: string): Promise<void> => {
   if (!email) {
@@ -26,13 +27,13 @@ export const sendEmail = async (email: string): Promise<void> => {
 }
 
 export const toggleLike = async (id: string) => {
-  const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-  const { liked } = await docRef.get().then((doc) => doc.data())
-  await docRef.update({ liked: !liked })
+  const docRef = doc(db, `users/${auth.currentUser.uid}/contacts`, id)
+  const { liked } = await getDoc(docRef).then((doc) => doc.data())
+  await updateDoc(docRef, { liked: !liked })
 }
 
 export const toggleTrashed = async (id: string) => {
-  const docRef = db.doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-  const { trashed } = await docRef.get().then((doc) => doc.data())
-  await docRef.update({ trashed: !trashed })
+  const docRef = doc(db, `users/${auth.currentUser.uid}/contacts`, id)
+  const { trashed } = await getDoc(docRef).then((doc) => doc.data())
+  await updateDoc(docRef, { trashed: !trashed })
 }

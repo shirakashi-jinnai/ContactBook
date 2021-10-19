@@ -1,16 +1,13 @@
 import _ from 'lodash'
-import firebase from 'firebase'
 import {
   FirestoreDataConverter,
   DocumentData,
   QueryDocumentSnapshot,
 } from '@firebase/firestore-types'
-
-const { Timestamp } = firebase.firestore
+import { Timestamp } from 'firebase/firestore'
 
 export class TimestampConverter<T extends DocumentData>
-  implements FirestoreDataConverter<DocumentData>
-{
+  implements FirestoreDataConverter<DocumentData> {
   toFirestore(moduleObject: DocumentData): DocumentData {
     return moduleObject
   }

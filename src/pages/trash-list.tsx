@@ -1,6 +1,14 @@
 import _ from 'lodash'
 import { useContext, useState } from 'react'
 import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  deleteDoc,
+} from 'firebase/firestore'
+import {
   Button,
   Container,
   Fab,
@@ -53,14 +61,12 @@ const TrashList = () => {
     .reduce((res, key) => ((res[key] = contacts[key]), res), {})
 
   const deleteAllTrashedContacts = () => {
-    const contactsCol = db.collection(`users/${auth.currentUser.uid}/contacts`)
-
-    contactsCol
-      .where('trashed', '==', true)
-      .get()
-      .then((s) => {
-        s.forEach((doc) => contactsCol.doc(doc.id).delete())
-      })
+    const contactsPath = `users/${auth.currentUser.uid}/contacts`
+    const contactsCol = collection(db, contactsPath)
+    const q = query(contactsCol, where('trashed', '==', true))
+    getDocs(q).then((s) => {
+      s.forEach((d) => deleteDoc(doc(db, contactsPath, d.id)))
+    })
   }
 
   return (

@@ -6,11 +6,10 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
-  tableHeadClasses,
   TableRow,
 } from '@mui/material'
-import { TableContainer } from '@material-ui/core'
 import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
 

@@ -15,7 +15,6 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import HomeIcon from '@mui/icons-material/Home'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import DeleteOutline from '@mui/icons-material/DeleteOutline'
-
 import { auth } from '../../lib/firebase'
 
 type MenuItem = {

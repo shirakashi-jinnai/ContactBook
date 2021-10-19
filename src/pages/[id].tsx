@@ -24,6 +24,7 @@ import Layout from '../components/Layout'
 import { TimestampConverter } from '../lib/TimestampConverter'
 import { toggleLike } from '../lib/utils'
 import { makeStyles } from '@mui/styles'
+import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 
 const useStyles = makeStyles({
   button: {
@@ -72,12 +73,15 @@ const ContactDetaile = () => {
   }
 
   useEffect(() => {
-    const unsub = db
-      .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-      .withConverter(new TimestampConverter<Contact>())
-      .onSnapshot((s) => {
+    const unsub = onSnapshot(
+      doc(db, `auth.currentUser.uid}/contacts`, id).withConverter(
+        new TimestampConverter<Contact>()
+      ),
+      (s) => {
         setContact(s.data())
-      })
+      }
+    )
+
     return () => unsub()
   }, [id])
 

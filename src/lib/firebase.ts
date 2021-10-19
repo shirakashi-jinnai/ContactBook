@@ -1,9 +1,9 @@
 //utilsの中にあるfileは共通関数を記述
-import firebase from 'firebase'
 import 'firebase/storage'
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
-import { getAuth } from '@firebase/auth'
+import { getAuth } from 'firebase/auth'
+import { getStorage } from 'firebase/storage'
 
 export const firebaseConfig = initializeApp({
   apiKey: process.env.FIREBASE_KEY,
@@ -15,11 +15,6 @@ export const firebaseConfig = initializeApp({
   measurementId: process.env.FIREBASE_APPID,
 })
 
-//initializeを複数回走らせない
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig)
-}
-
 export const auth = getAuth()
 export const db = getFirestore()
-export const storage = firebase.storage()
+export const storage = getStorage()

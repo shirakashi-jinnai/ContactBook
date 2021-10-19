@@ -11,6 +11,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { TimestampConverter } from '../lib/TimestampConverter'
+import {
+  collection,
+  updateDoc,
+  doc,
+  addDoc,
+  getDoc,
+  onSnapshot,
+} from 'firebase/firestore'
 
 const useStyles = makeStyles({
   contactArea: {
@@ -40,6 +48,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   const storageRef = storage.ref().child(uid)
   const fileName = shortid.generate()
   const temporaryImgName = sessionStorage.getItem(uid)
+  const contactsPath = `users/${uid}/contacts`
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -99,15 +108,16 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
   }
 
   //firestoreに保存
-  const saveContact = (data: Partial<Contact>) => {
+  const saveContact = async (data: Partial<Contact>) => {
     if (_.isEmpty(contact.firstName) || _.isEmpty(contact.lastName)) {
       alert('必須項目を入力してください')
       return
     }
     sessionStorage.removeItem(uid)
-
-    const colRef = db.collection(`users/${uid}/contacts`)
-    id ? colRef.doc(id).update(data) : colRef.add(data)
+    const colRef = collection(db, contactsPath)
+    id
+      ? await updateDoc(doc(db, contactsPath, id), data)
+      : await addDoc(colRef, data)
     router.push('/')
   }
 
@@ -120,11 +130,9 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     sessionStorage.removeItem(uid)
     await storageRef.child(contact.avatarImg.id).delete()
     if (!id) return setContact({ avatarImg: { path: '', id: '' } })
-    db.doc(`users/${uid}/contacts/${id}`)
-      .get()
-      .then((s) => {
-        setContact({ avatarImg: s.data().avatarImg })
-      })
+    await getDoc(doc(db, `${contactsPath}/${id}`)).then((s) =>
+      setContact({ avatarImg: s.data().avatarImg })
+    )
   }
 
   const fetchTemporaryImage = () => {
@@ -139,14 +147,14 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
 
   useEffect(() => {
     if (!id) return
-    const unsub = db
-      .doc(`users/${uid}/contacts/${id}`)
-      .withConverter(new TimestampConverter())
-      .onSnapshot((s) => {
+
+    const unsub = onSnapshot(
+      doc(db, `${contactsPath}/${id}`).withConverter(new TimestampConverter()),
+      (s) => {
         setContact(s.data())
         fetchTemporaryImage()
-      })
-
+      }
+    )
     return () => unsub()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
