@@ -8,9 +8,9 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import RestoreFromTrash from '@material-ui/icons/RestoreFromTrash'
-import DeleteForever from '@material-ui/icons/DeleteForever'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import RestoreFromTrash from '@mui/icons-material/RestoreFromTrash'
+import DeleteForever from '@mui/icons-material/DeleteForever'
 import { toggleTrashed } from '../lib/utils'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
 
