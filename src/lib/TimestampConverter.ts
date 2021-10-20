@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import {
-  FirestoreDataConverter,
   DocumentData,
+  FirestoreDataConverter,
   QueryDocumentSnapshot,
-} from '@firebase/firestore-types'
-import { Timestamp } from 'firebase/firestore'
+  Timestamp,
+} from 'firebase/firestore'
 
 export class TimestampConverter<T extends DocumentData>
   implements FirestoreDataConverter<DocumentData> {
@@ -14,7 +14,6 @@ export class TimestampConverter<T extends DocumentData>
 
   fromFirestore(snapshot: QueryDocumentSnapshot): T {
     const data = snapshot.data()
-
     const converted = _.keys(data).reduce<DocumentData>((accumulator, key) => {
       if (data[key] instanceof Timestamp) {
         accumulator[key] = data[key].toDate()

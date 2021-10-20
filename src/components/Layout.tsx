@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import Head from 'next/head'
-import Header from './Header/Header'
 import { makeStyles } from '@mui/styles'
+import Header from './Header/Header'
 
 const useStyles = makeStyles({
   moduleSpacer: {

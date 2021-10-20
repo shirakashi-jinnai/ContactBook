@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
 import { DateTime } from 'luxon'
-import { auth, db } from '../lib/firebase'
+import { doc, onSnapshot } from 'firebase/firestore'
 import {
   Container,
   Divider,
@@ -13,18 +13,18 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material'
-import PrimaryButton from '../components/UIkit/PrimaryButton'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import DeletionConfirmationModal from '../components/DeletionConfirmationModal'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import { makeStyles } from '@mui/styles'
 import Layout from '../components/Layout'
 import { TimestampConverter } from '../lib/TimestampConverter'
 import { toggleLike } from '../lib/utils'
-import { makeStyles } from '@mui/styles'
-import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+import { auth, db } from '../lib/firebase'
+import PrimaryButton from '../components/UIkit/PrimaryButton'
 
 const useStyles = makeStyles({
   button: {
@@ -74,14 +74,13 @@ const ContactDetaile = () => {
 
   useEffect(() => {
     const unsub = onSnapshot(
-      doc(db, `auth.currentUser.uid}/contacts`, id).withConverter(
+      doc(db, `users/${auth.currentUser.uid}/contacts`, id).withConverter(
         new TimestampConverter<Contact>()
       ),
       (s) => {
-        setContact(s.data())
+        setContact(s.data() as Contact)
       }
     )
-
     return () => unsub()
   }, [id])
 

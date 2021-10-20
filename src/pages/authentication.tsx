@@ -39,10 +39,7 @@ const Authentication = () => {
         uid: uid,
         email: email,
       })
-      // db.doc(`users/${uid}`).set({
-      //   uid: uid,
-      //   email: email,
-      // })
+
       router.push('/')
     } catch (error) {
       console.log('エラー', error)

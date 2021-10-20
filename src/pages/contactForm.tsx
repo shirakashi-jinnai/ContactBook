@@ -149,7 +149,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
     if (!id) return
 
     const unsub = onSnapshot(
-      doc(db, `${contactsPath}/${id}`).withConverter(new TimestampConverter()),
+      doc(db, `${contactsPath}`, id).withConverter(new TimestampConverter()),
       (s) => {
         setContact(s.data())
         fetchTemporaryImage()
