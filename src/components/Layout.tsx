@@ -1,7 +1,6 @@
-import { Container } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
-import Head from 'next/head'
 import { FC } from 'react'
+import Head from 'next/head'
+import { makeStyles } from '@mui/styles'
 import Header from './Header/Header'
 
 const useStyles = makeStyles({

@@ -1,8 +1,5 @@
 import _ from 'lodash'
 import { useContext } from 'react'
-import Layout from '../components/Layout'
-import { UserContext } from '../lib/context'
-import ContactView from '../components/ContactView'
 import {
   Container,
   Table,
@@ -11,7 +8,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@material-ui/core'
+} from '@mui/material'
+import { UserContext } from '../lib/context'
+import Layout from '../components/Layout'
+import ContactView from '../components/ContactView'
 
 const Home = () => {
   const { contacts, filteredContacts, isSearching } = useContext(UserContext)

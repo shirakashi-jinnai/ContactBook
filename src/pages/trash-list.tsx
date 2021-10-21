@@ -1,6 +1,14 @@
 import _ from 'lodash'
 import { useContext, useState } from 'react'
 import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  deleteDoc,
+} from 'firebase/firestore'
+import {
   Button,
   Container,
   Fab,
@@ -11,9 +19,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@material-ui/core'
-import DeleteForever from '@material-ui/icons/DeleteForever'
-import { makeStyles } from '@material-ui/core'
+} from '@mui/material'
+import DeleteForever from '@mui/icons-material/DeleteForever'
+import { makeStyles } from '@mui/styles'
 import { db, auth } from '../lib/firebase'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
@@ -53,14 +61,12 @@ const TrashList = () => {
     .reduce((res, key) => ((res[key] = contacts[key]), res), {})
 
   const deleteAllTrashedContacts = () => {
-    const contactsCol = db.collection(`users/${auth.currentUser.uid}/contacts`)
-
-    contactsCol
-      .where('trashed', '==', true)
-      .get()
-      .then((s) => {
-        s.forEach((doc) => contactsCol.doc(doc.id).delete())
-      })
+    const contactsPath = `users/${auth.currentUser.uid}/contacts`
+    const contactsCol = collection(db, contactsPath)
+    const q = query(contactsCol, where('trashed', '==', true))
+    getDocs(q).then((s) => {
+      s.forEach((d) => deleteDoc(doc(db, contactsPath, d.id)))
+    })
   }
 
   return (

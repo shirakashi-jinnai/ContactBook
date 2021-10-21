@@ -9,7 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@material-ui/core'
+} from '@mui/material'
 import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
 

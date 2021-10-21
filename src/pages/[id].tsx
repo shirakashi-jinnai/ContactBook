@@ -2,28 +2,29 @@ import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/dist/client/router'
+import Image from 'next/image'
 import { DateTime } from 'luxon'
-import { auth, db } from '../lib/firebase'
+import { doc, onSnapshot } from 'firebase/firestore'
 import {
   Container,
   Divider,
   Typography,
-  makeStyles,
   IconButton,
   Menu,
   MenuItem,
-} from '@material-ui/core'
-import PrimaryButton from '../components/UIkit/PrimaryButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
-import FavoriteIcon from '@material-ui/icons/Favorite'
+} from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import DeletionConfirmationModal from '../components/DeletionConfirmationModal'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import { makeStyles } from '@mui/styles'
 import Layout from '../components/Layout'
 import { TimestampConverter } from '../lib/TimestampConverter'
 import { toggleLike } from '../lib/utils'
-import Image from 'next/image'
+import { auth, db } from '../lib/firebase'
+import PrimaryButton from '../components/UIkit/PrimaryButton'
 
 const useStyles = makeStyles({
   button: {
@@ -72,136 +73,140 @@ const ContactDetaile = () => {
   }
 
   useEffect(() => {
-    const unsub = db
-      .doc(`users/${auth.currentUser.uid}/contacts/${id}`)
-      .withConverter(new TimestampConverter<Contact>())
-      .onSnapshot((s) => {
-        setContact(s.data())
-      })
+    const unsub = onSnapshot(
+      doc(db, `users/${auth.currentUser.uid}/contacts`, id).withConverter(
+        new TimestampConverter<Contact>()
+      ),
+      (s) => {
+        setContact(s.data() as Contact)
+      }
+    )
     return () => unsub()
   }, [id])
 
   return (
     <Layout title='連絡先の詳細'>
-      <DeletionConfirmationModal
-        id={id}
-        modalOpen={modalOpen}
-        onClose={handleCloseModal}
-        trashed={contact.trashed}
-      />
       {contact && (
-        <Container maxWidth='sm'>
-          <div className={classes.header}>
-            <Typography variant='h5' gutterBottom color='inherit'>
-              連絡先の詳細
-            </Typography>
-            <div>
-              <IconButton onClick={() => toggleLike(id)}>
-                {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-              </IconButton>
-              <IconButton onClick={handleClickMenu}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={menuOpen}
-                onClose={handleCloseMenu}>
-                <Link href={`/edit/${id}`} passHref>
-                  <MenuItem>
-                    <EditIcon />
-                    <a>編集</a>
+        <>
+          <DeletionConfirmationModal
+            id={id}
+            modalOpen={modalOpen}
+            onClose={handleCloseModal}
+            trashed={contact.trashed}
+          />
+          <Container maxWidth='sm'>
+            <div className={classes.header}>
+              <Typography variant='h5' gutterBottom color='inherit'>
+                連絡先の詳細
+              </Typography>
+              <div>
+                <IconButton onClick={() => toggleLike(id)}>
+                  {contact.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </IconButton>
+                <IconButton onClick={handleClickMenu}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuOpen}
+                  onClose={handleCloseMenu}>
+                  <Link href={`/edit/${id}`} passHref>
+                    <MenuItem>
+                      <EditIcon />
+                      <a>編集</a>
+                    </MenuItem>
+                  </Link>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseMenu()
+                      handleOpenModal()
+                    }}>
+                    <DeleteIcon />
+                    削除
                   </MenuItem>
-                </Link>
-                <MenuItem
-                  onClick={() => {
-                    handleCloseMenu()
-                    handleOpenModal()
-                  }}>
-                  <DeleteIcon />
-                  削除
-                </MenuItem>
-              </Menu>
+                </Menu>
+              </div>
             </div>
-          </div>
-          <div>
-            <div className={classes.imageArea}>
-              <Image
-                className={classes.image}
-                src={contact.avatarImg.path}
-                alt='avatar'
-                width={200}
-                height={200}
-              />
+            <div>
+              <div className={classes.imageArea}>
+                <Image
+                  className={classes.image}
+                  src={contact.avatarImg.path}
+                  alt='avatar'
+                  width={200}
+                  height={200}
+                />
+              </div>
+
+              <Typography variant='caption' color='inherit'>
+                名前
+              </Typography>
+              <Typography color='inherit'>
+                {contact.lastName} {contact.firstName}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                電話番号
+              </Typography>
+              <Typography>{contact.phoneNumber || 'none'}</Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                メールアドレス
+              </Typography>
+              <Typography>{contact.email || 'none'}</Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                生年月日
+              </Typography>
+              <Typography color='inherit'>
+                {contact.birthday
+                  ? DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')
+                  : 'none'}
+              </Typography>
+              <Divider />
+
+              <p>住所</p>
+              <Typography color='inherit'>
+                {contact.address.postalCode || 'none'}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                都道府県
+              </Typography>
+              <Typography color='inherit'>
+                {contact.address.prefecture || 'none'}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                市区町村
+              </Typography>
+              <Typography color='inherit'>
+                {contact.address.municipalities || 'none'}
+              </Typography>
+              <Divider />
+
+              <Typography variant='caption' color='inherit'>
+                番地
+              </Typography>
+              <Typography color='inherit'>
+                {contact.address.houseNumber || 'none'}
+              </Typography>
+              <Divider />
             </div>
-
-            <Typography variant='caption' color='inherit'>
-              名前
-            </Typography>
-            <Typography color='inherit'>
-              {contact.lastName} {contact.firstName}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              電話番号
-            </Typography>
-            <Typography>{contact.phoneNumber || 'none'}</Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              メールアドレス
-            </Typography>
-            <Typography>{contact.email || 'none'}</Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              生年月日
-            </Typography>
-            <Typography color='inherit'>
-              {contact.birthday
-                ? DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')
-                : 'none'}
-            </Typography>
-            <Divider />
-
-            <p>住所</p>
-            <Typography color='inherit'>
-              {contact.address.postalCode || 'none'}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              都道府県
-            </Typography>
-            <Typography color='inherit'>
-              {contact.address.prefecture || 'none'}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              市区町村
-            </Typography>
-            <Typography color='inherit'>
-              {contact.address.municipalities || 'none'}
-            </Typography>
-            <Divider />
-
-            <Typography variant='caption' color='inherit'>
-              番地
-            </Typography>
-            <Typography color='inherit'>
-              {contact.address.houseNumber || 'none'}
-            </Typography>
-            <Divider />
-          </div>
-          <div className={classes.button}>
-            <Link href={`/edit/${id}`}>
-              <a style={{ textDecoration: 'none' }}>
-                <PrimaryButton label='編集する' />
-              </a>
-            </Link>
-          </div>
-        </Container>
+            <div className={classes.button}>
+              <Link href={`/edit/${id}`}>
+                <a style={{ textDecoration: 'none' }}>
+                  <PrimaryButton label='編集する' />
+                </a>
+              </Link>
+            </div>
+          </Container>
+        </>
       )}
     </Layout>
   )

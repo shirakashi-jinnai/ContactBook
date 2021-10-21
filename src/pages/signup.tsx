@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { makeStyles, TextField } from '@material-ui/core'
+import { TextField } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { sendEmail } from '../lib/utils'

@@ -3,14 +3,14 @@ import { DateTime } from 'luxon'
 import {
   Avatar,
   IconButton,
+  Menu,
+  MenuItem,
   TableCell,
   TableRow,
-  MenuItem,
-  Menu,
-} from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import RestoreFromTrash from '@material-ui/icons/RestoreFromTrash'
-import DeleteForever from '@material-ui/icons/DeleteForever'
+} from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import RestoreFromTrash from '@mui/icons-material/RestoreFromTrash'
+import DeleteForever from '@mui/icons-material/DeleteForever'
 import { toggleTrashed } from '../lib/utils'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
 
@@ -20,8 +20,14 @@ type Props = {
 }
 
 const TrashView = ({ trashedContact, contactId }: Props) => {
-  const { firstName, lastName, avatarImg, birthday, address, trashed } =
-    trashedContact
+  const {
+    firstName,
+    lastName,
+    avatarImg,
+    birthday,
+    address,
+    trashed,
+  } = trashedContact
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
