@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import shortid from 'shortid'
 import { auth, db, storage } from '../lib/firebase'
 import { makeStyles } from '@mui/styles'
-import { IconButton, Menu, MenuItem, TextField } from '@mui/material'
+import { Container, IconButton, Menu, MenuItem, TextField } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
@@ -25,7 +25,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     margin: '0 auto',
-    width: '600px',
   },
   button: {
     display: 'flex',
@@ -167,7 +166,7 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
 
   return (
     <Layout title={title}>
-      <div className={classes.contactArea}>
+      <Container maxWidth='sm' className={classes.contactArea}>
         <h1>{title}</h1>
         <div className={classes.imageArea}>
           <Image
@@ -276,7 +275,8 @@ const ContactForm = ({ id, title = '連絡先の登録' }) => {
           value={DateTime.fromJSDate(contact.birthday).toFormat('yyyy-MM-dd')}
           onChange={onValueChange}
         />
-      </div>
+      </Container>
+
       <div className={classes.button}>
         <PrimaryButton label='保存' onClick={() => saveContact(contact)} />
       </div>

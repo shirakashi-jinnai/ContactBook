@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { DateTime } from 'luxon'
 import {
   Avatar,
+  Grid,
   IconButton,
   Menu,
   MenuItem,
@@ -18,8 +19,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
 import { toggleLike } from '../lib/utils'
+import { Theme } from '@mui/system'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   item: {
     height: 100,
   },
@@ -33,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     '&:hover': {
       textDecoration: 'underline',
+    },
+  },
+  responsiveCell: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
     },
   },
 }))
@@ -91,8 +98,10 @@ const ContactView: FC<Props> = ({ contact, contactId }) => {
             <a className={classes.nameTag}>{`${lastName} ${firstName}`}</a>
           </Link>
         </TableCell>
-        <TableCell>{address.prefecture}</TableCell>
-        <TableCell>
+        <TableCell className={classes.responsiveCell}>
+          {address.prefecture}
+        </TableCell>
+        <TableCell className={classes.responsiveCell}>
           {birthday && DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')}
         </TableCell>
         <TableCell align='center'>
