@@ -11,8 +11,18 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import RestoreFromTrash from '@mui/icons-material/RestoreFromTrash'
 import DeleteForever from '@mui/icons-material/DeleteForever'
+import { makeStyles } from '@mui/styles'
+import { Theme } from '@mui/system'
 import { toggleTrashed } from '../lib/utils'
 import DeletionConfirmationModal from './DeletionConfirmationModal'
+
+const useStyles = makeStyles((theme: Theme) => ({
+  responsiveCell: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+}))
 
 type Props = {
   trashedContact: Contact
@@ -28,6 +38,7 @@ const TrashView = ({ trashedContact, contactId }: Props) => {
     address,
     trashed,
   } = trashedContact
+  const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -64,8 +75,10 @@ const TrashView = ({ trashedContact, contactId }: Props) => {
         <TableCell>
           {lastName} {firstName}
         </TableCell>
-        <TableCell>{address.prefecture}</TableCell>
-        <TableCell>
+        <TableCell className={classes.responsiveCell}>
+          {address.prefecture}
+        </TableCell>
+        <TableCell className={classes.responsiveCell}>
           {birthday && DateTime.fromJSDate(birthday).toFormat('yyyy-MM-dd')}
         </TableCell>
         <TableCell align='center'>

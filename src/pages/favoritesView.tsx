@@ -10,11 +10,22 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import { Theme } from '@mui/system'
 import { UserContext } from '../lib/context'
 import ContactView from '../components/ContactView'
 
+const useStyles = makeStyles((theme: Theme) => ({
+  responsiveCell: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+}))
+
 const FavoriteView = () => {
   const { contacts, isSearching, filteredContacts } = useContext(UserContext)
+  const classes = useStyles()
 
   //検索元の値
   const favorites = _(contacts)
@@ -39,8 +50,10 @@ const FavoriteView = () => {
               <TableRow>
                 <TableCell></TableCell>
                 <TableCell>名前</TableCell>
-                <TableCell>住所</TableCell>
-                <TableCell>生年月日</TableCell>
+                <TableCell className={classes.responsiveCell}>住所</TableCell>
+                <TableCell className={classes.responsiveCell}>
+                  生年月日
+                </TableCell>
                 <TableCell align='center'>その他</TableCell>
               </TableRow>
             </TableHead>

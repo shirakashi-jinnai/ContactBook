@@ -26,8 +26,9 @@ import { db, auth } from '../lib/firebase'
 import Layout from '../components/Layout'
 import { UserContext } from '../lib/context'
 import TrashView from '../components/TrashView'
+import { Theme } from '@mui/system'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   fab: {
     position: 'fixed',
     top: 600,
@@ -47,7 +48,12 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     padding: 20,
   },
-})
+  responsiveCell: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+}))
 
 const TrashList = () => {
   const classes = useStyles()
@@ -106,8 +112,10 @@ const TrashList = () => {
                 <TableRow>
                   <TableCell></TableCell>
                   <TableCell>名前</TableCell>
-                  <TableCell>住所</TableCell>
-                  <TableCell>生年月日</TableCell>
+                  <TableCell className={classes.responsiveCell}>住所</TableCell>
+                  <TableCell className={classes.responsiveCell}>
+                    生年月日
+                  </TableCell>
                   <TableCell align='center'>その他</TableCell>
                 </TableRow>
               </TableHead>
