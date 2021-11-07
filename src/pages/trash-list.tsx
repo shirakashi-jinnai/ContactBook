@@ -19,6 +19,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material'
 import DeleteForever from '@mui/icons-material/DeleteForever'
 import { makeStyles } from '@mui/styles'
@@ -106,6 +107,7 @@ const TrashList = () => {
       <Layout title='ゴミ箱'>
         <Container maxWidth='md'>
           <h1>ゴミ箱</h1>
+          <Typography>ゴミ箱に移動してから30日後に完全削除されます</Typography>
           <TableContainer>
             <Table>
               <TableHead>
@@ -117,6 +119,7 @@ const TrashList = () => {
                     生年月日
                   </TableCell>
                   <TableCell align='center'>その他</TableCell>
+                  <TableCell align='center'>削除日</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

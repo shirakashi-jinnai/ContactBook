@@ -3,7 +3,14 @@ import _ from 'lodash'
 import { useEffect, useReducer, useState } from 'react'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/dist/client/router'
-import { collection, onSnapshot } from 'firebase/firestore'
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore'
 import { TimestampConverter } from './TimestampConverter'
 import { auth, db } from './firebase'
 
@@ -92,9 +99,25 @@ export const useUserState = () => {
         return
       }
 
-      const colRef = collection(db, `users/${user.uid}/contacts`).withConverter(
+      const contactsRef = `users/${user.uid}/contacts`
+      const colRef = collection(db, contactsRef).withConverter(
         new TimestampConverter()
       )
+
+      const q = query(
+        colRef,
+        where(
+          'removeTime',
+          '<=',
+          DateTime.now().minus({ days: 30 }).toJSDate()
+        ),
+        where('trashed', '==', true)
+      )
+
+      const AutomaticDeletion = onSnapshot(q, (s) =>
+        s.forEach((d) => deleteDoc(doc(db, contactsRef, d.id)))
+      )
+
       const unsub: any = onSnapshot(colRef, (s) => {
         const res: Contacts = _.transform(
           s.docs,
@@ -115,7 +138,10 @@ export const useUserState = () => {
         setContacts(alphabeticalRes)
       })
       setInitializing(false)
-      return () => unsub()
+      return () => {
+        unsub()
+        AutomaticDeletion()
+      }
     })
   }, [])
 

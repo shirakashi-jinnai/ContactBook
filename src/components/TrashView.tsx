@@ -37,6 +37,7 @@ const TrashView = ({ trashedContact, contactId }: Props) => {
     birthday,
     address,
     trashed,
+    removeTime,
   } = trashedContact
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -85,6 +86,9 @@ const TrashView = ({ trashedContact, contactId }: Props) => {
           <IconButton onClick={handleClickMenu}>
             <MoreVertIcon />
           </IconButton>
+        </TableCell>
+        <TableCell align='center' className={classes.responsiveCell}>
+          {DateTime.fromJSDate(removeTime).toFormat('yyyy-MM-dd')}
         </TableCell>
       </TableRow>
 
