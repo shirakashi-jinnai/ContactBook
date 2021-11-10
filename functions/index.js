@@ -14,24 +14,24 @@ const getExpiredContactIds = async (user) => {
     .then((s) => _.map(s.docs, ({ id }) => ({ id })))
 }
 
-const delete24HoursExpiredElement = async () => {
+const deleteExpiredContact = async () => {
   const users = await db
     .collection('users')
     .get()
     .then((s) => _.map(s.docs, ({ id }) => ({ id })))
 
-  _.map(users, async (user) => {
-    await Promise.all(
-      _.map(await getExpiredContactIds(user), (c) =>
+  await Promise.all(
+    _.map(users, async (user) => {
+      _.map(await getExpiredContactIds(user), (c) => {
         db.doc(`users/${user.id}/contacts/${c.id}`).delete()
-      )
-    )
-  })
+      })
+    })
+  )
 }
 
 exports.scheduledFunction = functions.pubsub
   .schedule('0 0 * * *')
   .timeZone('Asia/Tokyo')
   .onRun(async () => {
-    await delete24HoursExpiredElement()
+    await deleteExpiredContact()
   })
