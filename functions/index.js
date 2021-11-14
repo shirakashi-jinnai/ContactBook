@@ -5,7 +5,7 @@ const { DateTime } = require('luxon')
 admin.initializeApp()
 const db = admin.firestore()
 
-const deleteContacts = async (uid) => {
+const deleteExpiredContactsByUserId = async (uid) => {
   const contacts = await db
     .collection(`users/${uid}/contacts`)
     .where('removeTime', '<=', DateTime.now().minus({ days: 30 }).toJSDate())
@@ -24,8 +24,7 @@ const deleteExpiredContacts = async () => {
     .get()
     .then((s) => _.map(s.docs, (doc) => doc.id))
 
-  const tasks = []
-  _.forEach(users, (uid) => tasks.push(deleteContacts(uid)))
+  const tasks = _.map(users, deleteExpiredContactsByUserId)
 
   await Promise.all(tasks)
 }
