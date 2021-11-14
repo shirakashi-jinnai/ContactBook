@@ -92,9 +92,11 @@ export const useUserState = () => {
         return
       }
 
-      const colRef = collection(db, `users/${user.uid}/contacts`).withConverter(
+      const contactsRef = `users/${user.uid}/contacts`
+      const colRef = collection(db, contactsRef).withConverter(
         new TimestampConverter()
       )
+
       const unsub: any = onSnapshot(colRef, (s) => {
         const res: Contacts = _.transform(
           s.docs,

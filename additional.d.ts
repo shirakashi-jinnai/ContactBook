@@ -15,6 +15,7 @@ type Contact = {
   address: Partial<Address>
   liked?: boolean
   trashed?: boolean
+  removeTime?: Date
 }
 
 type FilterCondition = {

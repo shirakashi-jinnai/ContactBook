@@ -35,5 +35,5 @@ export const toggleLike = async (id: string) => {
 export const toggleTrashed = async (id: string) => {
   const docRef = doc(db, `users/${auth.currentUser.uid}/contacts`, id)
   const { trashed } = await getDoc(docRef).then((doc) => doc.data())
-  await updateDoc(docRef, { trashed: !trashed })
+  await updateDoc(docRef, { trashed: !trashed, removeTime: new Date() })
 }
