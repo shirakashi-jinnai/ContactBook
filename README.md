@@ -26,8 +26,8 @@
 - ユーザー認証
   - メールアドレス
 ## Deploy
-- vercell
-- [sample](https://contactbook-alpha.vercel.app/)
+vercell
+- [URL](https://contactbook-alpha.vercel.app/)
 ## References
 - [Next.js Pages](https://nextjs.org/docs)
 - [Firebase Pages](https://firebase.google.com/docs)
