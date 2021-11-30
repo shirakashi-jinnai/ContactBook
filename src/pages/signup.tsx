@@ -4,6 +4,11 @@ import { makeStyles } from '@mui/styles'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { sendEmail } from '../lib/utils'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { auth } from '../lib/firebase'
+import { useRouter } from 'next/dist/client/router'
+
+const provider = new GoogleAuthProvider()
 
 const useStyles = makeStyles({
   signup: {
@@ -17,11 +22,29 @@ const useStyles = makeStyles({
     background: 'rgb(237, 228, 245)',
     borderRadius: 5,
   },
+  signinButton: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 })
 
 const SignupPage = () => {
   const classes = useStyles()
+  const router = useRouter()
   const [email, setEmail] = useState<string>('')
+
+  const googleSignin = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        router.push('/')
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log('errcode', errorCode)
+        console.log('errMessage', errorMessage)
+      })
+  }
 
   return (
     <Layout title={'signup'}>
@@ -38,6 +61,12 @@ const SignupPage = () => {
         />
         <PrimaryButton label='SIGNUP' onClick={() => sendEmail(email)} />
       </form>
+      <div className={classes.signinButton}>
+        <PrimaryButton
+          label='Google でサインイン'
+          onClick={() => googleSignin()}
+        />
+      </div>
     </Layout>
   )
 }
