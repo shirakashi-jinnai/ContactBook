@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { TextField } from '@mui/material'
+import Image from 'next/image'
+import { useRouter } from 'next/dist/client/router'
+import { Button, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Layout from '../components/Layout'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { sendEmail } from '../lib/utils'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { auth } from '../lib/firebase'
-import { useRouter } from 'next/dist/client/router'
 
 const provider = new GoogleAuthProvider()
 
@@ -22,9 +23,13 @@ const useStyles = makeStyles({
     background: 'rgb(237, 228, 245)',
     borderRadius: 5,
   },
-  signinButton: {
+  googleSigninArea: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  signinButton: {
+    width: 250,
+    margin: '30px 0',
   },
 })
 
@@ -35,7 +40,7 @@ const SignupPage = () => {
 
   const googleSignin = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(() => {
         router.push('/')
       })
       .catch((error) => {
@@ -61,11 +66,14 @@ const SignupPage = () => {
         />
         <PrimaryButton label='SIGNUP' onClick={() => sendEmail(email)} />
       </form>
-      <div className={classes.signinButton}>
-        <PrimaryButton
-          label='Google でサインイン'
+      <div className={classes.googleSigninArea}>
+        <Button
+          variant='outlined'
           onClick={() => googleSignin()}
-        />
+          className={classes.signinButton}>
+          <Image src='/google.png' alt='google icon' width={20} height={15} />
+          Googleでサインイン
+        </Button>
       </div>
     </Layout>
   )
