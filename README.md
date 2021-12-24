@@ -30,8 +30,8 @@ vercell
 - [URL](https://contactbook-alpha.vercel.app/)
 
 ## 環境構築
-1.```cp .env-sample ```コマンドで``` .env ```ファイルを作成
-1.``` .env ```ファイルに Firebase config キーを記載
+1. ```cp .env-sample ```コマンドで``` .env ```ファイルを作成
+1. ``` .env ```ファイルに Firebase config キーを記載
 
 ## References
 - [Next.js Pages](https://nextjs.org/docs)
