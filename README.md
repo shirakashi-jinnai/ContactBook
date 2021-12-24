@@ -8,8 +8,7 @@
   - Material-UI
 ## Installation
   ```
-  npx create-next-app
-  yarn add firebase 
+  yarn install
   ```
 ## 機能
 - エントリの作成
