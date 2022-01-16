@@ -9,10 +9,8 @@
 ホーム画面
 ![image](https://user-images.githubusercontent.com/86089786/149646340-6bbebb85-c7b8-43be-bb52-f2ca44c9568a.png)
 
-ドロワーメニュー
+各種メニュー一覧
 ![image](https://user-images.githubusercontent.com/86089786/149646352-9c8a006b-d491-4021-a223-334024233c97.png)
-
-登録画面
 ![image](https://user-images.githubusercontent.com/86089786/149646401-1dc7b7d0-747c-4059-a5c8-ec207f755893.png)
 
 ## Dependency
@@ -39,7 +37,7 @@
   - メールアドレス
 ## Deploy
 vercell
-- [URL](https://contactbook-alpha.vercel.app/)
+- [https://contactbook-alpha.vercel.app/](https://contactbook-alpha.vercel.app/)
 
 ## 環境構築
 1. ```cp .env-sample ```コマンドで``` .env ```ファイルを作成
