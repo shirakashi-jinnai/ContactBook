@@ -2,6 +2,19 @@
 
 このアプリでは相手の住所、電話番号、名前、生年月日を登録することができる連絡帳アプリである。
 
+## 使用画面
+サインイン＆サインアップページ
+![image](https://user-images.githubusercontent.com/86089786/149646193-cf292bf9-a3c4-4d91-9b31-5bc43d5e705d.png)
+
+ホーム画面
+![image](https://user-images.githubusercontent.com/86089786/149646340-6bbebb85-c7b8-43be-bb52-f2ca44c9568a.png)
+
+ドロワーメニュー
+![image](https://user-images.githubusercontent.com/86089786/149646352-9c8a006b-d491-4021-a223-334024233c97.png)
+
+登録画面
+![image](https://user-images.githubusercontent.com/86089786/149646401-1dc7b7d0-747c-4059-a5c8-ec207f755893.png)
+
 ## Dependency
   - Firebase
   - Next.js
